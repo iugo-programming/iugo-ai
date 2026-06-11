@@ -73,7 +73,7 @@ func (a *Adapter) SystemPromptDir(homeDir string) string {
 }
 
 func (a *Adapter) SystemPromptFile(homeDir string) string {
-	return filepath.Join(homeDir, ".cursor", "rules", "gentle-ai.mdc")
+	return filepath.Join(homeDir, ".cursor", "rules", "iugo-ai.mdc")
 }
 
 func (a *Adapter) SkillsDir(homeDir string) string {
