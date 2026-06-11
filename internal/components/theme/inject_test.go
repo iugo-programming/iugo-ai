@@ -55,13 +55,13 @@ func TestInjectMergesThemeOverlayIntoAdapterSettings(t *testing.T) {
 	if err := json.Unmarshal(data, &root); err != nil {
 		t.Fatalf("Unmarshal(settings) error = %v", err)
 	}
-	if root.Theme != "iugo-agent-kanagawa" {
-		t.Fatalf("theme = %q, want iugo-agent-kanagawa", root.Theme)
+	if root.Theme != "iugo-kanagawa" {
+		t.Fatalf("theme = %q, want iugo-kanagawa", root.Theme)
 	}
 	if got := root.Permissions["allow"]; len(got) != 1 || got[0] != "Bash(go test ./...)" {
 		t.Fatalf("permissions.allow = %#v, want preserved existing permission", got)
 	}
-	if _, err := os.Stat(filepath.Join(home, ".claude", "themes", "iugo-agent.json")); !os.IsNotExist(err) {
+	if _, err := os.Stat(filepath.Join(home, ".claude", "themes", "iugo.json")); !os.IsNotExist(err) {
 		t.Fatalf("Inject() should not write Claude custom theme file; stat error = %v", err)
 	}
 }
@@ -92,8 +92,8 @@ func TestInjectCreatesAdapterSettingsWhenMissing(t *testing.T) {
 	if err := json.Unmarshal(data, &root); err != nil {
 		t.Fatalf("Unmarshal(settings) error = %v", err)
 	}
-	if root.Theme != "iugo-agent-kanagawa" {
-		t.Fatalf("theme = %q, want iugo-agent-kanagawa", root.Theme)
+	if root.Theme != "iugo-kanagawa" {
+		t.Fatalf("theme = %q, want iugo-kanagawa", root.Theme)
 	}
 }
 
@@ -116,7 +116,7 @@ func TestInjectClaudeThemeIsIdempotent(t *testing.T) {
 		t.Fatalf("InjectClaudeTheme() second changed = true")
 	}
 
-	path := filepath.Join(home, ".claude", "themes", "iugo-agent.json")
+	path := filepath.Join(home, ".claude", "themes", "iugo.json")
 	if _, err := os.Stat(path); err != nil {
 		t.Fatalf("expected Claude theme file %q: %v", path, err)
 	}
@@ -132,7 +132,7 @@ func TestInjectClaudeThemeSkipsNonClaudeAdapter(t *testing.T) {
 	if result.Changed || len(result.Files) != 0 {
 		t.Fatalf("InjectClaudeTheme() = %#v, want no-op for non-Claude adapter", result)
 	}
-	if _, err := os.Stat(filepath.Join(home, ".claude", "themes", "iugo-agent.json")); !os.IsNotExist(err) {
+	if _, err := os.Stat(filepath.Join(home, ".claude", "themes", "iugo.json")); !os.IsNotExist(err) {
 		t.Fatalf("InjectClaudeTheme() should not write file for OpenCode; stat error = %v", err)
 	}
 }
@@ -145,7 +145,7 @@ func TestInjectClaudeThemeWritesIUGOThemeFile(t *testing.T) {
 		t.Fatalf("InjectClaudeTheme() error = %v", err)
 	}
 
-	themePath := filepath.Join(home, ".claude", "themes", "iugo-agent.json")
+	themePath := filepath.Join(home, ".claude", "themes", "iugo.json")
 	if len(result.Files) != 1 || result.Files[0] != themePath {
 		t.Fatalf("files = %#v, want only %q", result.Files, themePath)
 	}
