@@ -83,7 +83,7 @@ Empty names MUST be rejected. The name `sdd-orchestrator` MUST be rejected
 
 The system MUST generate agents in `opencode.json` following these naming rules:
 
-- Default profile: `gentle-orchestrator` (orchestrator) + `sdd-{phase}` (sub-agents, 10 total)
+- Default profile: `iugo-orchestrator` (orchestrator) + `sdd-{phase}` (sub-agents, 10 total)
 - Named profile `{name}`: `sdd-orchestrator-{name}` + `sdd-{phase}-{name}` (10 sub-agents)
 
 The SDD phases are: `init`, `explore`, `propose`, `spec`, `design`, `tasks`,
@@ -340,11 +340,11 @@ a model to a specific sub-agent within a named profile.
 #### Scenario: Headless profile creation via CLI
 
 - GIVEN no profile named `cheap` exists
-- WHEN `gentle-ai sync --profile cheap:anthropic/claude-haiku-3.5-20241022` runs
+- WHEN `iugo-ai sync --profile cheap:anthropic/claude-haiku-3.5-20241022` runs
 - THEN the `cheap` profile is created in `opencode.json` with Haiku for all sub-agents
 
 #### Scenario: Multiple profiles in one sync
 
-- GIVEN `gentle-ai sync --profile cheap:haiku --profile premium:opus` runs
+- GIVEN `iugo-ai sync --profile cheap:haiku --profile premium:opus` runs
 - WHEN sync completes
 - THEN both `cheap` and `premium` profiles are present in `opencode.json`

@@ -1,4 +1,4 @@
-# Plan de Branding: Gentle-AI → IUGO-AI
+# Plan de Branding: IUGO-AI → IUGO-AI
 
 ## Estrategia
 
@@ -10,23 +10,23 @@ Todo valor visible se define una sola vez en `internal/brand/`. El código Go im
 
 | Upstream | IUGO |
 |----------|------|
-| `gentle-ai` | `iugo-ai` |
+| `iugo-ai` | `iugo-ai` |
 | `gentle_ai` | `iugo_ai` |
-| `gentleman-programming` | `iugo-programming` |
-| `gentleman` (marca) | `iugo` |
+| `iugo-programming` | `iugo-programming` |
+| `iugo-agent` (marca) | `iugo` |
 | `gentle` (prefijo marca) | `iugo` |
-| `Gentle-AI` | `IUGO-AI` |
-| `Gentleman` (marca) | `IUGO` |
+| `IUGO-AI` | `IUGO-AI` |
+| `IUGO` (marca) | `IUGO` |
 | `Gentle` (prefijo marca) | `IUGO` |
-| `.gentle-ai` (dir config) | `.iugo-ai` |
-| `gentle-pi` (npm) | `iugo-pi` |
-| `gentle-engram` (npm) | `iugo-engram` |
-| `gentle-orchestrator` | `iugo-orchestrator` |
+| `.iugo-ai` (dir config) | `.iugo-ai` |
+| `iugo-pi` (npm) | `iugo-pi` |
+| `iugo-engram` (npm) | `iugo-engram` |
+| `iugo-orchestrator` | `iugo-orchestrator` |
 
 ### Exceptions (NO cambiar)
 
 - `gentle` como adjetivo inglés en textos de ayuda/doc (no es marca)
-- `gentleman` cuando se refiere al rol/persona del agente, no a la marca del producto (ej: "Senior Architect persona" vs "Gentleman AI product")
+- `iugo-agent` cuando se refiere al rol/persona del agente, no a la marca del producto (ej: "Senior Architect persona" vs "IUGO AI product")
 - Go import paths en `go.sum` (se regeneran solos)
 
 ---
@@ -70,9 +70,9 @@ const (
 **Commit**: `refactor: rename module path and cmd directory`
 
 Cambios:
-1. `go.mod`: `module github.com/gentleman-programming/gentle-ai` → `github.com/iugo-programming/iugo-ai`
-2. Renombrar directorio: `cmd/gentle-ai/` → `cmd/iugo-ai/`
-3. **Replace all** en `.go` files: `github.com/gentleman-programming/gentle-ai` → `github.com/iugo-programming/iugo-ai`
+1. `go.mod`: `module github.com/iugo-programming/iugo-ai` → `github.com/iugo-programming/iugo-ai`
+2. Renombrar directorio: `cmd/iugo-ai/` → `cmd/iugo-ai/`
+3. **Replace all** en `.go` files: `github.com/iugo-programming/iugo-ai` → `github.com/iugo-programming/iugo-ai`
 4. Ejecutar `go mod tidy`
 
 **Impacto**: ~615 occurrences en imports Go. Es find/replace mecánico.
@@ -84,17 +84,17 @@ Cambios:
 **Commit**: `refactor: use brand config for system paths`
 
 Archivos a modificar:
-- `internal/state/state.go`: `const stateDir = ".gentle-ai"` → usar `brand.ConfigDir`
-- `internal/app/app.go`: `filepath.Join(homeDir, ".gentle-ai", "backups")` → usar brand
-- `internal/backup/manifest.go`: `filepath.Join(home, ".gentle-ai", "backups")` → usar brand
-- `internal/cli/doctor.go`: `filepath.Join(homeDir, ".gentle-ai")` → usar brand
-- `internal/cli/restore.go`: `homeDir + "/.gentle-ai/backups"` → usar brand
+- `internal/state/state.go`: `const stateDir = ".iugo-ai"` → usar `brand.ConfigDir`
+- `internal/app/app.go`: `filepath.Join(homeDir, ".iugo-ai", "backups")` → usar brand
+- `internal/backup/manifest.go`: `filepath.Join(home, ".iugo-ai", "backups")` → usar brand
+- `internal/cli/doctor.go`: `filepath.Join(homeDir, ".iugo-ai")` → usar brand
+- `internal/cli/restore.go`: `homeDir + "/.iugo-ai/backups"` → usar brand
 - `internal/cli/run.go`: backup paths → usar brand
 - `internal/cli/sync.go`: backup paths → usar brand
 - `internal/components/uninstall/service.go`: paths → usar brand
 - `internal/opencode/models.go`: cache path → usar brand
 - `internal/update/upgrade/executor.go`: backup paths → usar brand
-- `internal/components/filemerge/writer.go`: tmp prefix `.gentle-ai-*.tmp` → usar brand
+- `internal/components/filemerge/writer.go`: tmp prefix `.iugo-ai-*.tmp` → usar brand
 
 ---
 
@@ -108,10 +108,10 @@ Archivos:
   - `Tagline()`: usar `brand.ProductName` + brand tagline
   - Colores: mantener Rose Pine o cambiar a paleta IUGO (opcional)
 - `internal/tui/screens/welcome.go`: sin cambios directos (usa styles)
-- `internal/tui/screens/complete.go`: texto `"gentle-ai"` → usar brand
+- `internal/tui/screens/complete.go`: texto `"iugo-ai"` → usar brand
 - `internal/tui/screens/uninstall.go`: texto → usar brand
 - `internal/tui/screens/upgrade_sync.go`: texto → usar brand
-- `internal/tui/screens/dependency_tree.go`: `"gentle-pi"` → usar brand
+- `internal/tui/screens/dependency_tree.go`: `"iugo-pi"` → usar brand
 
 ---
 
@@ -122,10 +122,10 @@ Archivos:
 Archivos:
 - `internal/app/help.go`: todo el texto visible con `brand.ProductName`
 - `internal/app/app.go`:
-  - `fmt.Fprintf(stdout, "gentle-ai %s\n", Version)` → brand
+  - `fmt.Fprintf(stdout, "iugo-ai %s\n", Version)` → brand
   - Error messages → brand
   - `func gentleAIUpgradeVersionFromTUI` → rename (interno, no visible)
-- `internal/app/selfupdate.go`: tool name `"gentle-ai"` → brand
+- `internal/app/selfupdate.go`: tool name `"iugo-ai"` → brand
 - `internal/cli/uninstall.go`: texto visible → brand
 - `internal/cli/doctor.go`: `knownTools` → brand
 
@@ -137,9 +137,9 @@ Archivos:
 
 Archivos:
 - `internal/update/registry.go`:
-  - `Name: "gentle-ai"` → `brand.BinaryName`
-  - `Owner: "Gentleman-Programming"` → `brand.GitHubOwner`
-  - `Repo: "gentle-ai"` → `brand.GitHubRepo`
+  - `Name: "iugo-ai"` → `brand.BinaryName`
+  - `Owner: "IUGO-Programming"` → `brand.GitHubOwner`
+  - `Repo: "iugo-ai"` → `brand.GitHubRepo`
 - `internal/update/instructions.go`: texto → brand
 - `internal/update/types.go`: solo si hay strings visibles
 
@@ -151,21 +151,21 @@ Archivos:
 
 Archivos:
 - `internal/catalog/components.go`:
-  - `"Gentleman, neutral or custom behavior"` → brand
-  - `"Gentleman Guardian Angel"` → brand
-  - `"Gentleman Kanagawa theme overlay"` → brand
-  - `"Claude Code Gentleman custom theme"` → brand
+  - `"IUGO, neutral or custom behavior"` → brand
+  - `"IUGO Guardian Angel"` → brand
+  - `"IUGO Kanagawa theme overlay"` → brand
+  - `"Claude Code IUGO custom theme"` → brand
 - `internal/components/persona/inject.go`:
-  - Agent key `"gentleman"` → `brand.AgentName`
+  - Agent key `"iugo-agent"` → `brand.AgentName`
   - Description → brand
 - `internal/components/theme/inject.go`:
-  - `Name: "Gentleman"` → brand
-  - theme `"gentleman-kanagawa"` → `brand.ThemeName`
-  - filename `"gentleman.json"` → brand
+  - `Name: "IUGO"` → brand
+  - theme `"iugo-agent-kanagawa"` → `brand.ThemeName`
+  - filename `"iugo-agent.json"` → brand
 - `internal/components/engram/inject.go`:
-  - MCP name `"gentle-ai-engram"` → brand
+  - MCP name `"iugo-ai-engram"` → brand
 - `internal/agentbuilder/sdd.go`:
-  - HTML markers `<!-- gentle-ai:custom-agent:... -->` → brand
+  - HTML markers `<!-- iugo-ai:custom-agent:... -->` → brand
 - `internal/model/types.go`:
   - `ComponentOpenCodeGentleLogo` → rename
 
@@ -177,15 +177,15 @@ Archivos:
 
 Archivos:
 - `internal/agents/pi/adapter.go`:
-  - `"npm:gentle-pi"` → `brand.NpmPiPackage`
-  - `"npm:gentle-engram"` → `brand.NpmEngramPackage`
+  - `"npm:iugo-pi"` → `brand.NpmPiPackage`
+  - `"npm:iugo-engram"` → `brand.NpmEngramPackage`
 - `internal/versions/versions.go`:
-  - `// renovate: datasource=npm depName=gentle-engram` → nuevo nombre
+  - `// renovate: datasource=npm depName=iugo-engram` → nuevo nombre
   - `const GentleEngram` → rename const
 - `internal/tui/screens/dependency_tree.go`: package names → brand
 - `internal/skillregistry/registry.go`: comment → brand
 
-**Nota**: Los packages npm en sí mismos (`gentle-pi`, `gentle-engram`) son repos externos. Esta fase solo cambia las referencias. Los packages necesitan fork aparte.
+**Nota**: Los packages npm en sí mismos (`iugo-pi`, `iugo-engram`) son repos externos. Esta fase solo cambia las referencias. Los packages necesitan fork aparte.
 
 ---
 
@@ -194,11 +194,11 @@ Archivos:
 **Commit**: `docs(assets): rebrand embedded markdown assets`
 
 Archivos en `internal/assets/`:
-- Todos los `sdd-orchestrator.md` (~10 archivos): reemplazar "gentle-ai", "gentleman", "gentle-orchestrator"
-- Todos los `persona-gentleman.md` (~6 archivos): rename archivo + contenido
-- `output-style-gentleman.md` (~2 archivos): rename + contenido
+- Todos los `sdd-orchestrator.md` (~10 archivos): reemplazar "iugo-ai", "iugo-agent", "iugo-orchestrator"
+- Todos los `persona-iugo-agent.md` (~6 archivos): rename archivo + contenido
+- `output-style-iugo-agent.md` (~2 archivos): rename + contenido
 - `claude/sdd-*.md` (agents + commands): contenido
-- `kimi/agents/gentleman.yaml`: rename + contenido
+- `kimi/agents/iugo-agent.yaml`: rename + contenido
 - `skills/sdd-archive/SKILL.md`: contenido
 - `codex/engram-*.md`: contenido
 - Tests: `internal/assets/assets_test.go` → actualizar referencias
@@ -210,10 +210,10 @@ Archivos en `internal/assets/`:
 **Commit**: `refactor(agents): rebrand generated file names`
 
 Archivos:
-- `internal/agents/cursor/adapter.go`: `gentle-ai.mdc` → brand
-- `internal/agents/kiro/adapter.go`: `gentle-ai.md` → brand
-- `internal/agents/vscode/adapter.go`: `gentle-ai.instructions.md` → brand
-- `internal/agents/kimi/adapter.go`: `gentleman.yaml` → brand
+- `internal/agents/cursor/adapter.go`: `iugo-ai.mdc` → brand
+- `internal/agents/kiro/adapter.go`: `iugo-ai.md` → brand
+- `internal/agents/vscode/adapter.go`: `iugo-ai.instructions.md` → brand
+- `internal/agents/kimi/adapter.go`: `iugo-agent.yaml` → brand
 
 ---
 
@@ -295,7 +295,7 @@ Archivos con más occurrences:
 
 ```bash
 # Setup inicial
-git remote add upstream https://github.com/Gentleman-Programming/gentle-ai.git
+git remote add upstream https://github.com/IUGO-Programming/iugo-ai.git
 
 # Para actualizar con upstream
 git fetch upstream
@@ -320,8 +320,8 @@ go build ./cmd/iugo-ai/
 # 2. Tests pasan
 go test ./...
 
-# 3. No quedan referencias a gentle-ai (excepto en go.sum y comentarios legítimos)
-grep -r "gentle-ai\|gentleman-programming" --include="*.go" . | grep -v "_test.go" | grep -v "go.sum"
+# 3. No quedan referencias a iugo-ai (excepto en go.sum y comentarios legítimos)
+grep -r "iugo-ai\|iugo-programming" --include="*.go" . | grep -v "_test.go" | grep -v "go.sum"
 
 # 4. El binario se llama iugo-ai
 ./iugo-ai version
@@ -334,11 +334,11 @@ grep -r "gentle-ai\|gentleman-programming" --include="*.go" . | grep -v "_test.g
 
 ## Notas sobre Packages NPM Externos
 
-`gentle-pi` y `gentle-engram` son packages npm publicados en repos separados. Para branding completo:
+`iugo-pi` y `iugo-engram` son packages npm publicados en repos separados. Para branding completo:
 
-1. Fork `gentle-pi` → `iugo-pi` (repo nuevo)
-2. Fork `gentle-engram` → `iugo-engram` (repo nuevo)
+1. Fork `iugo-pi` → `iugo-pi` (repo nuevo)
+2. Fork `iugo-engram` → `iugo-engram` (repo nuevo)
 3. Publicar en npm con nuevos nombres
 4. Actualizar `internal/versions/versions.go` con nuevos dep names
 
-Esto es **independiente** del fork de gentle-ai y puede hacerse después.
+Esto es **independiente** del fork de iugo-ai y puede hacerse después.

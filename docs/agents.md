@@ -25,9 +25,9 @@
 | Pi              | `pi`             | Yes          | Yes | Full (package-managed subagents) | No            | Yes            | `~/.pi`                             |
 | Hermes          | `hermes`         | Yes          | Yes | Detect-only (no auto-install)    | No            | No             | `~/.hermes`                         |
 
-Most agents receive the **full SDD orchestrator** policy, plus skill files written to their skills directory. Most receive it through their system prompt; OpenCode and Kilo Code receive it through the OpenCode-compatible `opencode.json` agent overlay. Pi is the exception: Gentle AI installs Pi packages, and `gentle-pi` owns Pi skills, prompts, SDD agents, and chains at runtime. The agent handles SDD automatically when the task is large enough, or when the user explicitly asks for it — no manual setup required.
+Most agents receive the **full SDD orchestrator** policy, plus skill files written to their skills directory. Most receive it through their system prompt; OpenCode and Kilo Code receive it through the OpenCode-compatible `opencode.json` agent overlay. Pi is the exception: Gentle AI installs Pi packages, and `iugo-pi` owns Pi skills, prompts, SDD agents, and chains at runtime. The agent handles SDD automatically when the task is large enough, or when the user explicitly asks for it — no manual setup required.
 
-`gentle-ai install --scope=workspace` is supported across selected agents for agent-scoped files, not only Claude Code. In workspace scope, Gentle AI writes system prompts, skills, SDD agents, and persona files into the current project root when the agent supports project-local configuration. Global-only integrations, such as package installs or settings that the agent only reads from its global config, remain global by design.
+`iugo-ai install --scope=workspace` is supported across selected agents for agent-scoped files, not only Claude Code. In workspace scope, Gentle AI writes system prompts, skills, SDD agents, and persona files into the current project root when the agent supports project-local configuration. Global-only integrations, such as package installs or settings that the agent only reads from its global config, remain global by design.
 
 ---
 
@@ -37,11 +37,11 @@ Most agents receive the **full SDD orchestrator** policy, plus skill files writt
 | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
 | **Full (sub-agents)** | Each SDD phase runs in an isolated context window via native sub-agent delegation, package-managed subagents, or an OpenCode-compatible overlay. The orchestrator coordinates; sub-agents execute. | Claude Code, OpenCode, Kilo Code, Gemini CLI, Cursor, VS Code Copilot, Kimi Code, Kiro IDE, Qwen Code, Pi |
 | **Solo-agent**        | All SDD phases run inline in the same conversation. The orchestrator IS the executor. Engram provides cross-phase persistence.                                                                     | Codex, Windsurf, Antigravity, OpenClaw, Trae                                                              |
-| **Detect-only**       | gentle-ai detects the agent and injects skills, MCP, and persona when the binary is present. Auto-install is not supported — the user installs the agent manually.                                | Hermes                                                                                                    |
+| **Detect-only**       | iugo-ai detects the agent and injects skills, MCP, and persona when the binary is present. Auto-install is not supported — the user installs the agent manually.                                | Hermes                                                                                                    |
 
 ### Cursor Native Subagents
 
-Cursor uses its built-in `.cursor/agents/` system. `gentle-ai` writes 10 agent files to `~/.cursor/agents/sdd-{phase}.md` — one per SDD phase. Cursor's Agent auto-delegates to the correct subagent based on the `description` field in each file's YAML frontmatter.
+Cursor uses its built-in `.cursor/agents/` system. `iugo-ai` writes 10 agent files to `~/.cursor/agents/sdd-{phase}.md` — one per SDD phase. Cursor's Agent auto-delegates to the correct subagent based on the `description` field in each file's YAML frontmatter.
 
 - `sdd-explore` and `sdd-verify` run with `readonly: false` so they can inspect the codebase and execute verification commands
 - Each subagent gets its own context window (fresh context, no pollution)
@@ -62,11 +62,11 @@ Antigravity is an agent-first platform with built-in sub-agents (Browser, Termin
 
 ### Kiro Native Subagents
 
-Kiro uses native custom agents in `~/.kiro/agents/`. `gentle-ai` writes phase agents (`sdd-init` through `sdd-onboard` plus Judgment Day agents) and resolves the `model:` field during injection from Kiro model assignments (`auto|opus|sonnet|haiku|minimax|glm|deepseek|qwen`) to Kiro-native model IDs.
+Kiro uses native custom agents in `~/.kiro/agents/`. `iugo-ai` writes phase agents (`sdd-init` through `sdd-onboard` plus Judgment Day agents) and resolves the `model:` field during injection from Kiro model assignments (`auto|opus|sonnet|haiku|minimax|glm|deepseek|qwen`) to Kiro-native model IDs.
 
 - Frontmatter includes `includeMcpJson: true` for all phase agents
 - Phase-specific tools are preserved (`sdd-explore` and `sdd-verify` use read/shell/context7 as required)
-- Orchestrator remains in steering (`~/.kiro/steering/gentle-ai.md`) and delegates execution to native subagents
+- Orchestrator remains in steering (`~/.kiro/steering/iugo-ai.md`) and delegates execution to native subagents
 
 ---
 
@@ -82,7 +82,7 @@ Kiro uses native custom agents in `~/.kiro/agents/`. `gentle-ai` writes phase ag
 
 > \* **Kiro multi-mode** assigns models per phase through `KiroModelAssignments` (configured via _Configure Models → Configure Kiro models_ in the TUI). The selected Kiro alias (`auto|opus|sonnet|haiku|minimax|glm|deepseek|qwen`) is resolved to a Kiro-native model ID and stamped into each `~/.kiro/agents/sdd-{phase}.md` at sync time.
 
-> \*\* **Pi multi-mode** is owned by the Pi packages. `gentle-pi` installs SDD agent and chain assets into `.pi/agents/` and `.pi/chains/`; model overrides live in those Pi-managed files or chain steps.
+> \*\* **Pi multi-mode** is owned by the Pi packages. `iugo-pi` installs SDD agent and chain assets into `.pi/agents/` and `.pi/chains/`; model overrides live in those Pi-managed files or chain steps.
 
 ---
 
@@ -97,7 +97,7 @@ Kiro uses native custom agents in `~/.kiro/agents/`. `gentle-ai` writes phase ag
 
 ### OpenCode
 
-- Full multi-agent overlay with 11 named agents in `opencode.json` (`gentle-orchestrator` plus 10 SDD phase agents)
+- Full multi-agent overlay with 11 named agents in `opencode.json` (`iugo-orchestrator` plus 10 SDD phase agents)
 - Slash commands for SDD phases (`/sdd-new`, `/sdd-explore`, etc.)
 - Native OpenCode `task` subagents; experimental background execution is available when OpenCode is launched with `OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS=true`
 - The TUI model picker includes providers and models discovered from the local `opencode.json`, including custom providers
@@ -108,7 +108,7 @@ Kiro uses native custom agents in `~/.kiro/agents/`. `gentle-ai` writes phase ag
 
 ### Kilo Code
 
-- **Detection**: gentle-ai detects Kilo Code from `~/.config/kilo` and checks for the `kilo` binary on `PATH`
+- **Detection**: iugo-ai detects Kilo Code from `~/.config/kilo` and checks for the `kilo` binary on `PATH`
 - Uses the OpenCode-compatible adapter: `AGENTS.md`, `skills/`, `commands/`, and `opencode.json` live under `~/.config/kilo`
 - Full SDD delegation is provided by the merged multi-agent overlay in `~/.config/kilo/opencode.json`, not by a separate native sub-agent directory
 - MCP servers are merged into `opencode.json`; Engram uses the OpenCode-style local MCP entry with `command` as an array
@@ -121,16 +121,16 @@ Kiro uses native custom agents in `~/.kiro/agents/`. `gentle-ai` writes phase ag
 
 ### Cursor
 
-- Native subagents via `~/.cursor/agents/sdd-{phase}.md` (10 files installed by gentle-ai)
+- Native subagents via `~/.cursor/agents/sdd-{phase}.md` (10 files installed by iugo-ai)
 - Skills at `~/.cursor/skills/`
-- System prompt in `~/.cursor/rules/gentle-ai.mdc`
+- System prompt in `~/.cursor/rules/iugo-ai.mdc`
 - MCP config in `~/.cursor/mcp.json`
 
 ### VS Code Copilot
 
 - Uses the `runSubagent` tool with support for parallel execution
 - Skills at `~/.copilot/skills/`
-- System prompt at `Code/User/prompts/gentle-ai.instructions.md`
+- System prompt at `Code/User/prompts/iugo-ai.instructions.md`
 - MCP config at `Code/User/mcp.json`
 
 ### Codex
@@ -148,7 +148,7 @@ Kiro uses native custom agents in `~/.kiro/agents/`. `gentle-ai` writes phase ag
   | `sdd-mid` | `high` | spec, tasks, apply |
   | `sdd-cheap` | `low` | explore, archive, onboard |
 
-- Multi-agent SDD delegation is available as an **experimental opt-in** (default off). gentle-ai writes `features.multi_agent = false` and `agents.max_threads = 4` / `agents.max_depth = 2` into `~/.codex/config.toml`. To enable, set `multi_agent = true` in the `[features]` section. When enabled, the `sdd-orchestrator` asset uses Codex's native `spawn_agent` / `wait_agent` / `close_agent` tools to delegate SDD phases; otherwise it falls back to solo-agent inline execution.
+- Multi-agent SDD delegation is available as an **experimental opt-in** (default off). iugo-ai writes `features.multi_agent = false` and `agents.max_threads = 4` / `agents.max_depth = 2` into `~/.codex/config.toml`. To enable, set `multi_agent = true` in the `[features]` section. When enabled, the `sdd-orchestrator` asset uses Codex's native `spawn_agent` / `wait_agent` / `close_agent` tools to delegate SDD phases; otherwise it falls back to solo-agent inline execution.
 - **Delegation**: Solo-agent (multi-agent opt-in, experimental)
 
 ### Windsurf
@@ -169,15 +169,15 @@ Kiro uses native custom agents in `~/.kiro/agents/`. `gentle-ai` writes phase ag
 ### Kimi Code
 
 - Installation requires the `uv` Python package manager (`uv tool install kimi-cli`).
-- Root custom agent at `~/.kimi/agents/gentleman.yaml` with `system_prompt_path: ../KIMI.md`
+- Root custom agent at `~/.kimi/agents/iugo-agent.yaml` with `system_prompt_path: ../KIMI.md`
 - `KIMI.md` is a thin Jinja template that includes modular prompt files:
   `persona.md`, `output-style.md`, `engram-protocol.md`, `sdd-orchestrator.md`
 - Built-in Kimi variables are preserved in `KIMI.md`: `${KIMI_AGENTS_MD}` and `${KIMI_SKILLS}`
 
 ### Kiro IDE
 
-- **Detection**: gentle-ai detects Kiro from the `kiro` binary on `PATH`; when the binary is present, it also reports whether `~/.kiro` already exists. A config directory alone does not mark Kiro as installed.
-- **Steering file** (all platforms): `~/.kiro/steering/gentle-ai.md` with frontmatter `inclusion: always`
+- **Detection**: iugo-ai detects Kiro from the `kiro` binary on `PATH`; when the binary is present, it also reports whether `~/.kiro` already exists. A config directory alone does not mark Kiro as installed.
+- **Steering file** (all platforms): `~/.kiro/steering/iugo-ai.md` with frontmatter `inclusion: always`
 - Native subagents at `~/.kiro/agents/sdd-{phase}.md` (10 files)
 - Skills (all platforms) at `~/.kiro/skills/`
 - **MCP config at a separate root** — always `~/.kiro/settings/mcp.json` (macOS/Linux) or `%USERPROFILE%\.kiro\settings\mcp.json` (Windows), regardless of GlobalConfigDir
@@ -187,7 +187,7 @@ Kiro uses native custom agents in `~/.kiro/agents/`. `gentle-ai` writes phase ag
 
 ### Qwen Code
 
-- **Detection**: gentle-ai detects Qwen Code from its config root (`~/.qwen`) and checks for `qwen` binary on `PATH`
+- **Detection**: iugo-ai detects Qwen Code from its config root (`~/.qwen`) and checks for `qwen` binary on `PATH`
 - **Config root**: `~/.qwen/` (cross-platform)
 - **System prompt**: `~/.qwen/QWEN.md` (managed via `StrategyFileReplace`)
 - **Skills**: `~/.qwen/skills/`
@@ -200,16 +200,16 @@ Kiro uses native custom agents in `~/.kiro/agents/`. `gentle-ai` writes phase ag
 
 ### OpenClaw
 
-- **Detection**: gentle-ai detects OpenClaw from the `openclaw` binary on `PATH` and its config root at `~/.openclaw`.
-- **Install**: manual only — install OpenClaw first, then run `gentle-ai install --agent openclaw`.
-- **Active workspace**: gentle-ai reads `agents.defaults.workspace` from `~/.openclaw/openclaw.json` and writes instruction files there.
+- **Detection**: iugo-ai detects OpenClaw from the `openclaw` binary on `PATH` and its config root at `~/.openclaw`.
+- **Install**: manual only — install OpenClaw first, then run `iugo-ai install --agent openclaw`.
+- **Active workspace**: iugo-ai reads `agents.defaults.workspace` from `~/.openclaw/openclaw.json` and writes instruction files there.
 - **Instructions**: Engram and SDD protocols are injected into workspace `AGENTS.md`; persona is injected into workspace `SOUL.md`.
 - **MCP config**: Engram and Context7 are merged into global `~/.openclaw/openclaw.json` under `mcp.servers`; legacy root `mcpServers` entries are migrated.
 - **Skills**: SDD phase skills are workspace-scoped at `<workspace>/.openclaw/skills/sdd-*`; portable skills remain global at `~/.openclaw/skills/`.
 
 ### Trae
 
-- **Detection**: gentle-ai detects Trae from `~/.trae` (desktop app — no binary on PATH)
+- **Detection**: iugo-ai detects Trae from `~/.trae` (desktop app — no binary on PATH)
 - **Global config root**: `~/.trae/` (cross-platform)
 - **Skills**: `~/.trae/skills/`
 - **System prompt / rules**: injected via `StrategyMarkdownSections` into the OS-specific `user_rules.md`
@@ -223,39 +223,39 @@ Kiro uses native custom agents in `~/.kiro/agents/`. `gentle-ai` writes phase ag
 
 For the full Pi command and package reference, see [Pi Agent](pi.md).
 
-- **Detection**: gentle-ai detects Pi from the `pi` binary on `PATH` and its config root at `~/.pi`.
-- **Install**: Pi must already be installed. gentle-ai then installs the full Pi support stack with:
-  - `pi install npm:gentle-pi`
-  - `pi install npm:gentle-engram`
+- **Detection**: iugo-ai detects Pi from the `pi` binary on `PATH` and its config root at `~/.pi`.
+- **Install**: Pi must already be installed. iugo-ai then installs the full Pi support stack with:
+  - `pi install npm:iugo-pi`
+  - `pi install npm:iugo-engram`
   - `pi install npm:pi-mcp-adapter`
-  - `npm exec --yes --package gentle-engram@0.1.4 -- pi-engram init`
+  - `npm exec --yes --package iugo-engram@0.1.4 -- pi-engram init`
   - `pi install npm:pi-subagents`
   - `pi install npm:pi-intercom`
   - `pi install npm:@juicesharp/rpiv-ask-user-question`
   - `pi install npm:pi-web-access`
   - `pi install npm:@juicesharp/rpiv-todo`
   - `pi install npm:pi-btw`
-- **`gentle-pi` package**: adds the Gentleman harness for Pi: SDD/OpenSpec workflow, strict TDD guidance, safety defaults, `/gentle-ai:*` commands, skill assets, prompts, SDD agents, and SDD chains. On normal `session_start`, it copies project assets into `.pi/agents/`, `.pi/chains/`, and `.pi/gentle-ai/support/` without overwriting local files unless the Pi recovery command uses `--force`. Starting Pi with `pi -ns` skips startup skill loading/hooks, so that automatic refresh does not run in that mode.
-- **Package metadata**: latest verified `gentle-pi` version is `0.2.6`; npm lists `alan_buscaglia` as maintainer, with source at [Gentleman-Programming/gentle-pi](https://github.com/Gentleman-Programming/gentle-pi) and package docs at [npm: gentle-pi](https://www.npmjs.com/package/gentle-pi).
-- **Persona command**: `gentle-pi` owns Pi persona switching through `/gentleman:persona` (`/gentle-ai:persona` remains a compatibility alias). It switches between `gentleman` and `neutral`, saves `.pi/gentle-ai/persona.json`, and may require `/reload` or a new Pi session for the active prompt to refresh.
-- **Model assignment command**: `gentle-pi` owns Pi model selection through `/gentleman:models` (`/gentle-ai:models` remains a compatibility alias). It opens a Pi-native modal for project, user, and built-in agents, prioritizes SDD agents, saves `.pi/gentle-ai/models.json`, and applies overrides into `.pi/agents/*.md` or `.pi/settings.json`.
-- **`gentle-engram` package**: adds persistent Engram memory for Pi. It captures sessions, exposes Engram MCP tools through `pi-mcp-adapter`, and degrades safely when the local `engram` binary is missing.
+- **`iugo-pi` package**: adds the IUGO harness for Pi: SDD/OpenSpec workflow, strict TDD guidance, safety defaults, `/iugo-ai:*` commands, skill assets, prompts, SDD agents, and SDD chains. On normal `session_start`, it copies project assets into `.pi/agents/`, `.pi/chains/`, and `.pi/iugo-ai/support/` without overwriting local files unless the Pi recovery command uses `--force`. Starting Pi with `pi -ns` skips startup skill loading/hooks, so that automatic refresh does not run in that mode.
+- **Package metadata**: latest verified `iugo-pi` version is `0.2.6`; npm lists `alan_buscaglia` as maintainer, with source at [IUGO-Programming/iugo-pi](https://github.com/IUGO-Programming/iugo-pi) and package docs at [npm: iugo-pi](https://www.npmjs.com/package/iugo-pi).
+- **Persona command**: `iugo-pi` owns Pi persona switching through `/iugo-agent:persona` (`/iugo-ai:persona` remains a compatibility alias). It switches between `iugo-agent` and `neutral`, saves `.pi/iugo-ai/persona.json`, and may require `/reload` or a new Pi session for the active prompt to refresh.
+- **Model assignment command**: `iugo-pi` owns Pi model selection through `/iugo-agent:models` (`/iugo-ai:models` remains a compatibility alias). It opens a Pi-native modal for project, user, and built-in agents, prioritizes SDD agents, saves `.pi/iugo-ai/models.json`, and applies overrides into `.pi/agents/*.md` or `.pi/settings.json`.
+- **`iugo-engram` package**: adds persistent Engram memory for Pi. It captures sessions, exposes Engram MCP tools through `pi-mcp-adapter`, and degrades safely when the local `engram` binary is missing.
 - **MCP adapter wiring**: ComponentEngram declares `npm:pi-mcp-adapter` in `.pi/agent/settings.json` packages and adds `pi-mcp-adapter` `^2.6.0` to `.pi/npm/package.json` without removing unrelated user entries. `pi-engram init` owns the Pi Engram MCP config schema and is run during installation.
 - **`pi-subagents` package**: discovers and runs SDD agents from `.pi/agents/`.
 - **`pi-intercom` package**: lets Pi child agents ask the parent session for decisions while a chain is running.
 - **`@juicesharp/rpiv-ask-user-question` package**: lets Pi child agents ask the active user session for clarification when they need human input.
 - **Pi companion packages**: `pi-web-access`, `@juicesharp/rpiv-todo`, and `pi-btw` add web access, todo tracking, and companion workflow support.
-- **Pi-only flow**: when Pi is the only selected agent, gentle-ai skips persona, ecosystem component selection, and Strict TDD prompts because those behaviors are provided by `gentle-pi`.
+- **Pi-only flow**: when Pi is the only selected agent, iugo-ai skips persona, ecosystem component selection, and Strict TDD prompts because those behaviors are provided by `iugo-pi`.
 
 ### Hermes
 
-- **Detection**: gentle-ai reports the `hermes` binary on `PATH` and the config root at `~/.hermes` independently; the config directory drives install detection (the binary can be absent and Hermes is still detected as configured).
-- **Install**: detect-only — gentle-ai cannot install Hermes. Install Hermes manually first, then run `gentle-ai install --agent hermes`.
+- **Detection**: iugo-ai reports the `hermes` binary on `PATH` and the config root at `~/.hermes` independently; the config directory drives install detection (the binary can be absent and Hermes is still detected as configured).
+- **Install**: detect-only — iugo-ai cannot install Hermes. Install Hermes manually first, then run `iugo-ai install --agent hermes`.
 - **Config path**: `~/.hermes/` (config.yaml, SOUL.md, skills/)
 - **MCP config**: Engram and Context7 are injected as YAML blocks under `mcp_servers:` in `~/.hermes/config.yaml` (`StrategyMergeIntoYAML`). Pre-existing top-level keys (e.g. `model:`) are preserved verbatim.
-- **System prompt**: SDD orchestrator and persona are written to `~/.hermes/SOUL.md` via markdown section markers (`<!-- gentle-ai:sdd-orchestrator -->`, `<!-- gentle-ai:persona -->`).
-- **Skills**: `~/.hermes/skills/` — gentle-ai writes SDD phase skills; the skill registry also scans this path.
-- **Permissions**: Hermes uses an undocumented permission format. gentle-ai skips permission injection for Hermes.
+- **System prompt**: SDD orchestrator and persona are written to `~/.hermes/SOUL.md` via markdown section markers (`<!-- iugo-ai:sdd-orchestrator -->`, `<!-- iugo-ai:persona -->`).
+- **Skills**: `~/.hermes/skills/` — iugo-ai writes SDD phase skills; the skill registry also scans this path.
+- **Permissions**: Hermes uses an undocumented permission format. iugo-ai skips permission injection for Hermes.
 - **Profiles**: Hermes does not support multi-mode SDD (no per-phase model routing). Single-mode only.
 - **Memory**: Hermes has a native memory and skill-learning loop. Engram complements it — Engram provides cross-agent, cross-session memory protocol so knowledge is portable across all agents, not just Hermes.
-- **Persona markers and identity behavior**: The `<!-- gentle-ai:persona -->` / `<!-- /gentle-ai:persona -->` markers in `SOUL.md` tell gentle-ai which section it manages — they delimit where the persona content is written and updated on sync. The markers alone do NOT guarantee that Hermes answers identity questions ("who are you?", "quién eres?") as Gentle AI. That guarantee comes from the explicit `## Identity` section inside the managed persona content, which instructs Hermes to identify itself as **Gentle AI running on Hermes Agent** in any language. If the user has written a manual `## Identity` section OUTSIDE the managed markers, it is preserved by gentle-ai but may conflict with the managed identity instruction — the managed block is what gentle-ai guarantees, and any manual identity section outside the markers may need cleanup to avoid contradiction.
+- **Persona markers and identity behavior**: The `<!-- iugo-ai:persona -->` / `<!-- /iugo-ai:persona -->` markers in `SOUL.md` tell iugo-ai which section it manages — they delimit where the persona content is written and updated on sync. The markers alone do NOT guarantee that Hermes answers identity questions ("who are you?", "quién eres?") as Gentle AI. That guarantee comes from the explicit `## Identity` section inside the managed persona content, which instructs Hermes to identify itself as **Gentle AI running on Hermes Agent** in any language. If the user has written a manual `## Identity` section OUTSIDE the managed markers, it is preserved by iugo-ai but may conflict with the managed identity instruction — the managed block is what iugo-ai guarantees, and any manual identity section outside the markers may need cleanup to avoid contradiction.

@@ -4,12 +4,12 @@
 **Type**: ADDED
 **Status**: SHIPPED — commit 9bd58d9
 **Files**:
-- `internal/assets/claude/persona-gentleman.md` — Claude variant (names the built-in `Skill` tool)
-- `internal/assets/opencode/persona-gentleman.md` — non-Claude variant
-- `internal/assets/generic/persona-gentleman.md` — non-Claude variant
+- `internal/assets/claude/persona-iugo-agent.md` — Claude variant (names the built-in `Skill` tool)
+- `internal/assets/opencode/persona-iugo-agent.md` — non-Claude variant
+- `internal/assets/generic/persona-iugo-agent.md` — non-Claude variant
 - `internal/assets/generic/persona-neutral.md` — non-Claude variant
-- `internal/assets/kiro/persona-gentleman.md` — non-Claude variant
-- `internal/assets/kimi/persona-gentleman.md` — non-Claude variant
+- `internal/assets/kiro/persona-iugo-agent.md` — non-Claude variant
+- `internal/assets/kimi/persona-iugo-agent.md` — non-Claude variant
 
 ## Context
 
