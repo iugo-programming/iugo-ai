@@ -12,10 +12,10 @@ func PersonaOptions() []model.PersonaID {
 }
 
 var personaDescriptions = map[model.PersonaID]string{
-	model.PersonaGentleman:                 "Managed Gentleman persona with teaching-first guidance",
-	model.PersonaGentlemanNeutralArtifacts: "Gentleman conversation with English technical artifacts and comments in context language",
+	model.PersonaGentleman:                 "Managed IUGO persona with teaching-first guidance",
+	model.PersonaGentlemanNeutralArtifacts: "IUGO conversation with English technical artifacts and comments in context language",
 	model.PersonaNeutral:                   "Managed neutral persona with the same guidance and less regional tone",
-	model.PersonaCustom:                    "Keep your existing persona unmanaged; gentle-ai does not inject a persona",
+	model.PersonaCustom:                    "Keep your existing persona unmanaged; iugo-ai does not inject a persona",
 }
 
 func RenderPersona(selected model.PersonaID, cursor int) string {
@@ -23,7 +23,7 @@ func RenderPersona(selected model.PersonaID, cursor int) string {
 
 	b.WriteString(styles.TitleStyle.Render("Choose your Persona"))
 	b.WriteString("\n\n")
-	b.WriteString(styles.SubtextStyle.Render("Your own Gentleman! teaches before it solves."))
+	b.WriteString(styles.SubtextStyle.Render("Your own IUGO! teaches before it solves."))
 	b.WriteString("\n\n")
 
 	for idx, persona := range PersonaOptions() {
