@@ -27,9 +27,9 @@ rules:
     - Use hierarchical numbering (1.1, 1.2, etc.)
     - Keep tasks small enough to complete in one session
   apply:
-    - Load gentleman-bubbletea skill for TUI work (internal/tui/)
-    - Load gentleman-installer skill for installation steps
-    - Load gentleman-system skill for OS/system detection
+    - Load iugo-agent-bubbletea skill for TUI work (internal/tui/)
+    - Load iugo-agent-installer skill for installation steps
+    - Load iugo-agent-system skill for OS/system detection
     - Load go-testing skill when writing tests
     - Follow existing code patterns in internal/ packages
   verify:
