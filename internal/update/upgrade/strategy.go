@@ -294,7 +294,7 @@ func openCodePluginRegisteredPendingHint(pkg string) string {
 // network), the upgrade is still attempted using the existing cache — a stale
 // cache is better than no upgrade at all.
 func brewUpgrade(ctx context.Context, toolName string) error {
-	// Ensure the Gentleman-Programming homebrew tap is present before upgrading.
+	// Ensure the iugo-programming homebrew tap is present before upgrading.
 	// Non-fatal: brew tap is a no-op when already present; if it fails for any other
 	// reason, the subsequent brew upgrade will surface the real error. See issue #455:
 	// without this, a lost tap (untap, machine swap, brew cleanup) makes upgrades fail

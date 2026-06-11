@@ -34,7 +34,7 @@ func outputStyleOverlayJSON(name string) []byte {
 // openCodeAgentOverlayJSON defines the Tab-switchable persona agent for OpenCode.
 // SDD is installed separately by the SDD component as "iugo-orchestrator";
 // persona injection must not create legacy SDD conductor keys.
-var openCodeAgentOverlayJSON = []byte("{\n  \"agent\": {\n    \"gentleman\": {\n      \"mode\": \"primary\",\n      \"description\": \"Senior Architect mentor - helpful first, challenging when it matters\",\n      \"prompt\": \"{file:./AGENTS.md}\",\n      \"tools\": {\n        \"write\": true,\n        \"edit\": true\n      }\n    }\n  }\n}\n")
+var openCodeAgentOverlayJSON = []byte("{\n  \"agent\": {\n    \"iugo-agent\": {\n      \"mode\": \"primary\",\n      \"description\": \"Senior Architect mentor - helpful first, challenging when it matters\",\n      \"prompt\": \"{file:./AGENTS.md}\",\n      \"tools\": {\n        \"write\": true,\n        \"edit\": true\n      }\n    }\n  }\n}\n")
 
 // Inject performs a full persona injection: the marker-bound markdown block,
 // the OpenCode/Kilocode `iugo-agent` agent definition in settings JSON, AND

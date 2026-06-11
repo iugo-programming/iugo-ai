@@ -295,7 +295,7 @@ func TestInjectClaudeNeutralWritesNeutralOutputStyleAndSettings(t *testing.T) {
 		t.Fatalf("MkdirAll() error = %v", err)
 	}
 	staleIUGOPath := filepath.Join(settingsDir, "output-styles", "iugo-agent.md")
-	if err := os.WriteFile(staleIUGOPath, []byte("stale iugo-agent style"), 0o644); err != nil {
+	if err := os.WriteFile(staleIUGOPath, []byte("stale iugoAgent style"), 0o644); err != nil {
 		t.Fatalf("WriteFile(stale iugo-agent) error = %v", err)
 	}
 	existingSettings := `{"permissions":{"allow":["Read"]},"outputStyle":"IUGO"}`
@@ -336,7 +336,7 @@ func TestInjectClaudeNeutralWritesNeutralOutputStyleAndSettings(t *testing.T) {
 		t.Fatalf("neutral output style contains regional wording:\n%s", styleText)
 	}
 	if _, err := os.Stat(staleIUGOPath); !os.IsNotExist(err) {
-		t.Fatalf("stale iugo-agent output style should be removed, stat err=%v", err)
+		t.Fatalf("stale iugoAgent output style should be removed, stat err=%v", err)
 	}
 
 	settingsContent, err := os.ReadFile(filepath.Join(settingsDir, "settings.json"))
@@ -503,7 +503,7 @@ func TestInjectOpenCodeIUGODoesNotCreateSDDConductor(t *testing.T) {
 		t.Fatal("persona injection must not create SDD conductor; SDD component owns iugo-orchestrator")
 	}
 	if !strings.Contains(text, `"iugo-agent"`) {
-		t.Fatal("persona injection should still create the iugo-agent persona agent")
+		t.Fatal("persona injection should still create the iugoAgent persona agent")
 	}
 }
 
@@ -778,7 +778,7 @@ func TestInjectOpenCodePreservesUserPrefaceAboveManagedMarkers(t *testing.T) {
 func TestInjectOpenCodeNeutralPreservesManagedSections(t *testing.T) {
 	home := t.TempDir()
 
-	// First install iugo-agent persona + simulate SDD/engram sections
+	// First install iugoAgent persona + simulate SDD/engram sections
 	_, err := Inject(home, opencodeAdapter(), model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("Inject(iugo-agent) error = %v", err)
@@ -1518,7 +1518,7 @@ func TestInjectVSCodePreservesNonPersonaGitHubFile(t *testing.T) {
 
 func TestNeutralAndIUGOToneSectionsMatch(t *testing.T) {
 	neutral := assets.MustRead("generic/persona-neutral.md")
-	iugo-agent := assets.MustRead("generic/persona-iugo-agent.md")
+	iugoAgent := assets.MustRead("generic/persona-iugo-agent.md")
 
 	extractSection := func(content, section string) string {
 		idx := strings.Index(content, "## "+section)
@@ -1534,10 +1534,10 @@ func TestNeutralAndIUGOToneSectionsMatch(t *testing.T) {
 	}
 
 	neutralTone := extractSection(neutral, "Tone")
-	iugo-agentTone := extractSection(iugo-agent, "Tone")
+	iugoAgentTone := extractSection(iugoAgent, "Tone")
 
-	if neutralTone != iugo-agentTone {
-		t.Fatalf("## Tone sections diverged:\nneutral:\n%s\niugo-agent:\n%s", neutralTone, iugo-agentTone)
+	if neutralTone != iugoAgentTone {
+		t.Fatalf("## Tone sections diverged:\nneutral:\n%s\niugo-agent:\n%s", neutralTone, iugoAgentTone)
 	}
 }
 
@@ -1579,7 +1579,7 @@ func TestInjectVSCodeIdempotentAfterHeal(t *testing.T) {
 func TestInjectClaude_SwitchIUGOToNeutral_CleansOutputStyle(t *testing.T) {
 	home := t.TempDir()
 
-	// Step 1: install iugo-agent — creates output-styles/iugo-agent.md and sets outputStyle in settings.json.
+	// Step 1: install iugoAgent — creates output-styles/iugo-agent.md and sets outputStyle in settings.json.
 	_, err := Inject(home, claudeAdapter(), model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("Inject(iugo-agent) error = %v", err)
@@ -1587,13 +1587,13 @@ func TestInjectClaude_SwitchIUGOToNeutral_CleansOutputStyle(t *testing.T) {
 
 	stylePath := filepath.Join(home, ".claude", "output-styles", "iugo-agent.md")
 	if _, statErr := os.Stat(stylePath); os.IsNotExist(statErr) {
-		t.Fatal("precondition: iugo-agent.md must exist after iugo-agent install")
+		t.Fatal("precondition: iugo-agent.md must exist after iugoAgent install")
 	}
 
 	settingsPath := filepath.Join(home, ".claude", "settings.json")
 	settingsRaw, err := os.ReadFile(settingsPath)
 	if err != nil {
-		t.Fatalf("precondition: settings.json must exist after iugo-agent install: %v", err)
+		t.Fatalf("precondition: settings.json must exist after iugoAgent install: %v", err)
 	}
 	var settingsBefore map[string]any
 	if err := json.Unmarshal(settingsRaw, &settingsBefore); err != nil {
@@ -1609,7 +1609,7 @@ func TestInjectClaude_SwitchIUGOToNeutral_CleansOutputStyle(t *testing.T) {
 		t.Fatalf("Inject(neutral) error = %v", err)
 	}
 	if !result.Changed {
-		t.Fatal("Inject(neutral) should report changed when cleaning iugo-agent residuals")
+		t.Fatal("Inject(neutral) should report changed when cleaning iugoAgent residuals")
 	}
 
 	// output-styles/iugo-agent.md must be gone.
@@ -1682,7 +1682,7 @@ func TestInjectClaude_SwitchIUGOToNeutral_IsIdempotent(t *testing.T) {
 		t.Fatalf("Inject(neutral) first error = %v", err)
 	}
 	if !first.Changed {
-		t.Fatal("first neutral inject after iugo-agent should report changed")
+		t.Fatal("first neutral inject after iugoAgent should report changed")
 	}
 
 	second, err := Inject(home, claudeAdapter(), model.PersonaNeutral)
@@ -1697,7 +1697,7 @@ func TestInjectClaude_SwitchIUGOToNeutral_IsIdempotent(t *testing.T) {
 func TestInjectOpenCode_SwitchIUGOToNeutral_CleansAgentOverlay(t *testing.T) {
 	home := t.TempDir()
 
-	// Step 1: install iugo-agent — agent.iugo-agent key must appear in opencode.json.
+	// Step 1: install iugoAgent — agent.iugoAgent key must appear in opencode.json.
 	_, err := Inject(home, opencodeAdapter(), model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("Inject(iugo-agent) error = %v", err)
@@ -1706,7 +1706,7 @@ func TestInjectOpenCode_SwitchIUGOToNeutral_CleansAgentOverlay(t *testing.T) {
 	settingsPath := filepath.Join(home, ".config", "opencode", "opencode.json")
 	settingsRaw, err := os.ReadFile(settingsPath)
 	if err != nil {
-		t.Fatalf("precondition: opencode.json must exist after iugo-agent install: %v", err)
+		t.Fatalf("precondition: opencode.json must exist after iugoAgent install: %v", err)
 	}
 	var before map[string]any
 	if err := json.Unmarshal(settingsRaw, &before); err != nil {
@@ -1714,10 +1714,10 @@ func TestInjectOpenCode_SwitchIUGOToNeutral_CleansAgentOverlay(t *testing.T) {
 	}
 	agentBefore, ok := before["agent"].(map[string]any)
 	if !ok {
-		t.Fatal("precondition: 'agent' key must be present after iugo-agent install")
+		t.Fatal("precondition: 'agent' key must be present after iugoAgent install")
 	}
 	if _, ok := agentBefore["iugo-agent"]; !ok {
-		t.Fatal("precondition: agent.iugo-agent must be present after iugo-agent install")
+		t.Fatal("precondition: agent.iugoAgent must be present after iugoAgent install")
 	}
 
 	// Pre-populate a user-defined agent to verify it survives the cleanup.
@@ -1729,13 +1729,13 @@ func TestInjectOpenCode_SwitchIUGOToNeutral_CleansAgentOverlay(t *testing.T) {
 		t.Fatalf("WriteFile() setup error = %v", err)
 	}
 
-	// Step 2: switch to neutral — agent.iugo-agent must be removed.
+	// Step 2: switch to neutral — agent.iugoAgent must be removed.
 	result, err := Inject(home, opencodeAdapter(), model.PersonaNeutral)
 	if err != nil {
 		t.Fatalf("Inject(neutral) error = %v", err)
 	}
 	if !result.Changed {
-		t.Fatal("Inject(neutral) should report changed when cleaning agent.iugo-agent residual")
+		t.Fatal("Inject(neutral) should report changed when cleaning agent.iugoAgent residual")
 	}
 
 	settingsRaw, err = os.ReadFile(settingsPath)
@@ -1747,14 +1747,14 @@ func TestInjectOpenCode_SwitchIUGOToNeutral_CleansAgentOverlay(t *testing.T) {
 		t.Fatalf("Unmarshal opencode.json after neutral: %v", err)
 	}
 
-	// agent.iugo-agent must be gone.
+	// agent.iugoAgent must be gone.
 	if agentAfter, ok := after["agent"].(map[string]any); ok {
 		if _, stillPresent := agentAfter["iugo-agent"]; stillPresent {
-			t.Fatal("agent.iugo-agent must be removed from opencode.json after switching to neutral")
+			t.Fatal("agent.iugoAgent must be removed from opencode.json after switching to neutral")
 		}
 		// User-defined agent must survive.
 		if _, ok := agentAfter["my-custom-agent"]; !ok {
-			t.Fatal("user-defined agent 'my-custom-agent' was removed — only agent.iugo-agent should be cleaned")
+			t.Fatal("user-defined agent 'my-custom-agent' was removed — only agent.iugoAgent should be cleaned")
 		}
 	}
 
@@ -1775,7 +1775,7 @@ func TestInjectKilocode_SwitchIUGOToNeutral_CleansAgentOverlay(t *testing.T) {
 	settingsPath := filepath.Join(home, ".config", "kilo", "opencode.json")
 	data, _ := os.ReadFile(settingsPath)
 	if !strings.Contains(string(data), `"iugo-agent"`) {
-		t.Fatal("precondition: kilo/opencode.json should have iugo-agent agent after IUGO install")
+		t.Fatal("precondition: kilo/opencode.json should have iugoAgent agent after IUGO install")
 	}
 
 	result, err := Inject(home, kilocodeAdapter(), model.PersonaNeutral)
@@ -1783,7 +1783,7 @@ func TestInjectKilocode_SwitchIUGOToNeutral_CleansAgentOverlay(t *testing.T) {
 		t.Fatalf("Inject(neutral) error = %v", err)
 	}
 	if !result.Changed {
-		t.Fatal("Inject(neutral) should report changed when cleaning up iugo-agent agent overlay")
+		t.Fatal("Inject(neutral) should report changed when cleaning up iugoAgent agent overlay")
 	}
 
 	data, err = os.ReadFile(settingsPath)
@@ -1791,7 +1791,7 @@ func TestInjectKilocode_SwitchIUGOToNeutral_CleansAgentOverlay(t *testing.T) {
 		t.Fatalf("ReadFile kilo/opencode.json error = %v", err)
 	}
 	if strings.Contains(string(data), `"iugo-agent"`) {
-		t.Fatal("kilo/opencode.json must not have iugo-agent agent key after switching to Neutral")
+		t.Fatal("kilo/opencode.json must not have iugoAgent agent key after switching to Neutral")
 	}
 }
 
@@ -1807,7 +1807,7 @@ func TestInjectOpenCode_NeutralFresh_IsNoOp(t *testing.T) {
 	if _, statErr := os.Stat(settingsPath); !os.IsNotExist(statErr) {
 		data, _ := os.ReadFile(settingsPath)
 		if strings.Contains(string(data), `"iugo-agent"`) {
-			t.Fatal("Neutral fresh install must not create iugo-agent agent key")
+			t.Fatal("Neutral fresh install must not create iugoAgent agent key")
 		}
 	}
 }
@@ -1826,7 +1826,7 @@ func TestInjectOpenCode_IUGOOnly_WritesAgentOverlay(t *testing.T) {
 		t.Fatalf("ReadFile(opencode.json) error = %v", err)
 	}
 	if !strings.Contains(string(data), `"iugo-agent"`) {
-		t.Fatal("IUGO install must write iugo-agent agent overlay in opencode.json")
+		t.Fatal("IUGO install must write iugoAgent agent overlay in opencode.json")
 	}
 }
 
@@ -1914,7 +1914,7 @@ func TestInjectForSync_OpenCodeNeutral_CleansAgentIUGO(t *testing.T) {
 		t.Fatalf("ReadFile(opencode.json) after install error = %v", err)
 	}
 	if !strings.Contains(string(before), `"iugo-agent"`) {
-		t.Fatalf("opencode.json missing iugo-agent agent after install; got:\n%s", string(before))
+		t.Fatalf("opencode.json missing iugoAgent agent after install; got:\n%s", string(before))
 	}
 
 	if _, err := InjectForSync(home, opencodeAdapter(), model.PersonaNeutral); err != nil {
@@ -1926,7 +1926,7 @@ func TestInjectForSync_OpenCodeNeutral_CleansAgentIUGO(t *testing.T) {
 		t.Fatalf("ReadFile(opencode.json) after sync error = %v", err)
 	}
 	if strings.Contains(string(after), `"iugo-agent"`) {
-		t.Fatalf("opencode.json still has iugo-agent agent after InjectForSync(neutral); got:\n%s", string(after))
+		t.Fatalf("opencode.json still has iugoAgent agent after InjectForSync(neutral); got:\n%s", string(after))
 	}
 }
 
@@ -1976,7 +1976,7 @@ func TestInjectForSync_ClaudeIUGOToNeutral_CleansOutputStyle(t *testing.T) {
 const availableSkillsIsAuthoritative = "block in your system prompt is authoritative"
 
 // TestPersonaContentHermesIUGO verifies that personaContent returns the
-// Hermes-specific iugo-agent asset with the skill-loading block rewritten for
+// Hermes-specific iugoAgent asset with the skill-loading block rewritten for
 // Hermes's native skill model (no <available_skills> injection mechanism).
 func TestPersonaContentHermesIUGO(t *testing.T) {
 	tests := []struct {
@@ -1995,16 +1995,16 @@ func TestPersonaContentHermesIUGO(t *testing.T) {
 			}
 			// The generic <available_skills> "is authoritative" block must be absent.
 			if strings.Contains(content, availableSkillsIsAuthoritative) {
-				t.Fatal("hermes iugo-agent persona still has the generic <available_skills> instruction — skill-loading block not rewritten")
+				t.Fatal("hermes iugoAgent persona still has the generic <available_skills> instruction — skill-loading block not rewritten")
 			}
 			// Should reference ~/.hermes/skills/ (Hermes-native skill loading).
 			if !strings.Contains(content, "~/.hermes/skills/") {
-				t.Fatal("hermes iugo-agent persona missing ~/.hermes/skills/ reference")
+				t.Fatal("hermes iugoAgent persona missing ~/.hermes/skills/ reference")
 			}
 			// Must be distinct from generic asset.
 			generic := assets.MustRead("generic/persona-iugo-agent.md")
 			if content == generic {
-				t.Fatal("hermes iugo-agent persona is byte-identical to generic — Hermes-specific asset not used")
+				t.Fatal("hermes iugoAgent persona is byte-identical to generic — Hermes-specific asset not used")
 			}
 		})
 	}
@@ -2241,7 +2241,7 @@ func TestRemoveJSONKeyIfValueScenarios(t *testing.T) {
 }
 
 // TestInjectHermesIUGOWritesSOULMD verifies that Inject writes the Hermes
-// iugo-agent persona into ~/.hermes/SOUL.md with <!-- iugo-ai:persona --> markers.
+// iugoAgent persona into ~/.hermes/SOUL.md with <!-- iugo-ai:persona --> markers.
 func TestInjectHermesIUGOWritesSOULMD(t *testing.T) {
 	home := t.TempDir()
 	adapter := hermesAdapter()

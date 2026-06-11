@@ -270,7 +270,7 @@ func TestAdapter_PostInstallMessage(t *testing.T) {
 			msg := a.PostInstallMessage(homeDir)
 
 			// Construct expected path to verify against quoted output
-			iugo-agentYaml := filepath.Join(homeDir, ".kimi", "agents", "iugo-agent.yaml")
+			iugoAgentYaml := filepath.Join(homeDir, ".kimi", "agents", "iugo-agent.yaml")
 			
 			// Normalize the expected string to the current host's separator.
 			// Since the code uses filepath.Join, it will use \ on Windows and / on Linux.
@@ -294,7 +294,7 @@ func TestAdapter_PostInstallMessage(t *testing.T) {
 					t.Errorf("PostInstallMessage() for %s missing expected path: %q\ngot: %q", tt.os, normalizedExpected, msg)
 				}
 				// Verify path is quoted (specifically the iugo-agent.yaml path)
-				quotedExpected := `"` + iugo-agentYaml + `"`
+				quotedExpected := `"` + iugoAgentYaml + `"`
 				if !strings.Contains(msg, quotedExpected) {
 					t.Errorf("PostInstallMessage() for %s: path not quoted: %q", tt.os, quotedExpected)
 				}

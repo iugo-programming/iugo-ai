@@ -530,7 +530,7 @@ func managedOutputStyleName(persona model.PersonaID) string {
 func managedOutputStyleFile(persona model.PersonaID) string {
 	switch managedOutputStyleName(persona) {
 	case "Gentleman":
-		return "gentleman.md"
+		return "iugo-agent.md"
 	case "Neutral":
 		return "neutral.md"
 	default:
