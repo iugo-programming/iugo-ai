@@ -480,7 +480,7 @@ func TestGoldenSDD_Kiro(t *testing.T) {
 func TestGoldenPersona_Claude_IUGO(t *testing.T) {
 	home := t.TempDir()
 
-	result, err := persona.Inject(home, claudeAdapter(), model.PersonaIUGO)
+	result, err := persona.Inject(home, claudeAdapter(), model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("persona.Inject(claude, iugo-agent) error = %v", err)
 	}
@@ -516,7 +516,7 @@ func TestGoldenPersona_Claude_Neutral(t *testing.T) {
 func TestGoldenPersona_OpenCode_IUGO(t *testing.T) {
 	home := t.TempDir()
 
-	result, err := persona.Inject(home, opencodeAdapter(), model.PersonaIUGO)
+	result, err := persona.Inject(home, opencodeAdapter(), model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("persona.Inject(opencode, iugo-agent) error = %v", err)
 	}
@@ -578,7 +578,7 @@ func TestGoldenPersona_OpenCode_Custom(t *testing.T) {
 func TestGoldenPersona_Windsurf_IUGO(t *testing.T) {
 	home := t.TempDir()
 
-	result, err := persona.Inject(home, windsurfAdapter(), model.PersonaIUGO)
+	result, err := persona.Inject(home, windsurfAdapter(), model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("persona.Inject(windsurf, iugo-agent) error = %v", err)
 	}
@@ -596,7 +596,7 @@ func TestGoldenPersona_Kiro_IUGO(t *testing.T) {
 	t.Setenv("APPDATA", filepath.Join(home, "AppData", "Roaming"))
 
 	adapter := kiroAdapter()
-	result, err := persona.Inject(home, adapter, model.PersonaIUGO)
+	result, err := persona.Inject(home, adapter, model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("persona.Inject(kiro, iugo-agent) error = %v", err)
 	}
@@ -786,7 +786,7 @@ func TestGoldenCombined_Claude(t *testing.T) {
 	engram.SetLookPathForTest(t, "/opt/homebrew/bin/engram", "")
 
 	// Inject persona first, then SDD, then Engram — all write sections into CLAUDE.md.
-	if _, err := persona.Inject(home, claudeAdapter(), model.PersonaIUGO); err != nil {
+	if _, err := persona.Inject(home, claudeAdapter(), model.PersonaIugo); err != nil {
 		t.Fatalf("persona.Inject error = %v", err)
 	}
 	if _, err := sdd.Inject(home, claudeAdapter(), ""); err != nil {
@@ -811,7 +811,7 @@ func TestGoldenCombined_Windsurf(t *testing.T) {
 
 	// Windsurf: persona appends to global_rules.md; SDD appends SDD orchestrator
 	// to the same file and copies skills + workflow to workspace.
-	if _, err := persona.Inject(home, windsurfAdapter(), model.PersonaIUGO); err != nil {
+	if _, err := persona.Inject(home, windsurfAdapter(), model.PersonaIugo); err != nil {
 		t.Fatalf("persona.Inject(windsurf) error = %v", err)
 	}
 	if _, err := sdd.Inject(home, windsurfAdapter(), "", sdd.InjectOptions{WorkspaceDir: workspace}); err != nil {
@@ -871,7 +871,7 @@ func TestGoldenSDD_Antigravity(t *testing.T) {
 func TestGoldenPersona_Antigravity_IUGO(t *testing.T) {
 	home := t.TempDir()
 
-	result, err := persona.Inject(home, antigravityAdapter(), model.PersonaIUGO)
+	result, err := persona.Inject(home, antigravityAdapter(), model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("persona.Inject(antigravity, iugo-agent) error = %v", err)
 	}

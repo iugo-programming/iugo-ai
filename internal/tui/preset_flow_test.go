@@ -32,7 +32,7 @@ func TestPresetSelectionNextScreenFlowMatrix(t *testing.T) {
 		{
 			name:       "full iugo-agent with opencode enters SDD mode before plugins",
 			agents:     []model.AgentID{model.AgentOpenCode},
-			preset:     model.PresetFullIUGO,
+			preset:     model.PresetFullIugo,
 			wantScreen: ScreenSDDMode,
 			golden:     "preset-full-iugo-agent-opencode-next.golden",
 		},
@@ -60,7 +60,7 @@ func TestPresetSelectionNextScreenFlowMatrix(t *testing.T) {
 		{
 			name:       "full iugo-agent without opencode enters strict TDD",
 			agents:     []model.AgentID{model.AgentCursor},
-			preset:     model.PresetFullIUGO,
+			preset:     model.PresetFullIugo,
 			wantScreen: ScreenStrictTDD,
 			golden:     "preset-full-iugo-agent-no-opencode-next.golden",
 		},
@@ -223,7 +223,7 @@ func TestInstallNavigationRoundTrips(t *testing.T) {
 				m := NewModel(system.DetectionResult{}, "dev")
 				m.Screen = ScreenAgents
 				m.Selection.Agents = []model.AgentID{model.AgentPi}
-				m.Selection.Components = componentsForPreset(model.PresetFullIUGO, model.PersonaIUGO)
+				m.Selection.Components = componentsForPreset(model.PresetFullIugo, model.PersonaIugo)
 				m.Cursor = len(screens.AgentOptions())
 				return m
 			},
@@ -266,7 +266,7 @@ func TestInstallNavigationRoundTrips(t *testing.T) {
 				m := NewModel(system.DetectionResult{}, "dev")
 				m.Screen = ScreenPreset
 				m.Selection.Agents = []model.AgentID{model.AgentOpenCode}
-				m.Cursor = presetCursor(t, model.PresetFullIUGO)
+				m.Cursor = presetCursor(t, model.PresetFullIugo)
 				return m
 			},
 			forwardActions: []flowAction{
@@ -285,7 +285,7 @@ func TestInstallNavigationRoundTrips(t *testing.T) {
 				m := NewModel(system.DetectionResult{}, "dev")
 				m.Screen = ScreenPreset
 				m.Selection.Agents = []model.AgentID{model.AgentOpenCode}
-				m.Cursor = presetCursor(t, model.PresetFullIUGO)
+				m.Cursor = presetCursor(t, model.PresetFullIugo)
 				return m
 			},
 			forwardActions: []flowAction{
@@ -315,7 +315,7 @@ func TestInstallNavigationRoundTrips(t *testing.T) {
 				m := NewModel(system.DetectionResult{}, "dev")
 				m.Screen = ScreenPreset
 				m.Selection.Agents = []model.AgentID{model.AgentCursor}
-				m.Cursor = presetCursor(t, model.PresetFullIUGO)
+				m.Cursor = presetCursor(t, model.PresetFullIugo)
 				return m
 			},
 			forwardActions: []flowAction{
@@ -404,7 +404,7 @@ func TestPiOnlyDependencyTreeBackRowReturnsToAgentSelection(t *testing.T) {
 	m := NewModel(system.DetectionResult{}, "dev")
 	m.Screen = ScreenAgents
 	m.Selection.Agents = []model.AgentID{model.AgentPi}
-	m.Selection.Components = componentsForPreset(model.PresetFullIUGO, model.PersonaIUGO)
+	m.Selection.Components = componentsForPreset(model.PresetFullIugo, model.PersonaIugo)
 	m.Cursor = len(screens.AgentOptions())
 
 	state := applyFlowAction(t, m, flowAction{key: tea.KeyMsg{Type: tea.KeyEnter}})

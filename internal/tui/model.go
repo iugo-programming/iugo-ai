@@ -1622,7 +1622,7 @@ func (m Model) confirmSelection() (tea.Model, tea.Cmd) {
 			m.ProfileNamePos = len([]rune(profile.Name))
 			m.ProfileNameErr = ""
 			// Build ModelAssignments from the profile's phase assignments + orchestrator.
-			// The ModelPicker shows gentle-orchestrator as the base row, so we need
+			// The ModelPicker shows iugo-orchestrator as the base row, so we need
 			// to include it in the map for it to display the current model.
 			assignments := make(map[string]model.ModelAssignment)
 			for k, v := range profile.PhaseAssignments {
@@ -3602,7 +3602,7 @@ func componentsForPreset(preset model.PresetID, persona model.PersonaID) []model
 			model.ComponentPermission,
 			model.ComponentGGA,
 			model.ComponentClaudeTheme,
-			model.ComponentOpenCodeGentleLogo,
+			model.ComponentOpenCodeIugoLogo,
 		}
 	}
 	if persona != model.PersonaCustom {

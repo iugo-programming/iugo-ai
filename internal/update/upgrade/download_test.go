@@ -77,7 +77,7 @@ func TestAssetURLResolution(t *testing.T) {
 	}{
 		{
 			name:       "darwin amd64",
-			owner:      "IUGO-Programming",
+			owner:      "iugo-programming",
 			repo:       "iugo-ai",
 			version:    "1.5.0",
 			goos:       "darwin",
@@ -86,7 +86,7 @@ func TestAssetURLResolution(t *testing.T) {
 		},
 		{
 			name:       "darwin arm64",
-			owner:      "IUGO-Programming",
+			owner:      "iugo-programming",
 			repo:       "iugo-ai",
 			version:    "1.5.0",
 			goos:       "darwin",
@@ -95,7 +95,7 @@ func TestAssetURLResolution(t *testing.T) {
 		},
 		{
 			name:       "linux amd64",
-			owner:      "IUGO-Programming",
+			owner:      "iugo-programming",
 			repo:       "gga",
 			version:    "2.0.0",
 			goos:       "linux",
@@ -104,7 +104,7 @@ func TestAssetURLResolution(t *testing.T) {
 		},
 		{
 			name:       "contains version",
-			owner:      "IUGO-Programming",
+			owner:      "iugo-programming",
 			repo:       "iugo-ai",
 			version:    "1.5.0",
 			goos:       "darwin",
@@ -247,7 +247,7 @@ func TestDownload_WindowsAlwaysManualFallback(t *testing.T) {
 	r := update.UpdateResult{
 		Tool: update.ToolInfo{
 			Name:          "iugo-ai",
-			Owner:         "IUGO-Programming",
+			Owner:         "iugo-programming",
 			Repo:          "iugo-ai",
 			InstallMethod: update.InstallBinary,
 		},

@@ -486,7 +486,7 @@ func TestComponentSyncStepRunsPersonaInjectForSync(t *testing.T) {
 		component: model.ComponentPersona,
 		homeDir:   home,
 		agents:    []model.AgentID{model.AgentOpenCode},
-		selection: model.Selection{Persona: model.PersonaIUGO},
+		selection: model.Selection{Persona: model.PersonaIugo},
 	}
 
 	if err := step.Run(); err != nil {
@@ -2258,7 +2258,7 @@ func TestSyncPersonaPathsExcludeOpenCodeAgentJson(t *testing.T) {
 	reg, _ := agents.NewDefaultRegistry()
 	a, _ := reg.Get(model.AgentOpenCode)
 
-	paths := syncPersonaPaths(home, model.Selection{Persona: model.PersonaIUGO}, []agents.Adapter{a})
+	paths := syncPersonaPaths(home, model.Selection{Persona: model.PersonaIugo}, []agents.Adapter{a})
 
 	settingsPath := filepath.Join(home, ".config", "opencode", "opencode.json")
 	for _, p := range paths {
@@ -2282,7 +2282,7 @@ func TestSyncPersonaPathsDeclareManagedClaudeOutputStyle(t *testing.T) {
 	}{
 		{
 			name:       "iugo-agent",
-			persona:    model.PersonaIUGO,
+			persona:    model.PersonaIugo,
 			wantStyle:  filepath.Join(home, ".claude", "output-styles", "iugo-agent.md"),
 			unwanted:   filepath.Join(home, ".claude", "output-styles", "neutral.md"),
 			wantConfig: filepath.Join(home, ".claude", "settings.json"),

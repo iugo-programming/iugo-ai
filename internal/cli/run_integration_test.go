@@ -1201,7 +1201,7 @@ func TestRunInstallGGASkipsInstallWhenAlreadyOnPath(t *testing.T) {
 
 	// No brew/git clone commands for GGA should have been recorded.
 	for _, cmd := range recorder.get() {
-		if strings.Contains(cmd, "gga") || strings.Contains(cmd, "iugo-agent-guardian-angel") {
+		if strings.Contains(cmd, "gga") || strings.Contains(cmd, "iugo-guardian-angel") {
 			t.Fatalf("expected gga install to be skipped, but got command: %s", cmd)
 		}
 	}
@@ -1252,10 +1252,10 @@ func TestRunInstallGGALinuxIncludesTempCleanupBeforeClone(t *testing.T) {
 	cleanupIdx := -1
 	cloneIdx := -1
 	for i, cmd := range commands {
-		if strings.Contains(cmd, "rm -rf /tmp/iugo-agent-guardian-angel") {
+		if strings.Contains(cmd, "rm -rf /tmp/iugo-guardian-angel") {
 			cleanupIdx = i
 		}
-		if strings.Contains(cmd, "git clone https://github.com/IUGO-Programming/iugo-agent-guardian-angel.git /tmp/iugo-agent-guardian-angel") {
+		if strings.Contains(cmd, "git clone https://github.com/iugo-programming/iugo-guardian-angel.git /tmp/iugo-guardian-angel") {
 			cloneIdx = i
 		}
 	}

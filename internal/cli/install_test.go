@@ -59,8 +59,8 @@ func TestNormalizeInstallFlagsDefaults(t *testing.T) {
 
 	want := model.Selection{
 		Agents:  []model.AgentID{model.AgentClaudeCode, model.AgentOpenCode, model.AgentKilocode, model.AgentGeminiCLI, model.AgentCodex, model.AgentCursor, model.AgentVSCodeCopilot, model.AgentAntigravity, model.AgentWindsurf, model.AgentKimi, model.AgentQwenCode, model.AgentKiroIDE, model.AgentOpenClaw, model.AgentPi, model.AgentTrae, model.AgentHermes},
-		Persona: model.PersonaIUGO,
-		Preset:  model.PresetFullIUGO,
+		Persona: model.PersonaIugo,
+		Preset:  model.PresetFullIugo,
 		Components: []model.ComponentID{
 			model.ComponentEngram,
 			model.ComponentSDD,
@@ -69,7 +69,7 @@ func TestNormalizeInstallFlagsDefaults(t *testing.T) {
 			model.ComponentPermission,
 			model.ComponentGGA,
 			model.ComponentClaudeTheme,
-			model.ComponentOpenCodeGentleLogo,
+			model.ComponentOpenCodeIugoLogo,
 			model.ComponentPersona,
 		},
 	}
@@ -82,13 +82,13 @@ func TestNormalizeInstallFlagsDefaults(t *testing.T) {
 func TestNormalizeInstallFlagsCustomAcceptsOptionalIUGOInstallables(t *testing.T) {
 	input, err := NormalizeInstallFlags(InstallFlags{
 		Preset:     string(model.PresetCustom),
-		Components: []string{string(model.ComponentClaudeTheme), string(model.ComponentOpenCodeGentleLogo)},
+		Components: []string{string(model.ComponentClaudeTheme), string(model.ComponentOpenCodeIugoLogo)},
 	}, system.DetectionResult{})
 	if err != nil {
 		t.Fatalf("NormalizeInstallFlags() error = %v", err)
 	}
 
-	want := []model.ComponentID{model.ComponentClaudeTheme, model.ComponentOpenCodeGentleLogo}
+	want := []model.ComponentID{model.ComponentClaudeTheme, model.ComponentOpenCodeIugoLogo}
 	if !reflect.DeepEqual(input.Selection.Components, want) {
 		t.Fatalf("components = %#v, want %#v", input.Selection.Components, want)
 	}

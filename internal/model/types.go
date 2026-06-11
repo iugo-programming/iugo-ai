@@ -44,7 +44,7 @@ const (
 	ComponentGGA                ComponentID = "gga"
 	ComponentTheme              ComponentID = "theme"
 	ComponentClaudeTheme        ComponentID = "claude-theme"
-	ComponentOpenCodeGentleLogo ComponentID = "opencode-gentle-logo"
+	ComponentOpenCodeIugoLogo ComponentID = "opencode-iugo-logo"
 )
 
 type UninstallMode string

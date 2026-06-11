@@ -11,19 +11,19 @@ func TestPersonaOptionsIncludeIUGONeutralArtifacts(t *testing.T) {
 	options := PersonaOptions()
 	found := false
 	for _, option := range options {
-		if option == model.PersonaIUGONeutralArtifacts {
+		if option == model.PersonaIugoNeutralArtifacts {
 			found = true
 		}
 	}
 	if !found {
-		t.Fatalf("PersonaOptions() = %v, missing %q", options, model.PersonaIUGONeutralArtifacts)
+		t.Fatalf("PersonaOptions() = %v, missing %q", options, model.PersonaIugoNeutralArtifacts)
 	}
 }
 
 func TestRenderPersonaDescribesIUGONeutralArtifacts(t *testing.T) {
-	out := RenderPersona(model.PersonaIUGONeutralArtifacts, 2)
+	out := RenderPersona(model.PersonaIugoNeutralArtifacts, 2)
 	for _, want := range []string{
-		"iugo-agent-neutral-artifacts",
+		"iugo-neutral-artifacts",
 		"IUGO conversation",
 		"English technical artifacts",
 		"context language",

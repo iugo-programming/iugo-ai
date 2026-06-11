@@ -47,7 +47,7 @@ func assertIUGOLanguageGuardrails(t *testing.T, text string, required []string, 
 func TestInjectClaudeIUGOWritesSectionWithRealContent(t *testing.T) {
 	home := t.TempDir()
 
-	result, err := Inject(home, claudeAdapter(), model.PersonaIUGO)
+	result, err := Inject(home, claudeAdapter(), model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("Inject() error = %v", err)
 	}
@@ -90,7 +90,7 @@ func TestInjectClaudeIUGOWritesSectionWithRealContent(t *testing.T) {
 func TestInjectKimiIUGOIncludesProjectInstructionsAndLoadedSkills(t *testing.T) {
 	home := t.TempDir()
 
-	result, err := Inject(home, kimiAdapter(), model.PersonaIUGO)
+	result, err := Inject(home, kimiAdapter(), model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("Inject(kimi) error = %v", err)
 	}
@@ -161,7 +161,7 @@ func TestInjectKimiIUGOIncludesProjectInstructionsAndLoadedSkills(t *testing.T) 
 func TestInjectClaudeIUGOWritesOutputStyleFile(t *testing.T) {
 	home := t.TempDir()
 
-	_, err := Inject(home, claudeAdapter(), model.PersonaIUGO)
+	_, err := Inject(home, claudeAdapter(), model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("Inject() error = %v", err)
 	}
@@ -198,7 +198,7 @@ func TestInjectClaudeIUGOMergesOutputStyleIntoSettings(t *testing.T) {
 		t.Fatalf("WriteFile() error = %v", err)
 	}
 
-	_, err := Inject(home, claudeAdapter(), model.PersonaIUGO)
+	_, err := Inject(home, claudeAdapter(), model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("Inject() error = %v", err)
 	}
@@ -235,7 +235,7 @@ func TestInjectClaudeIUGOMergesOutputStyleIntoSettings(t *testing.T) {
 func TestInjectClaudeIUGOReturnsAllFiles(t *testing.T) {
 	home := t.TempDir()
 
-	result, err := Inject(home, claudeAdapter(), model.PersonaIUGO)
+	result, err := Inject(home, claudeAdapter(), model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("Inject() error = %v", err)
 	}
@@ -408,7 +408,7 @@ func TestInjectCustomOpenCodeDoesNothing(t *testing.T) {
 func TestInjectOpenCodeIUGOWritesAgentsFile(t *testing.T) {
 	home := t.TempDir()
 
-	result, err := Inject(home, opencodeAdapter(), model.PersonaIUGO)
+	result, err := Inject(home, opencodeAdapter(), model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("Inject() error = %v", err)
 	}
@@ -441,7 +441,7 @@ func TestInjectAntigravityIUGOWritesMarkedPersonaSection(t *testing.T) {
 		t.Fatalf("WriteFile() error = %v", err)
 	}
 
-	result, err := Inject(home, antigravityAdapter(), model.PersonaIUGO)
+	result, err := Inject(home, antigravityAdapter(), model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("Inject() error = %v", err)
 	}
@@ -465,7 +465,7 @@ func TestInjectAntigravityIUGOWritesMarkedPersonaSection(t *testing.T) {
 		}
 	}
 
-	second, err := Inject(home, antigravityAdapter(), model.PersonaIUGO)
+	second, err := Inject(home, antigravityAdapter(), model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("Inject() second error = %v", err)
 	}
@@ -485,7 +485,7 @@ func TestInjectAntigravityIUGOWritesMarkedPersonaSection(t *testing.T) {
 func TestInjectOpenCodeIUGODoesNotCreateSDDConductor(t *testing.T) {
 	home := t.TempDir()
 
-	_, err := Inject(home, opencodeAdapter(), model.PersonaIUGO)
+	_, err := Inject(home, opencodeAdapter(), model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("Inject() error = %v", err)
 	}
@@ -519,7 +519,7 @@ func TestInjectOpenCodePreservesUserContentInsteadOfOverwriting(t *testing.T) {
 		t.Fatalf("WriteFile() error = %v", err)
 	}
 
-	_, err := Inject(home, opencodeAdapter(), model.PersonaIUGO)
+	_, err := Inject(home, opencodeAdapter(), model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("Inject() error = %v", err)
 	}
@@ -546,7 +546,7 @@ func TestInjectOpenClawWritesPersonaToWorkspaceSoulAndNotAgents(t *testing.T) {
 		t.Fatalf("WriteFile(AGENTS.md) error = %v", err)
 	}
 
-	result, err := Inject(workspace, adapter, model.PersonaIUGO)
+	result, err := Inject(workspace, adapter, model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("Inject(openclaw) error = %v", err)
 	}
@@ -591,14 +591,14 @@ func TestInjectOpenClawSoulPersonaIsIdempotentAndPreservesUserContent(t *testing
 	}
 
 	adapter := openclawAdapter()
-	first, err := Inject(workspace, adapter, model.PersonaIUGO)
+	first, err := Inject(workspace, adapter, model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("Inject(openclaw) first error = %v", err)
 	}
 	if !first.Changed {
 		t.Fatal("Inject(openclaw) first changed = false")
 	}
-	second, err := Inject(workspace, adapter, model.PersonaIUGO)
+	second, err := Inject(workspace, adapter, model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("Inject(openclaw) second error = %v", err)
 	}
@@ -623,7 +623,7 @@ func TestInjectOpenClawRejectsAmbiguousWorkspacePath(t *testing.T) {
 	cwd := t.TempDir()
 	t.Chdir(cwd)
 
-	result, err := Inject("", openclawAdapter(), model.PersonaIUGO)
+	result, err := Inject("", openclawAdapter(), model.PersonaIugo)
 	if err == nil {
 		t.Fatalf("Inject(openclaw, empty workspace) error = nil, want deterministic ambiguity error; result=%+v", result)
 	}
@@ -647,7 +647,7 @@ func TestInjectOpenCodeDoesNotStripLookalikeUserContent(t *testing.T) {
 		t.Fatalf("WriteFile() error = %v", err)
 	}
 
-	_, err := Inject(home, opencodeAdapter(), model.PersonaIUGO)
+	_, err := Inject(home, opencodeAdapter(), model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("Inject() error = %v", err)
 	}
@@ -681,7 +681,7 @@ func TestInjectOpenCodePreservesUserPrefaceAboveATLBlock(t *testing.T) {
 		t.Fatalf("WriteFile() error = %v", err)
 	}
 
-	_, err := Inject(home, opencodeAdapter(), model.PersonaIUGO)
+	_, err := Inject(home, opencodeAdapter(), model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("Inject() error = %v", err)
 	}
@@ -716,7 +716,7 @@ func TestInjectOpenCodeReplacesExactLegacyAssetWithoutDuplication(t *testing.T) 
 		t.Fatalf("WriteFile() error = %v", err)
 	}
 
-	_, err := Inject(home, opencodeAdapter(), model.PersonaIUGO)
+	_, err := Inject(home, opencodeAdapter(), model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("Inject() error = %v", err)
 	}
@@ -753,7 +753,7 @@ func TestInjectOpenCodePreservesUserPrefaceAboveManagedMarkers(t *testing.T) {
 		t.Fatalf("WriteFile() error = %v", err)
 	}
 
-	_, err := Inject(home, opencodeAdapter(), model.PersonaIUGO)
+	_, err := Inject(home, opencodeAdapter(), model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("Inject() error = %v", err)
 	}
@@ -779,7 +779,7 @@ func TestInjectOpenCodeNeutralPreservesManagedSections(t *testing.T) {
 	home := t.TempDir()
 
 	// First install iugo-agent persona + simulate SDD/engram sections
-	_, err := Inject(home, opencodeAdapter(), model.PersonaIUGO)
+	_, err := Inject(home, opencodeAdapter(), model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("Inject(iugo-agent) error = %v", err)
 	}
@@ -947,7 +947,7 @@ func TestInjectVSCodeNeutralPreservesManagedSections(t *testing.T) {
 		t.Fatalf("NewAdapter(vscode-copilot) error = %v", err)
 	}
 
-	_, err = Inject(home, vscodeAdapter, model.PersonaIUGO)
+	_, err = Inject(home, vscodeAdapter, model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("Inject(iugo-agent) error = %v", err)
 	}
@@ -1085,7 +1085,7 @@ func TestInjectNeutralIdempotentWithManagedSections(t *testing.T) {
 func TestInjectClaudeIsIdempotent(t *testing.T) {
 	home := t.TempDir()
 
-	first, err := Inject(home, claudeAdapter(), model.PersonaIUGO)
+	first, err := Inject(home, claudeAdapter(), model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("Inject() first error = %v", err)
 	}
@@ -1093,7 +1093,7 @@ func TestInjectClaudeIsIdempotent(t *testing.T) {
 		t.Fatalf("Inject() first changed = false")
 	}
 
-	second, err := Inject(home, claudeAdapter(), model.PersonaIUGO)
+	second, err := Inject(home, claudeAdapter(), model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("Inject() second error = %v", err)
 	}
@@ -1105,7 +1105,7 @@ func TestInjectClaudeIsIdempotent(t *testing.T) {
 func TestInjectOpenCodeIsIdempotent(t *testing.T) {
 	home := t.TempDir()
 
-	first, err := Inject(home, opencodeAdapter(), model.PersonaIUGO)
+	first, err := Inject(home, opencodeAdapter(), model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("Inject() first error = %v", err)
 	}
@@ -1113,7 +1113,7 @@ func TestInjectOpenCodeIsIdempotent(t *testing.T) {
 		t.Fatalf("Inject() first changed = false")
 	}
 
-	second, err := Inject(home, opencodeAdapter(), model.PersonaIUGO)
+	second, err := Inject(home, opencodeAdapter(), model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("Inject() second error = %v", err)
 	}
@@ -1130,7 +1130,7 @@ func TestInjectWindsurfIsIdempotent(t *testing.T) {
 		t.Fatalf("NewAdapter(windsurf) error = %v", err)
 	}
 
-	first, err := Inject(home, windsurfAdapter, model.PersonaIUGO)
+	first, err := Inject(home, windsurfAdapter, model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("Inject() first error = %v", err)
 	}
@@ -1144,7 +1144,7 @@ func TestInjectWindsurfIsIdempotent(t *testing.T) {
 		t.Fatalf("ReadFile() after first inject error = %v", err)
 	}
 
-	second, err := Inject(home, windsurfAdapter, model.PersonaIUGO)
+	second, err := Inject(home, windsurfAdapter, model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("Inject() second error = %v", err)
 	}
@@ -1170,7 +1170,7 @@ func TestInjectCursorIUGOWritesRulesFileWithRealContent(t *testing.T) {
 		t.Fatalf("NewAdapter(cursor) error = %v", err)
 	}
 
-	result, injectErr := Inject(home, cursorAdapter, model.PersonaIUGO)
+	result, injectErr := Inject(home, cursorAdapter, model.PersonaIugo)
 	if injectErr != nil {
 		t.Fatalf("Inject(cursor) error = %v", injectErr)
 	}
@@ -1203,7 +1203,7 @@ func TestInjectGeminiIUGOWritesSystemPromptWithRealContent(t *testing.T) {
 		t.Fatalf("NewAdapter(gemini-cli) error = %v", err)
 	}
 
-	result, injectErr := Inject(home, geminiAdapter, model.PersonaIUGO)
+	result, injectErr := Inject(home, geminiAdapter, model.PersonaIugo)
 	if injectErr != nil {
 		t.Fatalf("Inject(gemini) error = %v", injectErr)
 	}
@@ -1245,7 +1245,7 @@ func TestInjectVSCodeIUGOWritesInstructionsFile(t *testing.T) {
 		t.Fatalf("NewAdapter(vscode-copilot) error = %v", err)
 	}
 
-	result, injectErr := Inject(home, vscodeAdapter, model.PersonaIUGO)
+	result, injectErr := Inject(home, vscodeAdapter, model.PersonaIugo)
 	if injectErr != nil {
 		t.Fatalf("Inject(vscode) error = %v", injectErr)
 	}
@@ -1308,7 +1308,7 @@ func TestInjectClaudeAutoHealsStaleFreeTextPersona(t *testing.T) {
 		t.Fatalf("WriteFile error = %v", err)
 	}
 
-	result, err := Inject(home, claudeAdapter(), model.PersonaIUGO)
+	result, err := Inject(home, claudeAdapter(), model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("Inject() error = %v", err)
 	}
@@ -1369,7 +1369,7 @@ func TestInjectClaudeAutoHealStalePersonaOnlyFile(t *testing.T) {
 		t.Fatalf("WriteFile error = %v", err)
 	}
 
-	result, err := Inject(home, claudeAdapter(), model.PersonaIUGO)
+	result, err := Inject(home, claudeAdapter(), model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("Inject() error = %v", err)
 	}
@@ -1411,7 +1411,7 @@ func TestInjectClaudeHealDoesNotTouchNonPersonaContent(t *testing.T) {
 		t.Fatalf("WriteFile error = %v", err)
 	}
 
-	result, err := Inject(home, claudeAdapter(), model.PersonaIUGO)
+	result, err := Inject(home, claudeAdapter(), model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("Inject() error = %v", err)
 	}
@@ -1457,7 +1457,7 @@ func TestInjectVSCodeCleansLegacyGitHubPersonaFile(t *testing.T) {
 		t.Fatalf("NewAdapter(vscode-copilot) error = %v", err)
 	}
 
-	result, injectErr := Inject(home, vscodeAdapter, model.PersonaIUGO)
+	result, injectErr := Inject(home, vscodeAdapter, model.PersonaIugo)
 	if injectErr != nil {
 		t.Fatalf("Inject(vscode) error = %v", injectErr)
 	}
@@ -1501,7 +1501,7 @@ func TestInjectVSCodePreservesNonPersonaGitHubFile(t *testing.T) {
 		t.Fatalf("NewAdapter(vscode-copilot) error = %v", err)
 	}
 
-	_, injectErr := Inject(home, vscodeAdapter, model.PersonaIUGO)
+	_, injectErr := Inject(home, vscodeAdapter, model.PersonaIugo)
 	if injectErr != nil {
 		t.Fatalf("Inject(vscode) error = %v", injectErr)
 	}
@@ -1559,7 +1559,7 @@ func TestInjectVSCodeIdempotentAfterHeal(t *testing.T) {
 		t.Fatalf("NewAdapter(vscode-copilot) error = %v", err)
 	}
 
-	first, err := Inject(home, vscodeAdapter, model.PersonaIUGO)
+	first, err := Inject(home, vscodeAdapter, model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("Inject() first error = %v", err)
 	}
@@ -1567,7 +1567,7 @@ func TestInjectVSCodeIdempotentAfterHeal(t *testing.T) {
 		t.Fatal("first inject should have changed")
 	}
 
-	second, err := Inject(home, vscodeAdapter, model.PersonaIUGO)
+	second, err := Inject(home, vscodeAdapter, model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("Inject() second error = %v", err)
 	}
@@ -1580,7 +1580,7 @@ func TestInjectClaude_SwitchIUGOToNeutral_CleansOutputStyle(t *testing.T) {
 	home := t.TempDir()
 
 	// Step 1: install iugo-agent — creates output-styles/iugo-agent.md and sets outputStyle in settings.json.
-	_, err := Inject(home, claudeAdapter(), model.PersonaIUGO)
+	_, err := Inject(home, claudeAdapter(), model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("Inject(iugo-agent) error = %v", err)
 	}
@@ -1672,7 +1672,7 @@ func TestInjectClaude_SwitchIUGOToNeutral_IsIdempotent(t *testing.T) {
 	home := t.TempDir()
 
 	// Install iugo-agent, then switch to neutral twice — second switch must be a no-op.
-	_, err := Inject(home, claudeAdapter(), model.PersonaIUGO)
+	_, err := Inject(home, claudeAdapter(), model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("Inject(iugo-agent) error = %v", err)
 	}
@@ -1698,7 +1698,7 @@ func TestInjectOpenCode_SwitchIUGOToNeutral_CleansAgentOverlay(t *testing.T) {
 	home := t.TempDir()
 
 	// Step 1: install iugo-agent — agent.iugo-agent key must appear in opencode.json.
-	_, err := Inject(home, opencodeAdapter(), model.PersonaIUGO)
+	_, err := Inject(home, opencodeAdapter(), model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("Inject(iugo-agent) error = %v", err)
 	}
@@ -1767,7 +1767,7 @@ func TestInjectOpenCode_SwitchIUGOToNeutral_CleansAgentOverlay(t *testing.T) {
 func TestInjectKilocode_SwitchIUGOToNeutral_CleansAgentOverlay(t *testing.T) {
 	home := t.TempDir()
 
-	_, err := Inject(home, kilocodeAdapter(), model.PersonaIUGO)
+	_, err := Inject(home, kilocodeAdapter(), model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("Inject(iugo-agent) error = %v", err)
 	}
@@ -1815,7 +1815,7 @@ func TestInjectOpenCode_NeutralFresh_IsNoOp(t *testing.T) {
 func TestInjectOpenCode_IUGOOnly_WritesAgentOverlay(t *testing.T) {
 	home := t.TempDir()
 
-	_, err := Inject(home, opencodeAdapter(), model.PersonaIUGO)
+	_, err := Inject(home, opencodeAdapter(), model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("Inject(iugo-agent) error = %v", err)
 	}
@@ -1869,7 +1869,7 @@ func TestInjectClaude_MalformedJSON_DoesNotPanic(t *testing.T) {
 func TestInjectKimi_SwitchIUGOToNeutral_NoResidualPersonaContent(t *testing.T) {
 	home := t.TempDir()
 
-	if _, err := Inject(home, kimiAdapter(), model.PersonaIUGO); err != nil {
+	if _, err := Inject(home, kimiAdapter(), model.PersonaIugo); err != nil {
 		t.Fatalf("Inject(iugo-agent) error = %v", err)
 	}
 
@@ -1904,7 +1904,7 @@ func TestInjectKimi_SwitchIUGOToNeutral_NoResidualPersonaContent(t *testing.T) {
 func TestInjectForSync_OpenCodeNeutral_CleansAgentIUGO(t *testing.T) {
 	home := t.TempDir()
 
-	if _, err := Inject(home, opencodeAdapter(), model.PersonaIUGO); err != nil {
+	if _, err := Inject(home, opencodeAdapter(), model.PersonaIugo); err != nil {
 		t.Fatalf("Inject(iugo-agent) error = %v", err)
 	}
 
@@ -1933,7 +1933,7 @@ func TestInjectForSync_OpenCodeNeutral_CleansAgentIUGO(t *testing.T) {
 func TestInjectForSync_ClaudeIUGOToNeutral_CleansOutputStyle(t *testing.T) {
 	home := t.TempDir()
 
-	if _, err := Inject(home, claudeAdapter(), model.PersonaIUGO); err != nil {
+	if _, err := Inject(home, claudeAdapter(), model.PersonaIugo); err != nil {
 		t.Fatalf("Inject(iugo-agent) error = %v", err)
 	}
 
@@ -1983,8 +1983,8 @@ func TestPersonaContentHermesIUGO(t *testing.T) {
 		name    string
 		persona model.PersonaID
 	}{
-		{"iugo-agent", model.PersonaIUGO},
-		{"iugo-agent-neutral-artifacts", model.PersonaIUGONeutralArtifacts},
+		{"iugo-agent", model.PersonaIugo},
+		{"iugo-neutral-artifacts", model.PersonaIugoNeutralArtifacts},
 	}
 
 	for _, tt := range tests {
@@ -2246,7 +2246,7 @@ func TestInjectHermesIUGOWritesSOULMD(t *testing.T) {
 	home := t.TempDir()
 	adapter := hermesAdapter()
 
-	result, err := Inject(home, adapter, model.PersonaIUGO)
+	result, err := Inject(home, adapter, model.PersonaIugo)
 	if err != nil {
 		t.Fatalf("Inject(hermes, iugo-agent) error = %v", err)
 	}

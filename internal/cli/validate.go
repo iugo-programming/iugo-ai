@@ -167,7 +167,7 @@ func componentsForPreset(preset model.PresetID, persona model.PersonaID) []model
 			model.ComponentPermission,
 			model.ComponentGGA,
 			model.ComponentClaudeTheme,
-			model.ComponentOpenCodeGentleLogo,
+			model.ComponentOpenCodeIugoLogo,
 		}
 	}
 	if persona != model.PersonaCustom {

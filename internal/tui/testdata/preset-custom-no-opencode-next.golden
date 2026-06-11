@@ -11,16 +11,16 @@ Toggle components with enter or space.
   [ ] context7
     Latest framework and library docs
   [ ] persona
-    Gentleman, neutral or custom behavior
+    IUGO persona, neutral or custom behavior
   [ ] permissions
     Security-first defaults and guardrails
   [ ] gga
-    Gentleman Guardian Angel — AI provider switcher
+    IUGO Guardian Angel — AI provider switcher
   [ ] theme
-    Gentleman Kanagawa theme overlay
+    IUGO Kanagawa theme overlay
   [ ] claude-theme
-    Claude Code Gentleman custom theme
-  [ ] opencode-gentle-logo
+    Claude Code IUGO custom theme
+  [ ] opencode-iugo-logo
     OpenCode home logo TUI plugin with Braille rose
 
   Continue

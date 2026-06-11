@@ -12,7 +12,7 @@ import (
 func TestInjectIUGONeutralArtifactsUsesIUGOConversationWithArtifactBoundary(t *testing.T) {
 	home := t.TempDir()
 
-	result, err := Inject(home, opencodeAdapter(), model.PersonaIUGONeutralArtifacts)
+	result, err := Inject(home, opencodeAdapter(), model.PersonaIugoNeutralArtifacts)
 	if err != nil {
 		t.Fatalf("Inject() error = %v", err)
 	}

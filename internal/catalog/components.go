@@ -18,7 +18,7 @@ var mvpComponents = []Component{
 	{ID: model.ComponentGGA, Name: "GGA", Description: "IUGO Guardian Angel — AI provider switcher"},
 	{ID: model.ComponentTheme, Name: "Theme", Description: "IUGO Kanagawa theme overlay"},
 	{ID: model.ComponentClaudeTheme, Name: "Claude IUGO Theme", Description: "Claude Code IUGO custom theme"},
-	{ID: model.ComponentOpenCodeGentleLogo, Name: "OpenCode Gentle Logo", Description: "OpenCode home logo TUI plugin with Braille rose"},
+	{ID: model.ComponentOpenCodeIugoLogo, Name: "OpenCode Gentle Logo", Description: "OpenCode home logo TUI plugin with Braille rose"},
 }
 
 func MVPComponents() []Component {

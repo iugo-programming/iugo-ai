@@ -48,7 +48,7 @@ func fileExistsForTest(path string) bool {
 }
 
 func TestInstallCommandByProfile(t *testing.T) {
-	cloneDst := filepath.Join(os.TempDir(), "iugo-agent-guardian-angel")
+	cloneDst := filepath.Join(os.TempDir(), "iugo-guardian-angel")
 	bash := resolveGitBashForTest()
 	scriptPath := strings.ReplaceAll(filepath.Join(cloneDst, "install.sh"), `\`, "/")
 
@@ -61,24 +61,24 @@ func TestInstallCommandByProfile(t *testing.T) {
 		{
 			name:    "darwin uses brew tap and reinstall",
 			profile: system.PlatformProfile{OS: "darwin", PackageManager: "brew"},
-			want:    [][]string{{"brew", "tap", "IUGO-Programming/homebrew-tap"}, {"brew", "reinstall", "gga"}},
+			want:    [][]string{{"brew", "tap", "iugo-programming/homebrew-tap"}, {"brew", "reinstall", "gga"}},
 		},
 		{
 			name:    "ubuntu uses git clone and install.sh",
 			profile: system.PlatformProfile{OS: "linux", LinuxDistro: system.LinuxDistroUbuntu, PackageManager: "apt"},
 			want: [][]string{
-				{"rm", "-rf", "/tmp/iugo-agent-guardian-angel"},
-				{"git", "clone", "https://github.com/IUGO-Programming/iugo-agent-guardian-angel.git", "/tmp/iugo-agent-guardian-angel"},
-				{"bash", "/tmp/iugo-agent-guardian-angel/install.sh"},
+				{"rm", "-rf", "/tmp/iugo-guardian-angel"},
+				{"git", "clone", "https://github.com/iugo-programming/iugo-guardian-angel.git", "/tmp/iugo-guardian-angel"},
+				{"bash", "/tmp/iugo-guardian-angel/install.sh"},
 			},
 		},
 		{
 			name:    "arch uses git clone and install.sh",
 			profile: system.PlatformProfile{OS: "linux", LinuxDistro: system.LinuxDistroArch, PackageManager: "pacman"},
 			want: [][]string{
-				{"rm", "-rf", "/tmp/iugo-agent-guardian-angel"},
-				{"git", "clone", "https://github.com/IUGO-Programming/iugo-agent-guardian-angel.git", "/tmp/iugo-agent-guardian-angel"},
-				{"bash", "/tmp/iugo-agent-guardian-angel/install.sh"},
+				{"rm", "-rf", "/tmp/iugo-guardian-angel"},
+				{"git", "clone", "https://github.com/iugo-programming/iugo-guardian-angel.git", "/tmp/iugo-guardian-angel"},
+				{"bash", "/tmp/iugo-guardian-angel/install.sh"},
 			},
 		},
 		{
@@ -86,7 +86,7 @@ func TestInstallCommandByProfile(t *testing.T) {
 			profile: system.PlatformProfile{OS: "windows", PackageManager: "winget"},
 			want: [][]string{
 				{"powershell", "-NoProfile", "-Command", fmt.Sprintf("Remove-Item -Recurse -Force -ErrorAction SilentlyContinue '%s'; exit 0", cloneDst)},
-				{"git", "clone", "https://github.com/IUGO-Programming/iugo-agent-guardian-angel.git", cloneDst},
+				{"git", "clone", "https://github.com/iugo-programming/iugo-guardian-angel.git", cloneDst},
 				{bash, scriptPath},
 			},
 		},
@@ -94,9 +94,9 @@ func TestInstallCommandByProfile(t *testing.T) {
 			name:    "fedora uses git clone and install.sh",
 			profile: system.PlatformProfile{OS: "linux", LinuxDistro: system.LinuxDistroFedora, PackageManager: "dnf"},
 			want: [][]string{
-				{"rm", "-rf", "/tmp/iugo-agent-guardian-angel"},
-				{"git", "clone", "https://github.com/IUGO-Programming/iugo-agent-guardian-angel.git", "/tmp/iugo-agent-guardian-angel"},
-				{"bash", "/tmp/iugo-agent-guardian-angel/install.sh"},
+				{"rm", "-rf", "/tmp/iugo-guardian-angel"},
+				{"git", "clone", "https://github.com/iugo-programming/iugo-guardian-angel.git", "/tmp/iugo-guardian-angel"},
+				{"bash", "/tmp/iugo-guardian-angel/install.sh"},
 			},
 		},
 		{

@@ -240,7 +240,7 @@ func TestPiOnlyAgentContinueSkipsPromptsAndIncludesEngram(t *testing.T) {
 	m := NewModel(system.DetectionResult{}, "dev")
 	m.Screen = ScreenAgents
 	m.Selection.Agents = []model.AgentID{model.AgentPi}
-	m.Selection.Components = componentsForPreset(model.PresetFullIUGO, model.PersonaIUGO)
+	m.Selection.Components = componentsForPreset(model.PresetFullIugo, model.PersonaIugo)
 	m.Cursor = len(screensAgentOptions())
 
 	updated, _ := m.Update(tea.KeyMsg{Type: tea.KeyEnter})
@@ -1943,10 +1943,10 @@ func TestKiroPickerEscNonCustomWithClaudeGoesToClaudePicker(t *testing.T) {
 	m := NewModel(system.DetectionResult{}, "dev")
 	m.Screen = ScreenKiroModelPicker
 	m.ModelConfigMode = false
-	m.Selection.Preset = model.PresetFullIUGO // non-custom
+	m.Selection.Preset = model.PresetFullIugo // non-custom
 	// Simulate both Kiro and Claude being selected.
 	m.Selection.Agents = []model.AgentID{model.AgentKiroIDE, model.AgentClaudeCode}
-	m.Selection.Components = componentsForPreset(model.PresetFullIUGO, model.PersonaIUGO)
+	m.Selection.Components = componentsForPreset(model.PresetFullIugo, model.PersonaIugo)
 	m.KiroModelPicker = screens.NewKiroModelPickerState()
 
 	updated, _ := m.Update(tea.KeyMsg{Type: tea.KeyEsc})
@@ -1965,10 +1965,10 @@ func TestKiroPickerEscNonCustomWithoutClaudeGoesToPreset(t *testing.T) {
 	m := NewModel(system.DetectionResult{}, "dev")
 	m.Screen = ScreenKiroModelPicker
 	m.ModelConfigMode = false
-	m.Selection.Preset = model.PresetFullIUGO
+	m.Selection.Preset = model.PresetFullIugo
 	// Only Kiro — no Claude.
 	m.Selection.Agents = []model.AgentID{model.AgentKiroIDE}
-	m.Selection.Components = componentsForPreset(model.PresetFullIUGO, model.PersonaIUGO)
+	m.Selection.Components = componentsForPreset(model.PresetFullIugo, model.PersonaIugo)
 	m.KiroModelPicker = screens.NewKiroModelPickerState()
 
 	updated, _ := m.Update(tea.KeyMsg{Type: tea.KeyEsc})
@@ -3053,7 +3053,7 @@ func TestStrictTDDBackNavigatesToSDDMode(t *testing.T) {
 func TestDependencyTreeEnterBackNavigatesToStrictTDD(t *testing.T) {
 	m := NewModel(system.DetectionResult{}, "dev")
 	m.Screen = ScreenDependencyTree
-	m.Selection.Preset = model.PresetFullIUGO // non-custom
+	m.Selection.Preset = model.PresetFullIugo // non-custom
 	m.Selection.Agents = []model.AgentID{model.AgentOpenCode}
 	m.Selection.Components = []model.ComponentID{model.ComponentEngram, model.ComponentSDD}
 	m.Selection.SDDMode = model.SDDModeSingle
@@ -3076,7 +3076,7 @@ func TestDependencyTreeEnterBackNavigatesToStrictTDD(t *testing.T) {
 func TestModelPickerEnterBackNavigatesToSDDMode(t *testing.T) {
 	m := NewModel(system.DetectionResult{}, "dev")
 	m.Screen = ScreenModelPicker
-	m.Selection.Preset = model.PresetFullIUGO // non-custom
+	m.Selection.Preset = model.PresetFullIugo // non-custom
 	m.Selection.Agents = []model.AgentID{model.AgentOpenCode}
 	m.Selection.Components = []model.ComponentID{model.ComponentEngram, model.ComponentSDD}
 	m.Selection.SDDMode = model.SDDModeMulti
@@ -3100,7 +3100,7 @@ func TestModelPickerEnterBackNavigatesToSDDMode(t *testing.T) {
 func TestModelPickerContinueMultiGoesToStrictTDD(t *testing.T) {
 	m := NewModel(system.DetectionResult{}, "dev")
 	m.Screen = ScreenModelPicker
-	m.Selection.Preset = model.PresetFullIUGO // non-custom
+	m.Selection.Preset = model.PresetFullIugo // non-custom
 	m.Selection.Agents = []model.AgentID{model.AgentOpenCode}
 	m.Selection.Components = []model.ComponentID{model.ComponentEngram, model.ComponentSDD}
 	m.Selection.SDDMode = model.SDDModeMulti
@@ -3157,7 +3157,7 @@ func TestStrictTDDBackNavigatesToModelPickerWhenMultiWithCache(t *testing.T) {
 func TestStrictTDDScreenAppearsForClaudeCodeAgent(t *testing.T) {
 	m := NewModel(system.DetectionResult{}, "dev")
 	m.Screen = ScreenClaudeModelPicker
-	m.Selection.Preset = model.PresetFullIUGO // non-custom
+	m.Selection.Preset = model.PresetFullIugo // non-custom
 	m.Selection.Agents = []model.AgentID{model.AgentClaudeCode}
 	m.Selection.Components = []model.ComponentID{model.ComponentEngram, model.ComponentSDD}
 	m.ClaudeModelPicker = screens.NewClaudeModelPickerState()
@@ -3191,7 +3191,7 @@ func TestStrictTDDScreenAppearsForClaudeCodeAgent(t *testing.T) {
 	m2 := NewModel(system.DetectionResult{}, "dev")
 	m2.Screen = ScreenPreset
 	m2.Selection.Agents = []model.AgentID{model.AgentClaudeCode}
-	// Cursor on a preset option (PresetFullIUGO = index 0 typically).
+	// Cursor on a preset option (PresetFullIugo = index 0 typically).
 	// Set cursor on first preset option.
 	m2.Cursor = 0 // FullIUGO
 
@@ -3256,7 +3256,7 @@ func TestStrictTDDBackNavFromClaudeFlow(t *testing.T) {
 	m.Screen = ScreenStrictTDD
 	m.Selection.Agents = []model.AgentID{model.AgentClaudeCode}
 	m.Selection.Components = []model.ComponentID{model.ComponentEngram, model.ComponentSDD}
-	m.Selection.Preset = model.PresetFullIUGO
+	m.Selection.Preset = model.PresetFullIugo
 
 	updated, _ := m.Update(tea.KeyMsg{Type: tea.KeyEsc})
 	state := updated.(Model)
@@ -3275,7 +3275,7 @@ func TestStrictTDDBackNavFromPresetFlow(t *testing.T) {
 	m.Screen = ScreenStrictTDD
 	m.Selection.Agents = []model.AgentID{model.AgentCursor}
 	m.Selection.Components = []model.ComponentID{model.ComponentEngram, model.ComponentSDD}
-	m.Selection.Preset = model.PresetFullIUGO
+	m.Selection.Preset = model.PresetFullIugo
 
 	updated, _ := m.Update(tea.KeyMsg{Type: tea.KeyEsc})
 	state := updated.(Model)
@@ -4033,20 +4033,20 @@ func TestComponentsForPreset_PersonaMatrix(t *testing.T) {
 	}{
 		{
 			name:        "full-iugo-agent + iugo-agent includes persona",
-			preset:      model.PresetFullIUGO,
-			persona:     model.PersonaIUGO,
+			preset:      model.PresetFullIugo,
+			persona:     model.PersonaIugo,
 			wantPersona: true,
 		},
 		{
 			name:        "full-iugo-agent + custom does not include persona",
-			preset:      model.PresetFullIUGO,
+			preset:      model.PresetFullIugo,
 			persona:     model.PersonaCustom,
 			wantPersona: false,
 		},
 		{
 			name:        "minimal + iugo-agent includes persona",
 			preset:      model.PresetMinimal,
-			persona:     model.PersonaIUGO,
+			persona:     model.PersonaIugo,
 			wantPersona: true,
 		},
 		{
@@ -4070,7 +4070,7 @@ func TestComponentsForPreset_PersonaMatrix(t *testing.T) {
 		{
 			name:    "custom preset returns nil regardless of persona (iugo-agent)",
 			preset:  model.PresetCustom,
-			persona: model.PersonaIUGO,
+			persona: model.PersonaIugo,
 			wantNil: true,
 		},
 		{
@@ -4118,9 +4118,9 @@ func TestPersonaScreenRecomputesComponentsWhenPresetAlreadySet(t *testing.T) {
 	// iugo-agent persona (the default), then go back to Persona screen and pick custom.
 	m := NewModel(system.DetectionResult{}, "dev")
 	m.Screen = ScreenPersona
-	m.Selection.Preset = model.PresetFullIUGO
-	m.Selection.Persona = model.PersonaIUGO
-	m.Selection.Components = componentsForPreset(model.PresetFullIUGO, model.PersonaIUGO)
+	m.Selection.Preset = model.PresetFullIugo
+	m.Selection.Persona = model.PersonaIugo
+	m.Selection.Components = componentsForPreset(model.PresetFullIugo, model.PersonaIugo)
 
 	// Confirm that persona currently includes ComponentPersona.
 	hasPersonaBefore := false
@@ -4157,10 +4157,10 @@ func TestPersonaScreenDoesNotRecomputeForCustomPreset(t *testing.T) {
 	m := NewModel(system.DetectionResult{}, "dev")
 	m.Screen = ScreenPersona
 	m.Selection.Preset = model.PresetCustom
-	m.Selection.Persona = model.PersonaIUGO
+	m.Selection.Persona = model.PersonaIugo
 	m.Selection.Components = nil
 
-	m.Cursor = 0 // PersonaIUGO
+	m.Cursor = 0 // PersonaIugo
 	updated, _ := m.Update(tea.KeyMsg{Type: tea.KeyEnter})
 	state := updated.(Model)
 
@@ -4208,7 +4208,7 @@ func TestCodexOnly_InstallFlowReachesCodexPicker(t *testing.T) {
 	m := NewModel(system.DetectionResult{}, "dev")
 	m.Screen = ScreenPreset
 	m.Selection.Agents = []model.AgentID{model.AgentCodex}
-	m.Cursor = 0 // PresetFullIUGO (includes SDD)
+	m.Cursor = 0 // PresetFullIugo (includes SDD)
 
 	updated, _ := m.Update(tea.KeyMsg{Type: tea.KeyEnter})
 	state := updated.(Model)
@@ -4226,9 +4226,9 @@ func TestClaudeAndCodex_InstallFlowReachesCodexPickerAfterClaude(t *testing.T) {
 	m := NewModel(system.DetectionResult{}, "dev")
 	m.Screen = ScreenClaudeModelPicker
 	m.ModelConfigMode = false
-	m.Selection.Preset = model.PresetFullIUGO
+	m.Selection.Preset = model.PresetFullIugo
 	m.Selection.Agents = []model.AgentID{model.AgentClaudeCode, model.AgentCodex}
-	m.Selection.Components = componentsForPreset(model.PresetFullIUGO, model.PersonaIUGO)
+	m.Selection.Components = componentsForPreset(model.PresetFullIugo, model.PersonaIugo)
 	m.ClaudeModelPicker = screens.NewClaudeModelPickerState()
 
 	// Press Enter to confirm the default preset option (cursor 0).
@@ -4248,9 +4248,9 @@ func TestKiroAndCodex_InstallFlowReachesCodexPickerAfterKiro(t *testing.T) {
 	m := NewModel(system.DetectionResult{}, "dev")
 	m.Screen = ScreenKiroModelPicker
 	m.ModelConfigMode = false
-	m.Selection.Preset = model.PresetFullIUGO
+	m.Selection.Preset = model.PresetFullIugo
 	m.Selection.Agents = []model.AgentID{model.AgentKiroIDE, model.AgentCodex}
-	m.Selection.Components = componentsForPreset(model.PresetFullIUGO, model.PersonaIUGO)
+	m.Selection.Components = componentsForPreset(model.PresetFullIugo, model.PersonaIugo)
 	m.KiroModelPicker = screens.NewKiroModelPickerState()
 
 	updated, _ := m.Update(tea.KeyMsg{Type: tea.KeyEnter})
@@ -4266,8 +4266,8 @@ func TestKiroAndCodex_InstallFlowReachesCodexPickerAfterKiro(t *testing.T) {
 // are selected.
 // RED: currently Claude→Kiro→SDDMode (Codex is skipped).
 func TestClaudeKiroCodex_InstallFlowSequence(t *testing.T) {
-	preset := model.PresetFullIUGO
-	components := componentsForPreset(preset, model.PersonaIUGO)
+	preset := model.PresetFullIugo
+	components := componentsForPreset(preset, model.PersonaIugo)
 	agents := []model.AgentID{model.AgentClaudeCode, model.AgentKiroIDE, model.AgentCodex}
 
 	// Step 1: ScreenPreset → ScreenClaudeModelPicker.
@@ -4314,9 +4314,9 @@ func TestCodexPicker_EscBackNavToKiroWhenKiroSelected(t *testing.T) {
 	m := NewModel(system.DetectionResult{}, "dev")
 	m.Screen = ScreenCodexModelPicker
 	m.ModelConfigMode = false
-	m.Selection.Preset = model.PresetFullIUGO
+	m.Selection.Preset = model.PresetFullIugo
 	m.Selection.Agents = []model.AgentID{model.AgentKiroIDE, model.AgentCodex}
-	m.Selection.Components = componentsForPreset(model.PresetFullIUGO, model.PersonaIUGO)
+	m.Selection.Components = componentsForPreset(model.PresetFullIugo, model.PersonaIugo)
 	m.CodexModelPicker = screens.NewCodexModelPickerStateFromAssignments(m.Selection.CodexModelAssignments)
 
 	updated, _ := m.Update(tea.KeyMsg{Type: tea.KeyEsc})
@@ -4334,9 +4334,9 @@ func TestCodexPicker_EscBackNavToClaudeWhenClaudeSelectedNoKiro(t *testing.T) {
 	m := NewModel(system.DetectionResult{}, "dev")
 	m.Screen = ScreenCodexModelPicker
 	m.ModelConfigMode = false
-	m.Selection.Preset = model.PresetFullIUGO
+	m.Selection.Preset = model.PresetFullIugo
 	m.Selection.Agents = []model.AgentID{model.AgentClaudeCode, model.AgentCodex}
-	m.Selection.Components = componentsForPreset(model.PresetFullIUGO, model.PersonaIUGO)
+	m.Selection.Components = componentsForPreset(model.PresetFullIugo, model.PersonaIugo)
 	m.CodexModelPicker = screens.NewCodexModelPickerStateFromAssignments(m.Selection.CodexModelAssignments)
 
 	updated, _ := m.Update(tea.KeyMsg{Type: tea.KeyEsc})
@@ -4354,9 +4354,9 @@ func TestCodexPicker_EscBackNavToPresetWhenNeitherClaudeNorKiro(t *testing.T) {
 	m := NewModel(system.DetectionResult{}, "dev")
 	m.Screen = ScreenCodexModelPicker
 	m.ModelConfigMode = false
-	m.Selection.Preset = model.PresetFullIUGO
+	m.Selection.Preset = model.PresetFullIugo
 	m.Selection.Agents = []model.AgentID{model.AgentCodex}
-	m.Selection.Components = componentsForPreset(model.PresetFullIUGO, model.PersonaIUGO)
+	m.Selection.Components = componentsForPreset(model.PresetFullIugo, model.PersonaIugo)
 	m.CodexModelPicker = screens.NewCodexModelPickerStateFromAssignments(m.Selection.CodexModelAssignments)
 
 	updated, _ := m.Update(tea.KeyMsg{Type: tea.KeyEsc})

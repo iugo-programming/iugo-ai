@@ -17,8 +17,8 @@ import (
 func TestRenderReviewShowsSkillNames(t *testing.T) {
 	payload := planner.ReviewPayload{
 		Agents:  []model.AgentID{model.AgentClaudeCode},
-		Persona: model.PersonaIUGO,
-		Preset:  model.PresetFullIUGO,
+		Persona: model.PersonaIugo,
+		Preset:  model.PresetFullIugo,
 		Components: []planner.ComponentAction{
 			{ID: model.ComponentSkills, Action: "selected"},
 		},
@@ -41,8 +41,8 @@ func TestRenderReviewShowsSkillNames(t *testing.T) {
 func TestRenderReviewHidesSkillsSectionWhenEmpty(t *testing.T) {
 	payload := planner.ReviewPayload{
 		Agents:  []model.AgentID{model.AgentClaudeCode},
-		Persona: model.PersonaIUGO,
-		Preset:  model.PresetFullIUGO,
+		Persona: model.PersonaIugo,
+		Preset:  model.PresetFullIugo,
 		// No Skills field.
 	}
 
@@ -63,8 +63,8 @@ func TestRenderReviewHidesSkillsSectionWhenEmpty(t *testing.T) {
 func TestRenderReviewShowsStrictTDDEnabled(t *testing.T) {
 	payload := planner.ReviewPayload{
 		Agents:  []model.AgentID{model.AgentClaudeCode},
-		Persona: model.PersonaIUGO,
-		Preset:  model.PresetFullIUGO,
+		Persona: model.PersonaIugo,
+		Preset:  model.PresetFullIugo,
 		Components: []planner.ComponentAction{
 			{ID: model.ComponentSDD, Action: "selected"},
 		},
@@ -89,8 +89,8 @@ func TestRenderReviewShowsStrictTDDEnabled(t *testing.T) {
 func TestRenderReviewShowsStrictTDDDisabled(t *testing.T) {
 	payload := planner.ReviewPayload{
 		Agents:  []model.AgentID{model.AgentClaudeCode},
-		Persona: model.PersonaIUGO,
-		Preset:  model.PresetFullIUGO,
+		Persona: model.PersonaIugo,
+		Preset:  model.PresetFullIugo,
 		Components: []planner.ComponentAction{
 			{ID: model.ComponentSDD, Action: "selected"},
 		},
@@ -115,8 +115,8 @@ func TestRenderReviewShowsStrictTDDDisabled(t *testing.T) {
 func TestRenderReviewHidesStrictTDDWhenNoSDD(t *testing.T) {
 	payload := planner.ReviewPayload{
 		Agents:    []model.AgentID{model.AgentClaudeCode},
-		Persona:   model.PersonaIUGO,
-		Preset:    model.PresetFullIUGO,
+		Persona:   model.PersonaIugo,
+		Preset:    model.PresetFullIugo,
 		HasSDD:    false,
 		StrictTDD: true,
 	}

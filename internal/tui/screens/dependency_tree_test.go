@@ -13,7 +13,7 @@ import (
 func TestRenderDependencyTreePiOnlyEngramPlanShowsComponentAndPiInstallCopy(t *testing.T) {
 	selection := model.Selection{
 		Agents:     []model.AgentID{model.AgentPi},
-		Preset:     model.PresetFullIUGO,
+		Preset:     model.PresetFullIugo,
 		Components: []model.ComponentID{model.ComponentEngram},
 	}
 	plan := planner.ResolvedPlan{
@@ -48,7 +48,7 @@ func TestRenderDependencyTreePiOnlyEngramPlanShowsComponentAndPiInstallCopy(t *t
 }
 
 func TestRenderDependencyTreeGenericEmptyPlanKeepsExistingCopy(t *testing.T) {
-	selection := model.Selection{Preset: model.PresetFullIUGO}
+	selection := model.Selection{Preset: model.PresetFullIugo}
 
 	out := RenderDependencyTree(planner.ResolvedPlan{}, selection, 0)
 
@@ -63,7 +63,7 @@ func TestRenderDependencyTreeGenericEmptyPlanKeepsExistingCopy(t *testing.T) {
 func TestRenderDependencyTreeMixedPiEmptyPlanShowsPiInstallCopy(t *testing.T) {
 	selection := model.Selection{
 		Agents: []model.AgentID{model.AgentPi, model.AgentOpenCode},
-		Preset: model.PresetFullIUGO,
+		Preset: model.PresetFullIugo,
 	}
 	plan := planner.ResolvedPlan{Agents: selection.Agents}
 

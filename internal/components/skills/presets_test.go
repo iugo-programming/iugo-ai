@@ -55,7 +55,7 @@ func TestSkillsForPresetEcosystemIncludesFrameworks(t *testing.T) {
 }
 
 func TestSkillsForPresetFullIncludesAll(t *testing.T) {
-	skills := SkillsForPreset(model.PresetFullIUGO)
+	skills := SkillsForPreset(model.PresetFullIugo)
 	all := AllSkillIDs()
 
 	if len(skills) != len(all) {

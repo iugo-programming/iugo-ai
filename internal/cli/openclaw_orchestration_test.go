@@ -60,7 +60,7 @@ func TestComponentApplyStepOpenClawWorkspaceScopedInjections(t *testing.T) {
 				homeDir:      home,
 				workspaceDir: workspace,
 				agents:       []model.AgentID{model.AgentOpenClaw},
-				selection:    model.Selection{Persona: model.PersonaIUGO},
+				selection:    model.Selection{Persona: model.PersonaIugo},
 				profile:      system.PlatformProfile{PackageManager: "brew"},
 			}
 
@@ -129,7 +129,7 @@ func TestComponentSyncStepOpenClawWorkspaceScopedInjections(t *testing.T) {
 				homeDir:      home,
 				workspaceDir: workspace,
 				agents:       []model.AgentID{model.AgentOpenClaw},
-				selection:    model.Selection{Persona: model.PersonaIUGO},
+				selection:    model.Selection{Persona: model.PersonaIugo},
 			}
 
 			if err := step.Run(); err != nil {
@@ -172,7 +172,7 @@ func TestInstallRuntimeOpenClawUsesConfiguredActiveWorkspace(t *testing.T) {
 	selection := model.Selection{
 		Agents:     []model.AgentID{model.AgentOpenClaw},
 		Components: []model.ComponentID{model.ComponentPersona, model.ComponentSDD, model.ComponentEngram},
-		Persona:    model.PersonaIUGO,
+		Persona:    model.PersonaIugo,
 		StrictTDD:  true,
 	}
 	resolved := planner.ResolvedPlan{
@@ -204,7 +204,7 @@ func TestSyncRuntimeOpenClawUsesConfiguredActiveWorkspace(t *testing.T) {
 	selection := model.Selection{
 		Agents:     []model.AgentID{model.AgentOpenClaw},
 		Components: []model.ComponentID{model.ComponentPersona, model.ComponentSDD, model.ComponentEngram},
-		Persona:    model.PersonaIUGO,
+		Persona:    model.PersonaIugo,
 		StrictTDD:  true,
 	}
 	rt, err := newSyncRuntime(home, selection)

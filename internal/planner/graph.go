@@ -44,7 +44,7 @@ func MVPGraph() Graph {
 		model.ComponentGGA:                nil,
 		model.ComponentTheme:              nil,
 		model.ComponentClaudeTheme:        nil,
-		model.ComponentOpenCodeGentleLogo: nil,
+		model.ComponentOpenCodeIugoLogo: nil,
 	})
 }
 
