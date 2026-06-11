@@ -16,7 +16,7 @@ CONTEXT:
 
 TASK:
 
-1. If the `gentle-ai` binary is available, run `gentle-ai sdd-status [change] --cwd <repo> --json --instructions` and treat its JSON as authoritative. If unavailable, read `~/.claude/skills/_shared/sdd-status-contract.md` and follow it.
+1. If the `iugo-ai` binary is available, run `iugo-ai sdd-status [change] --cwd <repo> --json --instructions` and treat its JSON as authoritative. If unavailable, read `~/.claude/skills/_shared/sdd-status-contract.md` and follow it.
 2. Resolve the active change:
    - If `$ARGUMENTS` is provided, validate that exact change in the selected artifact store.
    - If omitted and exactly one active change exists, select it and say how it was selected.

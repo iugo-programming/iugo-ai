@@ -1,9 +1,9 @@
 ---
 description: Show structured SDD status for an active change
-agent: gentle-orchestrator
+agent: iugo-orchestrator
 ---
 
-You are the `gentle-orchestrator`. This command is read-only. Do not launch SDD executors and do not edit files.
+You are the `iugo-orchestrator`. This command is read-only. Do not launch SDD executors and do not edit files.
 
 HARD GATE:
 
@@ -17,7 +17,7 @@ CONTEXT:
 
 TASK:
 
-1. If the `gentle-ai` binary is available, run `gentle-ai sdd-status [change] --cwd <repo> --json --instructions` and treat its JSON as authoritative. If unavailable, read the installed shared status contract from this agent's skills directory and follow it. Use `~/.config/opencode/skills/_shared/sdd-status-contract.md` for OpenCode, `~/.config/kilo/skills/_shared/sdd-status-contract.md` for Kilo Code, `~/.qwen/skills/_shared/sdd-status-contract.md` for Qwen, or the equivalent configured skills directory for the current adapter. Do not use a workspace-relative `skills/_shared/...` path.
+1. If the `iugo-ai` binary is available, run `iugo-ai sdd-status [change] --cwd <repo> --json --instructions` and treat its JSON as authoritative. If unavailable, read the installed shared status contract from this agent's skills directory and follow it. Use `~/.config/opencode/skills/_shared/sdd-status-contract.md` for OpenCode, `~/.config/kilo/skills/_shared/sdd-status-contract.md` for Kilo Code, `~/.qwen/skills/_shared/sdd-status-contract.md` for Qwen, or the equivalent configured skills directory for the current adapter. Do not use a workspace-relative `skills/_shared/...` path.
 2. Resolve the active change:
    - If `$ARGUMENTS` is provided, validate that exact change in the selected artifact store.
    - If omitted and exactly one active change exists, select it and say how it was selected.

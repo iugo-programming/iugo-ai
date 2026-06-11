@@ -7,7 +7,7 @@ The Claude Code session model is controlled by Claude Code; Gentle AI only confi
 
 WORKFLOW:
 
-1. If the `gentle-ai` binary is available, run `gentle-ai sdd-continue [change] --cwd <repo>` and treat its dispatcher/status output as authoritative. If unavailable, read `~/.claude/skills/_shared/sdd-status-contract.md` and produce structured status before acting.
+1. If the `iugo-ai` binary is available, run `iugo-ai sdd-continue [change] --cwd <repo>` and treat its dispatcher/status output as authoritative. If unavailable, read `~/.claude/skills/_shared/sdd-status-contract.md` and produce structured status before acting.
 2. Resolve the active change. If `$ARGUMENTS` is missing and more than one active change exists, ask the user to choose and STOP. Do not guess.
 3. Check which artifacts already exist for the active change (proposal, specs, design, tasks)
 4. Determine the next phase needed based on the dependency graph:
@@ -32,4 +32,4 @@ Read the orchestrator instructions to coordinate this workflow. Do NOT execute p
 
 STATUS CONTRACT:
 
-Prefer `gentle-ai sdd-continue [change] --cwd <repo>` when available. Otherwise read `~/.claude/skills/_shared/sdd-status-contract.md` and follow it. If status reports `workspace-planning` with no allowed edit roots, do not launch apply/verify/archive work that would infer repo-local ownership.
+Prefer `iugo-ai sdd-continue [change] --cwd <repo>` when available. Otherwise read `~/.claude/skills/_shared/sdd-status-contract.md` and follow it. If status reports `workspace-planning` with no allowed edit roots, do not launch apply/verify/archive work that would infer repo-local ownership.

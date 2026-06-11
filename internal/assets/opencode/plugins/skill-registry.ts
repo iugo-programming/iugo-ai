@@ -19,7 +19,7 @@ export const SkillRegistryPlugin: Plugin = async (input) => {
 
     try {
       await execFileAsync(
-        "gentle-ai",
+        "iugo-ai",
         ["skill-registry", "refresh", "--quiet", "--no-gitignore", "--cwd", cwd],
         { timeout: 30_000 },
       )
