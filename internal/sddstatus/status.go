@@ -10,7 +10,7 @@ import (
 	"strings"
 )
 
-const SchemaName = "gentle-ai.sdd-status"
+const SchemaName = "iugo-ai.sdd-status"
 const SchemaVersion = 1
 
 type ArtifactStore string

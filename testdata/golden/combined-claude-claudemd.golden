@@ -1,4 +1,4 @@
-<!-- gentle-ai:persona -->
+<!-- iugo-ai:persona -->
 ## Rules
 
 - Never add "Co-Authored-By" or AI attribution to commits. Use conventional commits only.
@@ -71,9 +71,9 @@ The `<available_skills>` block in your system prompt is authoritative — it lis
 **Self-check BEFORE every response**: does this request match any skill in `<available_skills>`? If yes, invoke it via the built-in `Skill` tool BEFORE generating your reply. This is a blocking requirement, not optional context. Skipping it is a discipline failure.
 
 Multiple skills can apply at once. Match by file context (extensions, paths) and task context (what the user is asking for).
-<!-- /gentle-ai:persona -->
+<!-- /iugo-ai:persona -->
 
-<!-- gentle-ai:sdd-orchestrator -->
+<!-- iugo-ai:sdd-orchestrator -->
 # Agent Teams Lite — Orchestrator Instructions
 
 Bind this to the Claude Code orchestrator rule only. Do NOT apply it to executor phase agents such as `sdd-apply` or `sdd-verify`.
@@ -171,7 +171,7 @@ Meta-commands (type directly — orchestrator handles them, won't appear in auto
 
 ### Native SDD Dispatcher Guard
 
-Before routing, continuing, applying, verifying, or archiving an SDD change, use the native dispatcher when `gentle-ai` is available: `gentle-ai sdd-continue [change] --cwd <repo>` or `gentle-ai sdd-status [change] --cwd <repo> --json --instructions`. Treat native status JSON as authoritative over prompt inference. Route only by `nextRecommended` and dependency states; never infer from free text. If `blockedReasons` is non-empty, do not proceed to apply, archive, or terminal work. If `nextRecommended` is `verify`, verification/remediation may run only to refresh evidence; if `nextRecommended` is `resolve-blockers`, report `blockedReasons` and stop. If the binary is unavailable, fall back to the existing prompt contract and manual status schema.
+Before routing, continuing, applying, verifying, or archiving an SDD change, use the native dispatcher when `iugo-ai` is available: `iugo-ai sdd-continue [change] --cwd <repo>` or `iugo-ai sdd-status [change] --cwd <repo> --json --instructions`. Treat native status JSON as authoritative over prompt inference. Route only by `nextRecommended` and dependency states; never infer from free text. If `blockedReasons` is non-empty, do not proceed to apply, archive, or terminal work. If `nextRecommended` is `verify`, verification/remediation may run only to refresh evidence; if `nextRecommended` is `resolve-blockers`, report `blockedReasons` and stop. If the binary is unavailable, fall back to the existing prompt contract and manual status schema.
 
 ### SDD Init Guard (MANDATORY)
 
@@ -238,7 +238,7 @@ When `delivery_strategy` results in chained PRs (either by user choice via `ask-
 
 Cache the chain strategy for the session. Pass it as `chain_strategy` to `sdd-tasks` and `sdd-apply` prompts alongside `delivery_strategy`. Do not ask again unless the user changes scope.
 
-When delivery planning yields chained PRs, treat `chained-pr` (registry skill `gentle-ai-chained-pr`) as a required skill match: resolve it by registry name through this template's existing skill-resolution mechanism (the same one it already uses to pass skills to phases) and ensure the `sdd-tasks` and `sdd-apply` phases load and follow it BEFORE planning or creating any PR. Do not hardcode the skill path; defer resolution to that mechanism.
+When delivery planning yields chained PRs, treat `chained-pr` (registry skill `iugo-ai-chained-pr`) as a required skill match: resolve it by registry name through this template's existing skill-resolution mechanism (the same one it already uses to pass skills to phases) and ensure the `sdd-tasks` and `sdd-apply` phases load and follow it BEFORE planning or creating any PR. Do not hardcode the skill path; defer resolution to that mechanism.
 
 ### Dependency Graph
 
@@ -268,7 +268,7 @@ Automatic mode does not override this guard. Always pass the resolved delivery s
 
 When launching `sdd-apply`, always include the resolved `delivery_strategy`, `chain_strategy`, and any chosen PR boundary/exception in the prompt.
 
-<!-- gentle-ai:sdd-model-assignments -->
+<!-- iugo-ai:sdd-model-assignments -->
 
 ## Model Assignments
 
@@ -290,7 +290,7 @@ The Claude Code session model is controlled by Claude Code itself; Gentle AI doe
 | sdd-archive | haiku         | Copy and close                             |
 | default     | sonnet        | Non-SDD general delegation                 |
 
-<!-- /gentle-ai:sdd-model-assignments -->
+<!-- /iugo-ai:sdd-model-assignments -->
 
 ### Sub-Agent Launch Deduplication (MANDATORY)
 
@@ -419,9 +419,9 @@ Convention files under the agent's global skills directory (global) or `.agent/s
 - `engram` → `mem_search(...)` → `mem_get_observation(...)`
 - `openspec` → read `openspec/changes/*/state.yaml`
 - `none` → state not persisted — explain to user
-<!-- /gentle-ai:sdd-orchestrator -->
+<!-- /iugo-ai:sdd-orchestrator -->
 
-<!-- gentle-ai:engram-protocol -->
+<!-- iugo-ai:engram-protocol -->
 ## Engram Persistent Memory — Protocol
 
 You have access to Engram, a persistent memory system that survives across sessions and compactions.
@@ -515,4 +515,4 @@ If you see a compaction message or "FIRST ACTION REQUIRED":
 3. Only THEN continue working
 
 Do not skip step 1. Without it, everything done before compaction is lost from memory.
-<!-- /gentle-ai:engram-protocol -->
+<!-- /iugo-ai:engram-protocol -->
