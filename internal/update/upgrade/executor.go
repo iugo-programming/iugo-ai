@@ -44,7 +44,7 @@ var snapshotCreator = func(snapshotDir string, paths []string) (backup.Manifest,
 	return backup.NewSnapshotter().Create(snapshotDir, paths)
 }
 
-// AppVersion is the gentle-ai version written into backup manifests created by
+// AppVersion is the iugo-ai version written into backup manifests created by
 // the upgrade executor. Set by app.go before calling Execute so that upgrade
 // backups record the version that created them.
 // Default "dev" matches the ldflags default in app.Version.
@@ -127,7 +127,7 @@ var backupExcludeSubdirs = map[string]bool{
 // only those agents' config paths are backed up — this is the canonical source
 // of truth established at install time. Filesystem detection is used only as a
 // fallback for fresh installs (no state.json yet). This prevents snapshot bloat
-// from agent config dirs that the user never actually installed via gentle-ai
+// from agent config dirs that the user never actually installed via iugo-ai
 // (issue #354: snapshots could reach ~25 GiB from unmanaged config dirs).
 func configPathsForBackup(homeDir string, diagnostics ...io.Writer) []string {
 	dw := firstWriter(diagnostics...)
@@ -216,7 +216,7 @@ func managedAgentBackupPaths(homeDir string, adapter agents.Adapter, diagnostics
 	}
 
 	if adapter.SupportsOutputStyles() {
-		add(filepath.Join(adapter.OutputStyleDir(homeDir), "gentleman.md"))
+		add(filepath.Join(adapter.OutputStyleDir(homeDir), "iugo-agent.md"))
 	}
 
 	if adapter.SupportsSlashCommands() {
@@ -237,7 +237,7 @@ func managedAgentBackupPaths(homeDir string, adapter agents.Adapter, diagnostics
 
 	switch adapter.Agent() {
 	case model.AgentClaudeCode:
-		add(filepath.Join(homeDir, ".claude", "themes", "gentleman.json"))
+		add(filepath.Join(homeDir, ".claude", "themes", "iugo.json"))
 	case model.AgentOpenCode:
 		add(
 			filepath.Join(homeDir, ".config", "opencode", "plugins", "background-agents.ts"),
@@ -498,7 +498,7 @@ func ExecuteWithOptions(ctx context.Context, results []update.UpdateResult, prof
 			NewVersion: r.LatestVersion,
 			Method:     effectiveMethod(r.Tool, profile),
 			Status:     UpgradeSkipped,
-			ManualHint: fmt.Sprintf("source build — upgrade manually or install a release binary from https://github.com/Gentleman-Programming/%s/releases", r.Tool.Repo),
+			ManualHint: fmt.Sprintf("source build — upgrade manually or install a release binary from https://github.com/iugo-programming/%s/releases", r.Tool.Repo),
 		})
 	}
 
@@ -604,7 +604,7 @@ func executeOne(ctx context.Context, r update.UpdateResult, profile system.Platf
 //
 //  1. OpenCode plugins are always handled by their own method — never overridden.
 //  2. Brew-managed platforms always use brew regardless of the tool's declared method.
-//  3. gentle-ai on Windows uses the installer so the running binary can exit before replacement.
+//  3. iugo-ai on Windows uses the installer so the running binary can exit before replacement.
 //  4. When Go is available on PATH and the tool has a GoImportPath, go-install is
 //     preferred over a direct binary download.
 //  5. Otherwise the tool's declared InstallMethod is used as-is.
@@ -615,8 +615,8 @@ func effectiveMethod(tool update.ToolInfo, profile system.PlatformProfile) updat
 	if profile.PackageManager == "brew" {
 		return update.InstallBrew
 	}
-	// Use installer method for gentle-ai on Windows (launches PowerShell installer).
-	if profile.OS == "windows" && tool.Name == "gentle-ai" {
+	// Use installer method for iugo-ai on Windows (launches PowerShell installer).
+	if profile.OS == "windows" && tool.Name == "iugo-ai" {
 		return update.InstallInstaller
 	}
 	if profile.GoAvailable && tool.GoImportPath != "" {

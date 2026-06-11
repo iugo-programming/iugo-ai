@@ -15,9 +15,9 @@ import (
 // field here; InstallMethod represents the non-brew fallback strategy.
 var Tools = []ToolInfo{
 	{
-		Name:          "gentle-ai",
-		Owner:         "Gentleman-Programming",
-		Repo:          "gentle-ai",
+		Name:          "iugo-ai",
+		Owner:         "iugo-programming",
+		Repo:          "iugo-ai",
 		DetectCmd:     nil, // version comes from build-time ldflags (app.Version)
 		VersionPrefix: "v",
 		// gentle-ai: brew on macOS, binary release download on Linux.
@@ -26,7 +26,7 @@ var Tools = []ToolInfo{
 	},
 	{
 		Name:              "engram",
-		Owner:             "Gentleman-Programming",
+		Owner:             "iugo-programming",
 		Repo:              "engram",
 		DetectCmd:         []string{"engram", "version"},
 		VersionPrefix:     "v",
@@ -56,8 +56,8 @@ var Tools = []ToolInfo{
 	},
 	{
 		Name:          "gga",
-		Owner:         "Gentleman-Programming",
-		Repo:          "gentleman-guardian-angel",
+		Owner:         "iugo-programming",
+		Repo:          "iugo-guardian-angel",
 		DetectCmd:     []string{"gga", "--version"},
 		VersionPrefix: "v",
 		// gga: brew on macOS, install.sh script on Linux/Windows.

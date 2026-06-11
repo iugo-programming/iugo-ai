@@ -61,7 +61,7 @@ func Download(ctx context.Context, r update.UpdateResult, profile system.Platfor
 	checksumURL := resolveChecksumURLFn(r.Tool.Owner, r.Tool.Repo, r.LatestVersion)
 
 	// Download archive to a temp directory so we can verify before extracting.
-	tmpDir, err := os.MkdirTemp("", "gentle-ai-upgrade-*")
+	tmpDir, err := os.MkdirTemp("", "iugo-ai-upgrade-*")
 	if err != nil {
 		return fmt.Errorf("create temp dir: %w", err)
 	}

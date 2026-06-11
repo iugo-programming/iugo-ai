@@ -47,7 +47,7 @@ const maxScriptSize = 1 * 1024 * 1024 // 1 MB
 //   - brew profile → brewUpgrade (regardless of tool's declared method)
 //   - go-install method + apt/pacman/other → goInstallUpgrade
 //   - binary method + linux/darwin → binaryUpgrade
-//   - binary method + windows → manualFallback (gentle-ai on Windows uses installerUpgrade instead)
+//   - binary method + windows → manualFallback (iugo-ai on Windows uses installerUpgrade instead)
 //   - script method + linux/darwin + gga → ggaScriptUpgrade (git clone approach)
 //   - script method + linux/darwin + other → scriptUpgrade (curl | bash install.sh)
 //   - script method + windows → manualFallback
@@ -79,7 +79,7 @@ func runStrategy(ctx context.Context, r update.UpdateResult, profile system.Plat
 		return false, opencodePluginUpgrade(ctx, r)
 	default:
 		return false, &ManualFallbackError{
-			Hint: fmt.Sprintf("upgrade %q: unsupported install method %q — please update manually. See: https://github.com/Gentleman-Programming/%s",
+			Hint: fmt.Sprintf("upgrade %q: unsupported install method %q — please update manually. See: https://github.com/iugo-programming/%s",
 				r.Tool.Name, method, r.Tool.Repo),
 		}
 	}
@@ -298,8 +298,8 @@ func brewUpgrade(ctx context.Context, toolName string) error {
 	// Non-fatal: brew tap is a no-op when already present; if it fails for any other
 	// reason, the subsequent brew upgrade will surface the real error. See issue #455:
 	// without this, a lost tap (untap, machine swap, brew cleanup) makes upgrades fail
-	// with "No available formula" for engram/gga/gentle-ai.
-	tapCmd := execCommand("brew", "tap", "Gentleman-Programming/homebrew-tap")
+	// with "No available formula" for engram/gga/iugo-ai.
+	tapCmd := execCommand("brew", "tap", "iugo-programming/homebrew-tap")
 	tapCmd.Stdin = nil
 	_ = tapCmd.Run()
 
@@ -308,7 +308,7 @@ func brewUpgrade(ctx context.Context, toolName string) error {
 	// our formula, not the whole tap or third-party taps. Older Homebrew versions
 	// may not support `brew trust`, so this is non-fatal and the upgrade output
 	// below remains the source of truth.
-	trustCmd := execCommand("brew", "trust", "--formula", gentlemanProgrammingFormulaRef(toolName))
+	trustCmd := execCommand("brew", "trust", "--formula", iugoProgrammingFormulaRef(toolName))
 	trustCmd.Stdin = nil
 	_ = trustCmd.Run()
 
@@ -326,8 +326,8 @@ func brewUpgrade(ctx context.Context, toolName string) error {
 	return nil
 }
 
-func gentlemanProgrammingFormulaRef(toolName string) string {
-	return "gentleman-programming/tap/" + strings.TrimSpace(toolName)
+func iugoProgrammingFormulaRef(toolName string) string {
+	return "iugo-programming/tap/" + strings.TrimSpace(toolName)
 }
 
 func formatBrewUpgradeError(toolName string, err error, output string) error {
@@ -340,7 +340,7 @@ func formatBrewUpgradeError(toolName string, err error, output string) error {
 
 func homebrewFailureAdvice(toolName string, output string) string {
 	lower := strings.ToLower(output)
-	formula := gentlemanProgrammingFormulaRef(toolName)
+	formula := iugoProgrammingFormulaRef(toolName)
 
 	if strings.Contains(lower, "untrusted tap") || strings.Contains(lower, "tap trust is required") || strings.Contains(lower, "homebrew_require_tap_trust") {
 		return fmt.Sprintf("Homebrew requires explicit trust for external taps. Trust only this Gentle AI formula, then retry:\n  brew trust --formula %s\n  brew upgrade %s", formula, toolName)
@@ -374,9 +374,9 @@ func goInstallUpgrade(ctx context.Context, tool update.ToolInfo, latestVersion s
 // binaryUpgrade handles binary-release upgrades via GitHub Releases asset download.
 //
 // engram has its own cross-platform binary downloader (DownloadLatestBinary) that
-// works on all platforms including Windows. For tools besides engram and gentle-ai
+// works on all platforms including Windows. For tools besides engram and iugo-ai
 // on Windows, a ManualFallbackError is returned so the executor surfaces it as
-// UpgradeSkipped with an actionable hint. (gentle-ai uses InstallInstaller).
+// UpgradeSkipped with an actionable hint. (iugo-ai uses InstallInstaller).
 func binaryUpgrade(ctx context.Context, r update.UpdateResult, profile system.PlatformProfile) error {
 	// engram: always use its dedicated binary downloader regardless of platform
 	// (except brew, which is handled by effectiveMethod before we get here).
@@ -390,7 +390,7 @@ func binaryUpgrade(ctx context.Context, r update.UpdateResult, profile system.Pl
 		// with an actionable hint — NOT as UpgradeFailed.
 		hint := r.UpdateHint
 		if hint == "" {
-			hint = fmt.Sprintf("Download manually from https://github.com/Gentleman-Programming/%s/releases", r.Tool.Repo)
+			hint = fmt.Sprintf("Download manually from https://github.com/iugo-programming/%s/releases", r.Tool.Repo)
 		}
 		return &ManualFallbackError{
 			Hint: fmt.Sprintf("upgrade %q on Windows requires manual update: %s", r.Tool.Name, hint),
@@ -401,7 +401,7 @@ func binaryUpgrade(ctx context.Context, r update.UpdateResult, profile system.Pl
 	return downloadAndReplace(ctx, r, profile)
 }
 
-// installerUpgrade launches the PowerShell installer (install.ps1) for gentle-ai on Windows.
+// installerUpgrade launches the PowerShell installer (install.ps1) for iugo-ai on Windows.
 // This is used for the Windows self-replace workaround — the running process
 // exits immediately after launching the installer, which then replaces the binary.
 func installerUpgrade(ctx context.Context, tool update.ToolInfo, releaseURL string) (bool, error) {
@@ -435,7 +435,7 @@ func installerUpgrade(ctx context.Context, tool update.ToolInfo, releaseURL stri
 	}
 
 	// Write to a temporary file instead of passing it to iex directly
-	tmpFile, err := os.CreateTemp("", "gentle-ai-install-*.ps1")
+	tmpFile, err := os.CreateTemp("", "iugo-ai-install-*.ps1")
 	if err != nil {
 		return false, fmt.Errorf("create temp script: %w", err)
 	}
@@ -458,7 +458,7 @@ func installerUpgrade(ctx context.Context, tool update.ToolInfo, releaseURL stri
 	)
 
 	fmt.Printf("\nLaunching installer for %s...\n", tool.Name)
-	fmt.Println("gentle-ai will now exit so the installer can replace the binary.")
+	fmt.Println("iugo-ai will now exit so the installer can replace the binary.")
 
 	if err := cmd.Start(); err != nil {
 		return false, fmt.Errorf("failed to start installer: %w", err)
@@ -572,7 +572,7 @@ func scriptUpgrade(ctx context.Context, r update.UpdateResult, profile system.Pl
 // ggaMkdirTemp is the function used to create a temporary directory for GGA git clone.
 // Package-level var for testability — swapped in tests to control the temp dir path.
 var ggaMkdirTemp = func() (string, error) {
-	return os.MkdirTemp("", "gentle-ai-gga-*")
+	return os.MkdirTemp("", "iugo-ai-gga-*")
 }
 
 // ggaScriptUpgrade upgrades GGA by cloning its repository and running install.sh
