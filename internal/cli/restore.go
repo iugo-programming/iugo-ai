@@ -223,7 +223,7 @@ func listBackupsFromDir(homeDir string) []backup.Manifest {
 
 // backupRootDir returns the path to the backup directory under homeDir.
 func backupRootDir(homeDir string) string {
-	return homeDir + "/.gentle-ai/backups"
+	return homeDir + "/.iugo-ai/backups"
 }
 
 // defaultRestorer returns the standard backup.RestoreService.Restore function.

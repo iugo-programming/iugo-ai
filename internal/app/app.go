@@ -781,7 +781,7 @@ func ListBackups() []backup.Manifest {
 		return nil
 	}
 
-	backupRoot := filepath.Join(homeDir, ".gentle-ai", "backups")
+	backupRoot := filepath.Join(homeDir, ".iugo-ai", "backups")
 	entries, err := os.ReadDir(backupRoot)
 	if err != nil {
 		return nil

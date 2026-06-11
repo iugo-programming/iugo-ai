@@ -322,7 +322,7 @@ type runtimeState struct {
 }
 
 func newInstallRuntime(homeDir string, scope InstallScope, selection model.Selection, resolved planner.ResolvedPlan, profile system.PlatformProfile) (*installRuntime, error) {
-	backupRoot := filepath.Join(homeDir, ".gentle-ai", "backups")
+	backupRoot := filepath.Join(homeDir, ".iugo-ai", "backups")
 	if err := os.MkdirAll(backupRoot, 0o755); err != nil {
 		return nil, fmt.Errorf("create backup root directory %q: %w", backupRoot, err)
 	}
@@ -814,7 +814,7 @@ func windowsGoCandidates() []string {
 // It is used by both the CLI and TUI paths.
 // scope controls where agent config files are written (ScopeGlobal writes to homeDir, ScopeWorkspace writes to cwd).
 func BuildRealStagePlan(homeDir string, scope InstallScope, selection model.Selection, resolved planner.ResolvedPlan, profile system.PlatformProfile) (pipeline.StagePlan, error) {
-	backupRoot := filepath.Join(homeDir, ".gentle-ai", "backups")
+	backupRoot := filepath.Join(homeDir, ".iugo-ai", "backups")
 	if err := os.MkdirAll(backupRoot, 0o755); err != nil {
 		return pipeline.StagePlan{}, fmt.Errorf("create backup root directory %q: %w", backupRoot, err)
 	}

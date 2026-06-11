@@ -123,7 +123,7 @@ func checkOneTool(tool string, pathDirs []string) CheckResult {
 	}
 }
 
-// checkStateJSON validates ~/.gentle-ai/state.json and agent config dirs.
+// checkStateJSON validates ~/.iugo-ai/state.json and agent config dirs.
 func checkStateJSON(homeDir string) CheckResult {
 	const name = "state:json"
 	statePath := state.Path(homeDir)
@@ -237,10 +237,10 @@ func checkEngramReachable() CheckResult {
 	}
 }
 
-// checkDiskSpace reports free space on the ~/.gentle-ai filesystem.
+// checkDiskSpace reports free space on the ~/.iugo-ai filesystem.
 func checkDiskSpace(homeDir string) CheckResult {
 	const name = "disk:space"
-	dir := filepath.Join(homeDir, ".gentle-ai")
+	dir := filepath.Join(homeDir, ".iugo-ai")
 
 	free, err := availableBytesFn(dir)
 	if err != nil {

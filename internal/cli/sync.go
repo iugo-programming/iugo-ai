@@ -331,7 +331,7 @@ func BuildSyncSelection(flags SyncFlags, agentIDs []model.AgentID) model.Selecti
 // DiscoverAgents returns the agent IDs to sync.
 //
 // Discovery order:
-//  1. Persisted state (~/.gentle-ai/state.json) — written at install time.
+//  1. Persisted state (~/.iugo-ai/state.json) — written at install time.
 //     When present and non-empty, only the agents the user explicitly installed
 //     are returned. This prevents sync from injecting into every IDE config dir
 //     that happens to exist on the system (issue #107).
@@ -384,7 +384,7 @@ type syncRuntime struct {
 }
 
 func newSyncRuntime(homeDir string, selection model.Selection) (*syncRuntime, error) {
-	backupRoot := filepath.Join(homeDir, ".gentle-ai", "backups")
+	backupRoot := filepath.Join(homeDir, ".iugo-ai", "backups")
 	if err := os.MkdirAll(backupRoot, 0o755); err != nil {
 		return nil, fmt.Errorf("create backup root directory %q: %w", backupRoot, err)
 	}
