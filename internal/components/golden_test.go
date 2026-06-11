@@ -50,7 +50,7 @@ func TestGoldenConfigs(t *testing.T) {
 	}
 
 	presets := []presetMapping{
-		{Preset: "full-gentleman", Skills: toStringSlice(skills.SkillsForPreset("full-gentleman"))},
+		{Preset: "full-iugo-agent", Skills: toStringSlice(skills.SkillsForPreset("full-iugo-agent"))},
 		{Preset: "ecosystem-only", Skills: toStringSlice(skills.SkillsForPreset("ecosystem-only"))},
 		{Preset: "minimal", Skills: toStringSlice(skills.SkillsForPreset("minimal"))},
 	}
@@ -204,8 +204,8 @@ func TestGoldenSDD_Cursor(t *testing.T) {
 		t.Fatalf("sdd.Inject(cursor) changed = false")
 	}
 
-	// Cursor writes SDD orchestrator to ~/.cursor/rules/gentle-ai.mdc.
-	rulesFile := readTestFile(t, filepath.Join(home, ".cursor", "rules", "gentle-ai.mdc"))
+	// Cursor writes SDD orchestrator to ~/.cursor/rules/iugo-ai.mdc.
+	rulesFile := readTestFile(t, filepath.Join(home, ".cursor", "rules", "iugo-ai.mdc"))
 	assertGolden(t, "sdd-cursor-rules.golden", rulesFile)
 
 	// Golden-check a representative SDD skill file.
@@ -425,7 +425,7 @@ func TestGoldenSDD_Kiro(t *testing.T) {
 		t.Fatalf("sdd.Inject(kiro) changed = false")
 	}
 
-	// Kiro writes SDD orchestrator to ~/.kiro/steering/gentle-ai.md
+	// Kiro writes SDD orchestrator to ~/.kiro/steering/iugo-ai.md
 	// (StrategySteeringFile). Use the adapter to resolve the platform-specific path.
 	promptPath := adapter.SystemPromptFile(home)
 	instructionsFile := readTestFile(t, promptPath)
@@ -477,25 +477,25 @@ func TestGoldenSDD_Kiro(t *testing.T) {
 // Persona Injector golden tests
 // ---------------------------------------------------------------------------
 
-func TestGoldenPersona_Claude_Gentleman(t *testing.T) {
+func TestGoldenPersona_Claude_IUGO(t *testing.T) {
 	home := t.TempDir()
 
-	result, err := persona.Inject(home, claudeAdapter(), model.PersonaGentleman)
+	result, err := persona.Inject(home, claudeAdapter(), model.PersonaIUGO)
 	if err != nil {
-		t.Fatalf("persona.Inject(claude, gentleman) error = %v", err)
+		t.Fatalf("persona.Inject(claude, iugo-agent) error = %v", err)
 	}
 	if !result.Changed {
-		t.Fatalf("persona.Inject(claude, gentleman) changed = false")
+		t.Fatalf("persona.Inject(claude, iugo-agent) changed = false")
 	}
 
 	claudeMD := readTestFile(t, filepath.Join(home, ".claude", "CLAUDE.md"))
-	assertGolden(t, "persona-claude-gentleman.golden", claudeMD)
+	assertGolden(t, "persona-claude-iugo-agent.golden", claudeMD)
 
-	outputStyle := readTestFile(t, filepath.Join(home, ".claude", "output-styles", "gentleman.md"))
-	assertGolden(t, "persona-claude-gentleman-outputstyle.golden", outputStyle)
+	outputStyle := readTestFile(t, filepath.Join(home, ".claude", "output-styles", "iugo-agent.md"))
+	assertGolden(t, "persona-claude-iugo-agent-outputstyle.golden", outputStyle)
 
 	settingsJSON := readTestFile(t, filepath.Join(home, ".claude", "settings.json"))
-	assertGolden(t, "persona-claude-gentleman-settings.golden", settingsJSON)
+	assertGolden(t, "persona-claude-iugo-agent-settings.golden", settingsJSON)
 }
 
 func TestGoldenPersona_Claude_Neutral(t *testing.T) {
@@ -513,19 +513,19 @@ func TestGoldenPersona_Claude_Neutral(t *testing.T) {
 	assertGolden(t, "persona-claude-neutral.golden", claudeMD)
 }
 
-func TestGoldenPersona_OpenCode_Gentleman(t *testing.T) {
+func TestGoldenPersona_OpenCode_IUGO(t *testing.T) {
 	home := t.TempDir()
 
-	result, err := persona.Inject(home, opencodeAdapter(), model.PersonaGentleman)
+	result, err := persona.Inject(home, opencodeAdapter(), model.PersonaIUGO)
 	if err != nil {
-		t.Fatalf("persona.Inject(opencode, gentleman) error = %v", err)
+		t.Fatalf("persona.Inject(opencode, iugo-agent) error = %v", err)
 	}
 	if !result.Changed {
-		t.Fatalf("persona.Inject(opencode, gentleman) changed = false")
+		t.Fatalf("persona.Inject(opencode, iugo-agent) changed = false")
 	}
 
 	agentsMD := readTestFile(t, filepath.Join(home, ".config", "opencode", "AGENTS.md"))
-	assertGolden(t, "persona-opencode-gentleman.golden", agentsMD)
+	assertGolden(t, "persona-opencode-iugo-agent.golden", agentsMD)
 }
 
 func TestGoldenPersona_OpenCode_Neutral(t *testing.T) {
@@ -575,38 +575,38 @@ func TestGoldenPersona_OpenCode_Custom(t *testing.T) {
 	}
 }
 
-func TestGoldenPersona_Windsurf_Gentleman(t *testing.T) {
+func TestGoldenPersona_Windsurf_IUGO(t *testing.T) {
 	home := t.TempDir()
 
-	result, err := persona.Inject(home, windsurfAdapter(), model.PersonaGentleman)
+	result, err := persona.Inject(home, windsurfAdapter(), model.PersonaIUGO)
 	if err != nil {
-		t.Fatalf("persona.Inject(windsurf, gentleman) error = %v", err)
+		t.Fatalf("persona.Inject(windsurf, iugo-agent) error = %v", err)
 	}
 	if !result.Changed {
-		t.Fatalf("persona.Inject(windsurf, gentleman) changed = false")
+		t.Fatalf("persona.Inject(windsurf, iugo-agent) changed = false")
 	}
 
 	globalRules := readTestFile(t, filepath.Join(home, ".codeium", "windsurf", "memories", "global_rules.md"))
-	assertGolden(t, "persona-windsurf-gentleman.golden", globalRules)
+	assertGolden(t, "persona-windsurf-iugo-agent.golden", globalRules)
 }
 
-func TestGoldenPersona_Kiro_Gentleman(t *testing.T) {
+func TestGoldenPersona_Kiro_IUGO(t *testing.T) {
 	home := t.TempDir()
 	t.Setenv("XDG_CONFIG_HOME", filepath.Join(home, ".config"))
 	t.Setenv("APPDATA", filepath.Join(home, "AppData", "Roaming"))
 
 	adapter := kiroAdapter()
-	result, err := persona.Inject(home, adapter, model.PersonaGentleman)
+	result, err := persona.Inject(home, adapter, model.PersonaIUGO)
 	if err != nil {
-		t.Fatalf("persona.Inject(kiro, gentleman) error = %v", err)
+		t.Fatalf("persona.Inject(kiro, iugo-agent) error = %v", err)
 	}
 	if !result.Changed {
-		t.Fatalf("persona.Inject(kiro, gentleman) changed = false")
+		t.Fatalf("persona.Inject(kiro, iugo-agent) changed = false")
 	}
 
 	promptPath := adapter.SystemPromptFile(home)
 	instructionsFile := readTestFile(t, promptPath)
-	assertGolden(t, "persona-kiro-gentleman.golden", instructionsFile)
+	assertGolden(t, "persona-kiro-iugo-agent.golden", instructionsFile)
 }
 
 // ---------------------------------------------------------------------------
@@ -786,7 +786,7 @@ func TestGoldenCombined_Claude(t *testing.T) {
 	engram.SetLookPathForTest(t, "/opt/homebrew/bin/engram", "")
 
 	// Inject persona first, then SDD, then Engram — all write sections into CLAUDE.md.
-	if _, err := persona.Inject(home, claudeAdapter(), model.PersonaGentleman); err != nil {
+	if _, err := persona.Inject(home, claudeAdapter(), model.PersonaIUGO); err != nil {
 		t.Fatalf("persona.Inject error = %v", err)
 	}
 	if _, err := sdd.Inject(home, claudeAdapter(), ""); err != nil {
@@ -811,7 +811,7 @@ func TestGoldenCombined_Windsurf(t *testing.T) {
 
 	// Windsurf: persona appends to global_rules.md; SDD appends SDD orchestrator
 	// to the same file and copies skills + workflow to workspace.
-	if _, err := persona.Inject(home, windsurfAdapter(), model.PersonaGentleman); err != nil {
+	if _, err := persona.Inject(home, windsurfAdapter(), model.PersonaIUGO); err != nil {
 		t.Fatalf("persona.Inject(windsurf) error = %v", err)
 	}
 	if _, err := sdd.Inject(home, windsurfAdapter(), "", sdd.InjectOptions{WorkspaceDir: workspace}); err != nil {
@@ -868,19 +868,19 @@ func TestGoldenSDD_Antigravity(t *testing.T) {
 	}
 }
 
-func TestGoldenPersona_Antigravity_Gentleman(t *testing.T) {
+func TestGoldenPersona_Antigravity_IUGO(t *testing.T) {
 	home := t.TempDir()
 
-	result, err := persona.Inject(home, antigravityAdapter(), model.PersonaGentleman)
+	result, err := persona.Inject(home, antigravityAdapter(), model.PersonaIUGO)
 	if err != nil {
-		t.Fatalf("persona.Inject(antigravity, gentleman) error = %v", err)
+		t.Fatalf("persona.Inject(antigravity, iugo-agent) error = %v", err)
 	}
 	if !result.Changed {
-		t.Fatalf("persona.Inject(antigravity, gentleman) changed = false")
+		t.Fatalf("persona.Inject(antigravity, iugo-agent) changed = false")
 	}
 
 	rulesFile := readTestFile(t, filepath.Join(home, ".gemini", "GEMINI.md"))
-	assertGolden(t, "persona-antigravity-gentleman.golden", rulesFile)
+	assertGolden(t, "persona-antigravity-iugo-agent.golden", rulesFile)
 }
 
 func TestGoldenEngram_Antigravity(t *testing.T) {

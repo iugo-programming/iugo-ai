@@ -28,7 +28,7 @@ func kilocodeAdapter() agents.Adapter    { return kilocode.NewAdapter() }
 func openclawAdapter() agents.Adapter    { return openclaw.NewAdapter() }
 func opencodeAdapter() agents.Adapter    { return opencode.NewAdapter() }
 
-func assertGentlemanLanguageGuardrails(t *testing.T, text string, required []string, banned []string) {
+func assertIUGOLanguageGuardrails(t *testing.T, text string, required []string, banned []string) {
 	t.Helper()
 
 	for _, needle := range required {
@@ -44,10 +44,10 @@ func assertGentlemanLanguageGuardrails(t *testing.T, text string, required []str
 	}
 }
 
-func TestInjectClaudeGentlemanWritesSectionWithRealContent(t *testing.T) {
+func TestInjectClaudeIUGOWritesSectionWithRealContent(t *testing.T) {
 	home := t.TempDir()
 
-	result, err := Inject(home, claudeAdapter(), model.PersonaGentleman)
+	result, err := Inject(home, claudeAdapter(), model.PersonaIUGO)
 	if err != nil {
 		t.Fatalf("Inject() error = %v", err)
 	}
@@ -62,10 +62,10 @@ func TestInjectClaudeGentlemanWritesSectionWithRealContent(t *testing.T) {
 	}
 
 	text := string(content)
-	if !strings.Contains(text, "<!-- gentle-ai:persona -->") {
+	if !strings.Contains(text, "<!-- iugo-ai:persona -->") {
 		t.Fatal("CLAUDE.md missing open marker for persona")
 	}
-	if !strings.Contains(text, "<!-- /gentle-ai:persona -->") {
+	if !strings.Contains(text, "<!-- /iugo-ai:persona -->") {
 		t.Fatal("CLAUDE.md missing close marker for persona")
 	}
 	// Real content check — the embedded persona has these patterns.
@@ -73,7 +73,7 @@ func TestInjectClaudeGentlemanWritesSectionWithRealContent(t *testing.T) {
 		t.Fatal("CLAUDE.md missing real persona content (expected 'Senior Architect')")
 	}
 
-	assertGentlemanLanguageGuardrails(t, text,
+	assertIUGOLanguageGuardrails(t, text,
 		[]string{
 			"Match the user's current language in your REPLY ONLY",
 			"Do not switch languages unless the user does, asks you to, or you are quoting/translating content.",
@@ -87,10 +87,10 @@ func TestInjectClaudeGentlemanWritesSectionWithRealContent(t *testing.T) {
 	)
 }
 
-func TestInjectKimiGentlemanIncludesProjectInstructionsAndLoadedSkills(t *testing.T) {
+func TestInjectKimiIUGOIncludesProjectInstructionsAndLoadedSkills(t *testing.T) {
 	home := t.TempDir()
 
-	result, err := Inject(home, kimiAdapter(), model.PersonaGentleman)
+	result, err := Inject(home, kimiAdapter(), model.PersonaIUGO)
 	if err != nil {
 		t.Fatalf("Inject(kimi) error = %v", err)
 	}
@@ -116,16 +116,16 @@ func TestInjectKimiGentlemanIncludesProjectInstructionsAndLoadedSkills(t *testin
 		t.Fatal("KIMI.md missing ${KIMI_SKILLS} for loaded-skills parity")
 	}
 
-	// output-style.md module should contain the Gentleman style content.
+	// output-style.md module should contain the IUGO style content.
 	outputStylePath := filepath.Join(home, ".kimi", "output-style.md")
 	styleContent, err := os.ReadFile(outputStylePath)
 	if err != nil {
 		t.Fatalf("ReadFile(%q) error = %v", outputStylePath, err)
 	}
-	if !strings.Contains(string(styleContent), "Gentleman Output Style") {
-		t.Fatal("output-style.md missing Gentleman Output Style content")
+	if !strings.Contains(string(styleContent), "IUGO Output Style") {
+		t.Fatal("output-style.md missing IUGO Output Style content")
 	}
-	assertGentlemanLanguageGuardrails(t, string(styleContent),
+	assertIUGOLanguageGuardrails(t, string(styleContent),
 		[]string{
 			"Always match the user's current language in your reply.",
 			"Do not drift into another language because of persona wording, examples, or stylistic momentum.",
@@ -144,7 +144,7 @@ func TestInjectKimiGentlemanIncludesProjectInstructionsAndLoadedSkills(t *testin
 	if err != nil {
 		t.Fatalf("persona.md not written: %v", err)
 	}
-	assertGentlemanLanguageGuardrails(t, string(personaContent),
+	assertIUGOLanguageGuardrails(t, string(personaContent),
 		[]string{
 			"Match the user's current language in your REPLY ONLY",
 			"Do not switch languages unless the user does, asks you to, or you are quoting/translating content.",
@@ -158,34 +158,34 @@ func TestInjectKimiGentlemanIncludesProjectInstructionsAndLoadedSkills(t *testin
 	)
 }
 
-func TestInjectClaudeGentlemanWritesOutputStyleFile(t *testing.T) {
+func TestInjectClaudeIUGOWritesOutputStyleFile(t *testing.T) {
 	home := t.TempDir()
 
-	_, err := Inject(home, claudeAdapter(), model.PersonaGentleman)
+	_, err := Inject(home, claudeAdapter(), model.PersonaIUGO)
 	if err != nil {
 		t.Fatalf("Inject() error = %v", err)
 	}
 
 	// Verify output-style file was written.
-	stylePath := filepath.Join(home, ".claude", "output-styles", "gentleman.md")
+	stylePath := filepath.Join(home, ".claude", "output-styles", "iugo-agent.md")
 	content, err := os.ReadFile(stylePath)
 	if err != nil {
 		t.Fatalf("ReadFile(%q) error = %v", stylePath, err)
 	}
 
 	text := string(content)
-	if !strings.Contains(text, "name: Gentleman") {
-		t.Fatal("Output style file missing YAML frontmatter 'name: Gentleman'")
+	if !strings.Contains(text, "name: IUGO") {
+		t.Fatal("Output style file missing YAML frontmatter 'name: IUGO'")
 	}
 	if !strings.Contains(text, "keep-coding-instructions: true") {
 		t.Fatal("Output style file missing 'keep-coding-instructions: true'")
 	}
-	if !strings.Contains(text, "Gentleman Output Style") {
-		t.Fatal("Output style file missing 'Gentleman Output Style' heading")
+	if !strings.Contains(text, "IUGO Output Style") {
+		t.Fatal("Output style file missing 'IUGO Output Style' heading")
 	}
 }
 
-func TestInjectClaudeGentlemanMergesOutputStyleIntoSettings(t *testing.T) {
+func TestInjectClaudeIUGOMergesOutputStyleIntoSettings(t *testing.T) {
 	home := t.TempDir()
 
 	// Pre-create a settings.json with some existing content.
@@ -198,7 +198,7 @@ func TestInjectClaudeGentlemanMergesOutputStyleIntoSettings(t *testing.T) {
 		t.Fatalf("WriteFile() error = %v", err)
 	}
 
-	_, err := Inject(home, claudeAdapter(), model.PersonaGentleman)
+	_, err := Inject(home, claudeAdapter(), model.PersonaIUGO)
 	if err != nil {
 		t.Fatalf("Inject() error = %v", err)
 	}
@@ -219,8 +219,8 @@ func TestInjectClaudeGentlemanMergesOutputStyleIntoSettings(t *testing.T) {
 	if !ok {
 		t.Fatal("settings.json missing 'outputStyle' key")
 	}
-	if outputStyle != "Gentleman" {
-		t.Fatalf("settings.json outputStyle = %q, want %q", outputStyle, "Gentleman")
+	if outputStyle != "IUGO" {
+		t.Fatalf("settings.json outputStyle = %q, want %q", outputStyle, "IUGO")
 	}
 
 	// Verify existing keys were preserved.
@@ -232,10 +232,10 @@ func TestInjectClaudeGentlemanMergesOutputStyleIntoSettings(t *testing.T) {
 	}
 }
 
-func TestInjectClaudeGentlemanReturnsAllFiles(t *testing.T) {
+func TestInjectClaudeIUGOReturnsAllFiles(t *testing.T) {
 	home := t.TempDir()
 
-	result, err := Inject(home, claudeAdapter(), model.PersonaGentleman)
+	result, err := Inject(home, claudeAdapter(), model.PersonaIUGO)
 	if err != nil {
 		t.Fatalf("Inject() error = %v", err)
 	}
@@ -245,7 +245,7 @@ func TestInjectClaudeGentlemanReturnsAllFiles(t *testing.T) {
 		t.Fatalf("Inject() returned %d files, want 3: %v", len(result.Files), result.Files)
 	}
 
-	wantSuffixes := []string{"CLAUDE.md", "gentleman.md", "settings.json"}
+	wantSuffixes := []string{"CLAUDE.md", "iugo-agent.md", "settings.json"}
 	for _, suffix := range wantSuffixes {
 		found := false
 		for _, f := range result.Files {
@@ -282,7 +282,7 @@ func TestInjectClaudeNeutralWritesFullPersonaWithoutRegionalLanguage(t *testing.
 	if !strings.Contains(text, "Senior Architect") {
 		t.Fatal("Neutral persona should contain 'Senior Architect'")
 	}
-	// Should NOT have gentleman-specific regional language.
+	// Should NOT have iugo-agent-specific regional language.
 	if strings.Contains(text, "Rioplatense") {
 		t.Fatal("Neutral persona should not contain Rioplatense language")
 	}
@@ -294,11 +294,11 @@ func TestInjectClaudeNeutralWritesNeutralOutputStyleAndSettings(t *testing.T) {
 	if err := os.MkdirAll(filepath.Join(settingsDir, "output-styles"), 0o755); err != nil {
 		t.Fatalf("MkdirAll() error = %v", err)
 	}
-	staleGentlemanPath := filepath.Join(settingsDir, "output-styles", "gentleman.md")
-	if err := os.WriteFile(staleGentlemanPath, []byte("stale gentleman style"), 0o644); err != nil {
-		t.Fatalf("WriteFile(stale gentleman) error = %v", err)
+	staleIUGOPath := filepath.Join(settingsDir, "output-styles", "iugo-agent.md")
+	if err := os.WriteFile(staleIUGOPath, []byte("stale iugo-agent style"), 0o644); err != nil {
+		t.Fatalf("WriteFile(stale iugo-agent) error = %v", err)
 	}
-	existingSettings := `{"permissions":{"allow":["Read"]},"outputStyle":"Gentleman"}`
+	existingSettings := `{"permissions":{"allow":["Read"]},"outputStyle":"IUGO"}`
 	if err := os.WriteFile(filepath.Join(settingsDir, "settings.json"), []byte(existingSettings), 0o644); err != nil {
 		t.Fatalf("WriteFile(settings) error = %v", err)
 	}
@@ -308,7 +308,7 @@ func TestInjectClaudeNeutralWritesNeutralOutputStyleAndSettings(t *testing.T) {
 		t.Fatalf("Inject() error = %v", err)
 	}
 
-	for _, suffix := range []string{"CLAUDE.md", "neutral.md", "settings.json", "gentleman.md"} {
+	for _, suffix := range []string{"CLAUDE.md", "neutral.md", "settings.json", "iugo-agent.md"} {
 		found := false
 		for _, file := range result.Files {
 			if strings.HasSuffix(file, suffix) {
@@ -335,8 +335,8 @@ func TestInjectClaudeNeutralWritesNeutralOutputStyleAndSettings(t *testing.T) {
 	if strings.Contains(styleText, "Rioplatense") || strings.Contains(styleText, "voseo") {
 		t.Fatalf("neutral output style contains regional wording:\n%s", styleText)
 	}
-	if _, err := os.Stat(staleGentlemanPath); !os.IsNotExist(err) {
-		t.Fatalf("stale gentleman output style should be removed, stat err=%v", err)
+	if _, err := os.Stat(staleIUGOPath); !os.IsNotExist(err) {
+		t.Fatalf("stale iugo-agent output style should be removed, stat err=%v", err)
 	}
 
 	settingsContent, err := os.ReadFile(filepath.Join(settingsDir, "settings.json"))
@@ -405,10 +405,10 @@ func TestInjectCustomOpenCodeDoesNothing(t *testing.T) {
 	}
 }
 
-func TestInjectOpenCodeGentlemanWritesAgentsFile(t *testing.T) {
+func TestInjectOpenCodeIUGOWritesAgentsFile(t *testing.T) {
 	home := t.TempDir()
 
-	result, err := Inject(home, opencodeAdapter(), model.PersonaGentleman)
+	result, err := Inject(home, opencodeAdapter(), model.PersonaIUGO)
 	if err != nil {
 		t.Fatalf("Inject() error = %v", err)
 	}
@@ -426,12 +426,12 @@ func TestInjectOpenCodeGentlemanWritesAgentsFile(t *testing.T) {
 	if !strings.Contains(text, "Senior Architect") {
 		t.Fatal("AGENTS.md missing real persona content")
 	}
-	if !strings.Contains(text, "<!-- gentle-ai:persona -->") {
+	if !strings.Contains(text, "<!-- iugo-ai:persona -->") {
 		t.Fatal("AGENTS.md missing persona marker")
 	}
 }
 
-func TestInjectAntigravityGentlemanWritesMarkedPersonaSection(t *testing.T) {
+func TestInjectAntigravityIUGOWritesMarkedPersonaSection(t *testing.T) {
 	home := t.TempDir()
 	promptPath := filepath.Join(home, ".gemini", "GEMINI.md")
 	if err := os.MkdirAll(filepath.Dir(promptPath), 0o755); err != nil {
@@ -441,7 +441,7 @@ func TestInjectAntigravityGentlemanWritesMarkedPersonaSection(t *testing.T) {
 		t.Fatalf("WriteFile() error = %v", err)
 	}
 
-	result, err := Inject(home, antigravityAdapter(), model.PersonaGentleman)
+	result, err := Inject(home, antigravityAdapter(), model.PersonaIUGO)
 	if err != nil {
 		t.Fatalf("Inject() error = %v", err)
 	}
@@ -456,16 +456,16 @@ func TestInjectAntigravityGentlemanWritesMarkedPersonaSection(t *testing.T) {
 	text := string(content)
 	for _, want := range []string{
 		"# User Gemini rules",
-		"<!-- gentle-ai:persona -->",
+		"<!-- iugo-ai:persona -->",
 		"Senior Architect",
-		"<!-- /gentle-ai:persona -->",
+		"<!-- /iugo-ai:persona -->",
 	} {
 		if !strings.Contains(text, want) {
 			t.Fatalf("GEMINI.md missing %q; got:\n%s", want, text)
 		}
 	}
 
-	second, err := Inject(home, antigravityAdapter(), model.PersonaGentleman)
+	second, err := Inject(home, antigravityAdapter(), model.PersonaIUGO)
 	if err != nil {
 		t.Fatalf("Inject() second error = %v", err)
 	}
@@ -477,15 +477,15 @@ func TestInjectAntigravityGentlemanWritesMarkedPersonaSection(t *testing.T) {
 	if err != nil {
 		t.Fatalf("ReadFile() after second inject error = %v", err)
 	}
-	if got := strings.Count(string(content), "<!-- gentle-ai:persona -->"); got != 1 {
+	if got := strings.Count(string(content), "<!-- iugo-ai:persona -->"); got != 1 {
 		t.Fatalf("persona marker count = %d, want 1", got)
 	}
 }
 
-func TestInjectOpenCodeGentlemanDoesNotCreateSDDConductor(t *testing.T) {
+func TestInjectOpenCodeIUGODoesNotCreateSDDConductor(t *testing.T) {
 	home := t.TempDir()
 
-	_, err := Inject(home, opencodeAdapter(), model.PersonaGentleman)
+	_, err := Inject(home, opencodeAdapter(), model.PersonaIUGO)
 	if err != nil {
 		t.Fatalf("Inject() error = %v", err)
 	}
@@ -499,11 +499,11 @@ func TestInjectOpenCodeGentlemanDoesNotCreateSDDConductor(t *testing.T) {
 	if strings.Contains(text, `"sdd-orchestrator"`) {
 		t.Fatal("persona injection must not create legacy sdd-orchestrator conductor")
 	}
-	if strings.Contains(text, `"gentle-orchestrator"`) {
-		t.Fatal("persona injection must not create SDD conductor; SDD component owns gentle-orchestrator")
+	if strings.Contains(text, `"iugo-orchestrator"`) {
+		t.Fatal("persona injection must not create SDD conductor; SDD component owns iugo-orchestrator")
 	}
-	if !strings.Contains(text, `"gentleman"`) {
-		t.Fatal("persona injection should still create the gentleman persona agent")
+	if !strings.Contains(text, `"iugo-agent"`) {
+		t.Fatal("persona injection should still create the iugo-agent persona agent")
 	}
 }
 
@@ -519,7 +519,7 @@ func TestInjectOpenCodePreservesUserContentInsteadOfOverwriting(t *testing.T) {
 		t.Fatalf("WriteFile() error = %v", err)
 	}
 
-	_, err := Inject(home, opencodeAdapter(), model.PersonaGentleman)
+	_, err := Inject(home, opencodeAdapter(), model.PersonaIUGO)
 	if err != nil {
 		t.Fatalf("Inject() error = %v", err)
 	}
@@ -533,7 +533,7 @@ func TestInjectOpenCodePreservesUserContentInsteadOfOverwriting(t *testing.T) {
 	if !strings.Contains(text, "Do not overwrite this file.") {
 		t.Fatal("AGENTS.md user content was overwritten")
 	}
-	if !strings.Contains(text, "<!-- gentle-ai:persona -->") {
+	if !strings.Contains(text, "<!-- iugo-ai:persona -->") {
 		t.Fatal("AGENTS.md missing managed persona section after inject")
 	}
 }
@@ -546,7 +546,7 @@ func TestInjectOpenClawWritesPersonaToWorkspaceSoulAndNotAgents(t *testing.T) {
 		t.Fatalf("WriteFile(AGENTS.md) error = %v", err)
 	}
 
-	result, err := Inject(workspace, adapter, model.PersonaGentleman)
+	result, err := Inject(workspace, adapter, model.PersonaIUGO)
 	if err != nil {
 		t.Fatalf("Inject(openclaw) error = %v", err)
 	}
@@ -560,7 +560,7 @@ func TestInjectOpenClawWritesPersonaToWorkspaceSoulAndNotAgents(t *testing.T) {
 		t.Fatalf("ReadFile(SOUL.md) error = %v", err)
 	}
 	soulText := string(soulContent)
-	if !strings.Contains(soulText, "<!-- gentle-ai:persona -->") {
+	if !strings.Contains(soulText, "<!-- iugo-ai:persona -->") {
 		t.Fatalf("SOUL.md missing managed persona marker; got:\n%s", soulText)
 	}
 	if !strings.Contains(soulText, "Senior Architect") {
@@ -578,7 +578,7 @@ func TestInjectOpenClawWritesPersonaToWorkspaceSoulAndNotAgents(t *testing.T) {
 	if !strings.Contains(agentsText, "Keep SDD here.") {
 		t.Fatalf("AGENTS.md user protocol content was modified; got:\n%s", agentsText)
 	}
-	if strings.Contains(agentsText, "<!-- gentle-ai:persona -->") || strings.Contains(agentsText, "Senior Architect") {
+	if strings.Contains(agentsText, "<!-- iugo-ai:persona -->") || strings.Contains(agentsText, "Senior Architect") {
 		t.Fatalf("OpenClaw persona must not be written to AGENTS.md; got:\n%s", agentsText)
 	}
 }
@@ -591,14 +591,14 @@ func TestInjectOpenClawSoulPersonaIsIdempotentAndPreservesUserContent(t *testing
 	}
 
 	adapter := openclawAdapter()
-	first, err := Inject(workspace, adapter, model.PersonaGentleman)
+	first, err := Inject(workspace, adapter, model.PersonaIUGO)
 	if err != nil {
 		t.Fatalf("Inject(openclaw) first error = %v", err)
 	}
 	if !first.Changed {
 		t.Fatal("Inject(openclaw) first changed = false")
 	}
-	second, err := Inject(workspace, adapter, model.PersonaGentleman)
+	second, err := Inject(workspace, adapter, model.PersonaIUGO)
 	if err != nil {
 		t.Fatalf("Inject(openclaw) second error = %v", err)
 	}
@@ -614,7 +614,7 @@ func TestInjectOpenClawSoulPersonaIsIdempotentAndPreservesUserContent(t *testing
 	if !strings.Contains(text, "Keep my tone note.") {
 		t.Fatalf("SOUL.md user content was lost; got:\n%s", text)
 	}
-	if count := strings.Count(text, "<!-- gentle-ai:persona -->"); count != 1 {
+	if count := strings.Count(text, "<!-- iugo-ai:persona -->"); count != 1 {
 		t.Fatalf("SOUL.md has %d persona markers, want exactly 1", count)
 	}
 }
@@ -623,7 +623,7 @@ func TestInjectOpenClawRejectsAmbiguousWorkspacePath(t *testing.T) {
 	cwd := t.TempDir()
 	t.Chdir(cwd)
 
-	result, err := Inject("", openclawAdapter(), model.PersonaGentleman)
+	result, err := Inject("", openclawAdapter(), model.PersonaIUGO)
 	if err == nil {
 		t.Fatalf("Inject(openclaw, empty workspace) error = nil, want deterministic ambiguity error; result=%+v", result)
 	}
@@ -647,7 +647,7 @@ func TestInjectOpenCodeDoesNotStripLookalikeUserContent(t *testing.T) {
 		t.Fatalf("WriteFile() error = %v", err)
 	}
 
-	_, err := Inject(home, opencodeAdapter(), model.PersonaGentleman)
+	_, err := Inject(home, opencodeAdapter(), model.PersonaIUGO)
 	if err != nil {
 		t.Fatalf("Inject() error = %v", err)
 	}
@@ -661,7 +661,7 @@ func TestInjectOpenCodeDoesNotStripLookalikeUserContent(t *testing.T) {
 	if !strings.Contains(text, "Do not delete this custom preface.") {
 		t.Fatal("OpenCode AGENTS.md lookalike user content was stripped")
 	}
-	if !strings.Contains(text, "<!-- gentle-ai:persona -->") {
+	if !strings.Contains(text, "<!-- iugo-ai:persona -->") {
 		t.Fatal("AGENTS.md missing managed persona section after inject")
 	}
 }
@@ -681,7 +681,7 @@ func TestInjectOpenCodePreservesUserPrefaceAboveATLBlock(t *testing.T) {
 		t.Fatalf("WriteFile() error = %v", err)
 	}
 
-	_, err := Inject(home, opencodeAdapter(), model.PersonaGentleman)
+	_, err := Inject(home, opencodeAdapter(), model.PersonaIUGO)
 	if err != nil {
 		t.Fatalf("Inject() error = %v", err)
 	}
@@ -698,7 +698,7 @@ func TestInjectOpenCodePreservesUserPrefaceAboveATLBlock(t *testing.T) {
 	if strings.Contains(text, "BEGIN:agent-teams-lite") {
 		t.Fatal("ATL block should have been stripped by StripLegacyATLBlock")
 	}
-	if !strings.Contains(text, "<!-- gentle-ai:persona -->") {
+	if !strings.Contains(text, "<!-- iugo-ai:persona -->") {
 		t.Fatal("AGENTS.md missing managed persona section")
 	}
 }
@@ -711,12 +711,12 @@ func TestInjectOpenCodeReplacesExactLegacyAssetWithoutDuplication(t *testing.T) 
 	}
 
 	// Write the exact legacy asset (no markers) — simulates old installer output.
-	legacyContent := assets.MustRead("opencode/persona-gentleman.md")
+	legacyContent := assets.MustRead("opencode/persona-iugo-agent.md")
 	if err := os.WriteFile(path, []byte(legacyContent), 0o644); err != nil {
 		t.Fatalf("WriteFile() error = %v", err)
 	}
 
-	_, err := Inject(home, opencodeAdapter(), model.PersonaGentleman)
+	_, err := Inject(home, opencodeAdapter(), model.PersonaIUGO)
 	if err != nil {
 		t.Fatalf("Inject() error = %v", err)
 	}
@@ -728,9 +728,9 @@ func TestInjectOpenCodeReplacesExactLegacyAssetWithoutDuplication(t *testing.T) 
 
 	text := string(content)
 	// Must have exactly ONE persona marker — no duplication.
-	if strings.Count(text, "<!-- gentle-ai:persona -->") != 1 {
+	if strings.Count(text, "<!-- iugo-ai:persona -->") != 1 {
 		t.Fatalf("expected exactly 1 persona marker, got %d — legacy asset was not replaced cleanly",
-			strings.Count(text, "<!-- gentle-ai:persona -->"))
+			strings.Count(text, "<!-- iugo-ai:persona -->"))
 	}
 	if !strings.Contains(text, "Senior Architect") {
 		t.Fatal("persona content missing after replacing legacy asset")
@@ -748,12 +748,12 @@ func TestInjectOpenCodePreservesUserPrefaceAboveManagedMarkers(t *testing.T) {
 	// existing managed markers. This is the exact scenario where aggressive
 	// legacy stripping would destroy user content.
 	existing := "## Rules\n\n- My team's custom rules.\n\n## Personality\n\nSenior Architect in my org.\n\n" +
-		"<!-- gentle-ai:engram-protocol -->\nEngram protocol here.\n<!-- /gentle-ai:engram-protocol -->\n"
+		"<!-- iugo-ai:engram-protocol -->\nEngram protocol here.\n<!-- /iugo-ai:engram-protocol -->\n"
 	if err := os.WriteFile(path, []byte(existing), 0o644); err != nil {
 		t.Fatalf("WriteFile() error = %v", err)
 	}
 
-	_, err := Inject(home, opencodeAdapter(), model.PersonaGentleman)
+	_, err := Inject(home, opencodeAdapter(), model.PersonaIUGO)
 	if err != nil {
 		t.Fatalf("Inject() error = %v", err)
 	}
@@ -767,10 +767,10 @@ func TestInjectOpenCodePreservesUserPrefaceAboveManagedMarkers(t *testing.T) {
 	if !strings.Contains(text, "My team's custom rules.") {
 		t.Fatal("user preface above managed markers was stripped — should be preserved")
 	}
-	if !strings.Contains(text, "<!-- gentle-ai:persona -->") {
+	if !strings.Contains(text, "<!-- iugo-ai:persona -->") {
 		t.Fatal("AGENTS.md missing managed persona section after inject")
 	}
-	if !strings.Contains(text, "<!-- gentle-ai:engram-protocol -->") {
+	if !strings.Contains(text, "<!-- iugo-ai:engram-protocol -->") {
 		t.Fatal("existing engram section was lost")
 	}
 }
@@ -778,10 +778,10 @@ func TestInjectOpenCodePreservesUserPrefaceAboveManagedMarkers(t *testing.T) {
 func TestInjectOpenCodeNeutralPreservesManagedSections(t *testing.T) {
 	home := t.TempDir()
 
-	// First install gentleman persona + simulate SDD/engram sections
-	_, err := Inject(home, opencodeAdapter(), model.PersonaGentleman)
+	// First install iugo-agent persona + simulate SDD/engram sections
+	_, err := Inject(home, opencodeAdapter(), model.PersonaIUGO)
 	if err != nil {
-		t.Fatalf("Inject(gentleman) error = %v", err)
+		t.Fatalf("Inject(iugo-agent) error = %v", err)
 	}
 
 	path := filepath.Join(home, ".config", "opencode", "AGENTS.md")
@@ -791,7 +791,7 @@ func TestInjectOpenCodeNeutralPreservesManagedSections(t *testing.T) {
 	if err != nil {
 		t.Fatalf("ReadFile() error = %v", err)
 	}
-	withSections := string(existing) + "\n\n<!-- gentle-ai:sdd-orchestrator -->\nSDD orchestrator content here\n<!-- /gentle-ai:sdd-orchestrator -->\n\n<!-- gentle-ai:engram-protocol -->\nEngram protocol content here\n<!-- /gentle-ai:engram-protocol -->\n"
+	withSections := string(existing) + "\n\n<!-- iugo-ai:sdd-orchestrator -->\nSDD orchestrator content here\n<!-- /iugo-ai:sdd-orchestrator -->\n\n<!-- iugo-ai:engram-protocol -->\nEngram protocol content here\n<!-- /iugo-ai:engram-protocol -->\n"
 	if err := os.WriteFile(path, []byte(withSections), 0o644); err != nil {
 		t.Fatalf("WriteFile() error = %v", err)
 	}
@@ -820,14 +820,14 @@ func TestInjectOpenCodeNeutralPreservesManagedSections(t *testing.T) {
 	}
 
 	// Managed sections MUST be preserved
-	if !strings.Contains(text, "<!-- gentle-ai:sdd-orchestrator -->") {
+	if !strings.Contains(text, "<!-- iugo-ai:sdd-orchestrator -->") {
 		t.Fatal("AGENTS.md lost SDD orchestrator section after switching to neutral persona")
 	}
-	if !strings.Contains(text, "<!-- gentle-ai:engram-protocol -->") {
+	if !strings.Contains(text, "<!-- iugo-ai:engram-protocol -->") {
 		t.Fatal("AGENTS.md lost engram protocol section after switching to neutral persona")
 	}
 
-	// Gentleman-specific language should be gone — neutral has the same personality but no regional language
+	// IUGO-specific language should be gone — neutral has the same personality but no regional language
 	if strings.Contains(text, "Rioplatense") {
 		t.Fatal("AGENTS.md still has Rioplatense language after switching to neutral")
 	}
@@ -863,7 +863,7 @@ func TestInjectKimiNeutralWritesMeaningfulOutputStyle(t *testing.T) {
 	}
 }
 
-func TestInjectForSyncNeutralCleansOnlyGentlemanAgent(t *testing.T) {
+func TestInjectForSyncNeutralCleansOnlyIUGOAgent(t *testing.T) {
 	for _, tc := range []struct {
 		name        string
 		adapter     agents.Adapter
@@ -878,7 +878,7 @@ func TestInjectForSyncNeutralCleansOnlyGentlemanAgent(t *testing.T) {
 			if err := os.MkdirAll(filepath.Dir(settingsPath), 0o755); err != nil {
 				t.Fatalf("MkdirAll() error = %v", err)
 			}
-			existing := `{"agent":{"gentleman":{"mode":"primary"},"custom":{"mode":"primary"}},"theme":"dark"}`
+			existing := `{"agent":{"iugo-agent":{"mode":"primary"},"custom":{"mode":"primary"}},"theme":"dark"}`
 			if err := os.WriteFile(settingsPath, []byte(existing), 0o644); err != nil {
 				t.Fatalf("WriteFile(settings) error = %v", err)
 			}
@@ -903,8 +903,8 @@ func TestInjectForSyncNeutralCleansOnlyGentlemanAgent(t *testing.T) {
 			if !ok {
 				t.Fatalf("settings lost agent object: %s", string(content))
 			}
-			if _, exists := agentMap["gentleman"]; exists {
-				t.Fatalf("settings still has agent.gentleman: %s", string(content))
+			if _, exists := agentMap["iugo-agent"]; exists {
+				t.Fatalf("settings still has agent.iugo-agent: %s", string(content))
 			}
 			if _, exists := agentMap["custom"]; !exists {
 				t.Fatalf("settings lost agent.custom sibling: %s", string(content))
@@ -947,9 +947,9 @@ func TestInjectVSCodeNeutralPreservesManagedSections(t *testing.T) {
 		t.Fatalf("NewAdapter(vscode-copilot) error = %v", err)
 	}
 
-	_, err = Inject(home, vscodeAdapter, model.PersonaGentleman)
+	_, err = Inject(home, vscodeAdapter, model.PersonaIUGO)
 	if err != nil {
-		t.Fatalf("Inject(gentleman) error = %v", err)
+		t.Fatalf("Inject(iugo-agent) error = %v", err)
 	}
 
 	path := vscodeAdapter.SystemPromptFile(home)
@@ -958,7 +958,7 @@ func TestInjectVSCodeNeutralPreservesManagedSections(t *testing.T) {
 	if err != nil {
 		t.Fatalf("ReadFile() error = %v", err)
 	}
-	withSections := string(existing) + "\n\n<!-- gentle-ai:sdd-orchestrator -->\nSDD content\n<!-- /gentle-ai:sdd-orchestrator -->\n"
+	withSections := string(existing) + "\n\n<!-- iugo-ai:sdd-orchestrator -->\nSDD content\n<!-- /iugo-ai:sdd-orchestrator -->\n"
 	if err := os.WriteFile(path, []byte(withSections), 0o644); err != nil {
 		t.Fatalf("WriteFile() error = %v", err)
 	}
@@ -980,7 +980,7 @@ func TestInjectVSCodeNeutralPreservesManagedSections(t *testing.T) {
 	if strings.Contains(text, "Rioplatense") {
 		t.Fatal("instructions file has Rioplatense language in neutral persona")
 	}
-	if !strings.Contains(text, "<!-- gentle-ai:sdd-orchestrator -->") {
+	if !strings.Contains(text, "<!-- iugo-ai:sdd-orchestrator -->") {
 		t.Fatal("instructions file lost SDD section after switching to neutral persona")
 	}
 	if !strings.Contains(text, "---\nname:") {
@@ -1002,7 +1002,7 @@ func TestInjectNeutralPreservesWhenMarkerAtByteZero(t *testing.T) {
 	}
 
 	// File starts DIRECTLY with a managed marker at byte 0 — no persona preamble.
-	markerOnly := "<!-- gentle-ai:sdd-orchestrator -->\nSDD content\n<!-- /gentle-ai:sdd-orchestrator -->\n"
+	markerOnly := "<!-- iugo-ai:sdd-orchestrator -->\nSDD content\n<!-- /iugo-ai:sdd-orchestrator -->\n"
 	if err := os.WriteFile(promptPath, []byte(markerOnly), 0o644); err != nil {
 		t.Fatalf("WriteFile() error = %v", err)
 	}
@@ -1021,7 +1021,7 @@ func TestInjectNeutralPreservesWhenMarkerAtByteZero(t *testing.T) {
 	if !strings.Contains(text, "Senior Architect") {
 		t.Fatal("missing neutral persona content")
 	}
-	if !strings.Contains(text, "<!-- gentle-ai:sdd-orchestrator -->") {
+	if !strings.Contains(text, "<!-- iugo-ai:sdd-orchestrator -->") {
 		t.Fatal("SDD section destroyed when marker was at byte 0")
 	}
 }
@@ -1043,7 +1043,7 @@ func TestInjectNeutralIdempotentWithManagedSections(t *testing.T) {
 	// Simulate a file with neutral persona + managed sections.
 	// Use a fingerprint from the real neutral asset so the test is realistic.
 	neutralContent := assets.MustRead("generic/persona-neutral.md")
-	initial := neutralContent + "\n\n<!-- gentle-ai:sdd-orchestrator -->\nSDD content\n<!-- /gentle-ai:sdd-orchestrator -->\n\n<!-- gentle-ai:engram-protocol -->\nEngram content\n<!-- /gentle-ai:engram-protocol -->\n"
+	initial := neutralContent + "\n\n<!-- iugo-ai:sdd-orchestrator -->\nSDD content\n<!-- /iugo-ai:sdd-orchestrator -->\n\n<!-- iugo-ai:engram-protocol -->\nEngram content\n<!-- /iugo-ai:engram-protocol -->\n"
 	if err := os.WriteFile(promptPath, []byte(initial), 0o644); err != nil {
 		t.Fatalf("WriteFile() error = %v", err)
 	}
@@ -1071,13 +1071,13 @@ func TestInjectNeutralIdempotentWithManagedSections(t *testing.T) {
 	text := string(content)
 
 	// Verify no duplication
-	if strings.Count(text, "<!-- gentle-ai:sdd-orchestrator -->") != 1 {
+	if strings.Count(text, "<!-- iugo-ai:sdd-orchestrator -->") != 1 {
 		t.Fatal("SDD section duplicated after idempotent neutral inject")
 	}
 	if strings.Count(text, "## Rules") != 1 {
 		t.Fatal("neutral persona duplicated after idempotent inject")
 	}
-	if strings.Count(text, "<!-- gentle-ai:engram-protocol -->") != 1 {
+	if strings.Count(text, "<!-- iugo-ai:engram-protocol -->") != 1 {
 		t.Fatal("engram section duplicated after idempotent neutral inject")
 	}
 }
@@ -1085,7 +1085,7 @@ func TestInjectNeutralIdempotentWithManagedSections(t *testing.T) {
 func TestInjectClaudeIsIdempotent(t *testing.T) {
 	home := t.TempDir()
 
-	first, err := Inject(home, claudeAdapter(), model.PersonaGentleman)
+	first, err := Inject(home, claudeAdapter(), model.PersonaIUGO)
 	if err != nil {
 		t.Fatalf("Inject() first error = %v", err)
 	}
@@ -1093,7 +1093,7 @@ func TestInjectClaudeIsIdempotent(t *testing.T) {
 		t.Fatalf("Inject() first changed = false")
 	}
 
-	second, err := Inject(home, claudeAdapter(), model.PersonaGentleman)
+	second, err := Inject(home, claudeAdapter(), model.PersonaIUGO)
 	if err != nil {
 		t.Fatalf("Inject() second error = %v", err)
 	}
@@ -1105,7 +1105,7 @@ func TestInjectClaudeIsIdempotent(t *testing.T) {
 func TestInjectOpenCodeIsIdempotent(t *testing.T) {
 	home := t.TempDir()
 
-	first, err := Inject(home, opencodeAdapter(), model.PersonaGentleman)
+	first, err := Inject(home, opencodeAdapter(), model.PersonaIUGO)
 	if err != nil {
 		t.Fatalf("Inject() first error = %v", err)
 	}
@@ -1113,7 +1113,7 @@ func TestInjectOpenCodeIsIdempotent(t *testing.T) {
 		t.Fatalf("Inject() first changed = false")
 	}
 
-	second, err := Inject(home, opencodeAdapter(), model.PersonaGentleman)
+	second, err := Inject(home, opencodeAdapter(), model.PersonaIUGO)
 	if err != nil {
 		t.Fatalf("Inject() second error = %v", err)
 	}
@@ -1130,7 +1130,7 @@ func TestInjectWindsurfIsIdempotent(t *testing.T) {
 		t.Fatalf("NewAdapter(windsurf) error = %v", err)
 	}
 
-	first, err := Inject(home, windsurfAdapter, model.PersonaGentleman)
+	first, err := Inject(home, windsurfAdapter, model.PersonaIUGO)
 	if err != nil {
 		t.Fatalf("Inject() first error = %v", err)
 	}
@@ -1144,7 +1144,7 @@ func TestInjectWindsurfIsIdempotent(t *testing.T) {
 		t.Fatalf("ReadFile() after first inject error = %v", err)
 	}
 
-	second, err := Inject(home, windsurfAdapter, model.PersonaGentleman)
+	second, err := Inject(home, windsurfAdapter, model.PersonaIUGO)
 	if err != nil {
 		t.Fatalf("Inject() second error = %v", err)
 	}
@@ -1162,7 +1162,7 @@ func TestInjectWindsurfIsIdempotent(t *testing.T) {
 	}
 }
 
-func TestInjectCursorGentlemanWritesRulesFileWithRealContent(t *testing.T) {
+func TestInjectCursorIUGOWritesRulesFileWithRealContent(t *testing.T) {
 	home := t.TempDir()
 
 	cursorAdapter, err := agents.NewAdapter("cursor")
@@ -1170,17 +1170,17 @@ func TestInjectCursorGentlemanWritesRulesFileWithRealContent(t *testing.T) {
 		t.Fatalf("NewAdapter(cursor) error = %v", err)
 	}
 
-	result, injectErr := Inject(home, cursorAdapter, model.PersonaGentleman)
+	result, injectErr := Inject(home, cursorAdapter, model.PersonaIUGO)
 	if injectErr != nil {
 		t.Fatalf("Inject(cursor) error = %v", injectErr)
 	}
 
 	if !result.Changed {
-		t.Fatalf("Inject(cursor, gentleman) changed = false")
+		t.Fatalf("Inject(cursor, iugo-agent) changed = false")
 	}
 
 	// Verify the generic persona content was used — not just neutral one-liner.
-	path := filepath.Join(home, ".cursor", "rules", "gentle-ai.mdc")
+	path := filepath.Join(home, ".cursor", "rules", "iugo-ai.mdc")
 	content, readErr := os.ReadFile(path)
 	if readErr != nil {
 		t.Fatalf("ReadFile(%q) error = %v", path, readErr)
@@ -1195,7 +1195,7 @@ func TestInjectCursorGentlemanWritesRulesFileWithRealContent(t *testing.T) {
 	}
 }
 
-func TestInjectGeminiGentlemanWritesSystemPromptWithRealContent(t *testing.T) {
+func TestInjectGeminiIUGOWritesSystemPromptWithRealContent(t *testing.T) {
 	home := t.TempDir()
 
 	geminiAdapter, err := agents.NewAdapter("gemini-cli")
@@ -1203,13 +1203,13 @@ func TestInjectGeminiGentlemanWritesSystemPromptWithRealContent(t *testing.T) {
 		t.Fatalf("NewAdapter(gemini-cli) error = %v", err)
 	}
 
-	result, injectErr := Inject(home, geminiAdapter, model.PersonaGentleman)
+	result, injectErr := Inject(home, geminiAdapter, model.PersonaIUGO)
 	if injectErr != nil {
 		t.Fatalf("Inject(gemini) error = %v", injectErr)
 	}
 
 	if !result.Changed {
-		t.Fatal("Inject(gemini, gentleman) changed = false")
+		t.Fatal("Inject(gemini, iugo-agent) changed = false")
 	}
 
 	path := filepath.Join(home, ".gemini", "GEMINI.md")
@@ -1222,7 +1222,7 @@ func TestInjectGeminiGentlemanWritesSystemPromptWithRealContent(t *testing.T) {
 	if !strings.Contains(text, "Senior Architect") {
 		t.Fatal("Gemini persona missing 'Senior Architect'")
 	}
-	assertGentlemanLanguageGuardrails(t, text,
+	assertIUGOLanguageGuardrails(t, text,
 		[]string{
 			"Match the user's current language in your REPLY ONLY",
 			"Do not switch languages unless the user does, asks you to, or you are quoting/translating content.",
@@ -1236,7 +1236,7 @@ func TestInjectGeminiGentlemanWritesSystemPromptWithRealContent(t *testing.T) {
 	)
 }
 
-func TestInjectVSCodeGentlemanWritesInstructionsFile(t *testing.T) {
+func TestInjectVSCodeIUGOWritesInstructionsFile(t *testing.T) {
 	home := t.TempDir()
 	t.Setenv("XDG_CONFIG_HOME", filepath.Join(home, ".config"))
 
@@ -1245,13 +1245,13 @@ func TestInjectVSCodeGentlemanWritesInstructionsFile(t *testing.T) {
 		t.Fatalf("NewAdapter(vscode-copilot) error = %v", err)
 	}
 
-	result, injectErr := Inject(home, vscodeAdapter, model.PersonaGentleman)
+	result, injectErr := Inject(home, vscodeAdapter, model.PersonaIUGO)
 	if injectErr != nil {
 		t.Fatalf("Inject(vscode) error = %v", injectErr)
 	}
 
 	if !result.Changed {
-		t.Fatal("Inject(vscode, gentleman) changed = false")
+		t.Fatal("Inject(vscode, iugo-agent) changed = false")
 	}
 
 	path := vscodeAdapter.SystemPromptFile(home)
@@ -1271,7 +1271,7 @@ func TestInjectVSCodeGentlemanWritesInstructionsFile(t *testing.T) {
 
 // --- Auto-heal tests: Claude Code stale free-text persona ---
 
-// legacyClaudePersonaBlock simulates a Gentleman persona block that was written
+// legacyClaudePersonaBlock simulates a IUGO persona block that was written
 // directly (without markers) by an old installer or manually by the user.
 const legacyClaudePersonaBlock = `## Rules
 
@@ -1303,12 +1303,12 @@ func TestInjectClaudeAutoHealsStaleFreeTextPersona(t *testing.T) {
 
 	// Simulate a stale install: free-text persona block at top, then a different
 	// marked section below (e.g., from a previous SDD install).
-	stalePreamble := legacyClaudePersonaBlock + "\n<!-- gentle-ai:sdd -->\nOld SDD content.\n<!-- /gentle-ai:sdd -->\n"
+	stalePreamble := legacyClaudePersonaBlock + "\n<!-- iugo-ai:sdd -->\nOld SDD content.\n<!-- /iugo-ai:sdd -->\n"
 	if err := os.WriteFile(claudeMD, []byte(stalePreamble), 0o644); err != nil {
 		t.Fatalf("WriteFile error = %v", err)
 	}
 
-	result, err := Inject(home, claudeAdapter(), model.PersonaGentleman)
+	result, err := Inject(home, claudeAdapter(), model.PersonaIUGO)
 	if err != nil {
 		t.Fatalf("Inject() error = %v", err)
 	}
@@ -1323,15 +1323,15 @@ func TestInjectClaudeAutoHealsStaleFreeTextPersona(t *testing.T) {
 	text := string(content)
 
 	// The file should now have the persona inside markers, not as free text.
-	if !strings.Contains(text, "<!-- gentle-ai:persona -->") {
+	if !strings.Contains(text, "<!-- iugo-ai:persona -->") {
 		t.Fatal("CLAUDE.md missing persona marker after heal")
 	}
-	if !strings.Contains(text, "<!-- /gentle-ai:persona -->") {
+	if !strings.Contains(text, "<!-- /iugo-ai:persona -->") {
 		t.Fatal("CLAUDE.md missing persona close marker after heal")
 	}
 
 	// The existing SDD section must be preserved.
-	if !strings.Contains(text, "<!-- gentle-ai:sdd -->") {
+	if !strings.Contains(text, "<!-- iugo-ai:sdd -->") {
 		t.Fatal("CLAUDE.md lost the sdd section during heal")
 	}
 	if !strings.Contains(text, "Old SDD content.") {
@@ -1350,7 +1350,7 @@ func TestInjectClaudeAutoHealsStaleFreeTextPersona(t *testing.T) {
 		// multiple times (e.g., content + newlines), but there must not be a
 		// separate free-text block also containing it.
 		// Check: everything before the open marker should NOT contain "Senior Architect".
-		openMarkerIdx := strings.Index(text, "<!-- gentle-ai:persona -->")
+		openMarkerIdx := strings.Index(text, "<!-- iugo-ai:persona -->")
 		if openMarkerIdx >= 0 && strings.Contains(text[:openMarkerIdx], "Senior Architect") {
 			t.Fatal("CLAUDE.md still has 'Senior Architect' before the persona marker — legacy block not fully stripped")
 		}
@@ -1369,7 +1369,7 @@ func TestInjectClaudeAutoHealStalePersonaOnlyFile(t *testing.T) {
 		t.Fatalf("WriteFile error = %v", err)
 	}
 
-	result, err := Inject(home, claudeAdapter(), model.PersonaGentleman)
+	result, err := Inject(home, claudeAdapter(), model.PersonaIUGO)
 	if err != nil {
 		t.Fatalf("Inject() error = %v", err)
 	}
@@ -1384,12 +1384,12 @@ func TestInjectClaudeAutoHealStalePersonaOnlyFile(t *testing.T) {
 	text := string(content)
 
 	// Must have markers now.
-	if !strings.Contains(text, "<!-- gentle-ai:persona -->") {
+	if !strings.Contains(text, "<!-- iugo-ai:persona -->") {
 		t.Fatal("CLAUDE.md missing persona marker")
 	}
 
 	// Must NOT have the legacy free-text block before markers.
-	openMarkerIdx := strings.Index(text, "<!-- gentle-ai:persona -->")
+	openMarkerIdx := strings.Index(text, "<!-- iugo-ai:persona -->")
 	if openMarkerIdx >= 0 {
 		before := text[:openMarkerIdx]
 		if strings.Contains(before, "## Rules") {
@@ -1411,7 +1411,7 @@ func TestInjectClaudeHealDoesNotTouchNonPersonaContent(t *testing.T) {
 		t.Fatalf("WriteFile error = %v", err)
 	}
 
-	result, err := Inject(home, claudeAdapter(), model.PersonaGentleman)
+	result, err := Inject(home, claudeAdapter(), model.PersonaIUGO)
 	if err != nil {
 		t.Fatalf("Inject() error = %v", err)
 	}
@@ -1430,7 +1430,7 @@ func TestInjectClaudeHealDoesNotTouchNonPersonaContent(t *testing.T) {
 		t.Fatal("user content was erased — heal was too aggressive")
 	}
 	// Persona section must be appended.
-	if !strings.Contains(text, "<!-- gentle-ai:persona -->") {
+	if !strings.Contains(text, "<!-- iugo-ai:persona -->") {
 		t.Fatal("persona section not appended")
 	}
 }
@@ -1441,7 +1441,7 @@ func TestInjectVSCodeCleansLegacyGitHubPersonaFile(t *testing.T) {
 	home := t.TempDir()
 	t.Setenv("XDG_CONFIG_HOME", filepath.Join(home, ".config"))
 
-	// Plant an old-style Gentleman persona file at the legacy path.
+	// Plant an old-style IUGO persona file at the legacy path.
 	legacyPath := filepath.Join(home, ".github", "copilot-instructions.md")
 	if err := os.MkdirAll(filepath.Dir(legacyPath), 0o755); err != nil {
 		t.Fatalf("MkdirAll error = %v", err)
@@ -1457,7 +1457,7 @@ func TestInjectVSCodeCleansLegacyGitHubPersonaFile(t *testing.T) {
 		t.Fatalf("NewAdapter(vscode-copilot) error = %v", err)
 	}
 
-	result, injectErr := Inject(home, vscodeAdapter, model.PersonaGentleman)
+	result, injectErr := Inject(home, vscodeAdapter, model.PersonaIUGO)
 	if injectErr != nil {
 		t.Fatalf("Inject(vscode) error = %v", injectErr)
 	}
@@ -1486,7 +1486,7 @@ func TestInjectVSCodePreservesNonPersonaGitHubFile(t *testing.T) {
 	t.Setenv("XDG_CONFIG_HOME", filepath.Join(home, ".config"))
 
 	// Plant a .github/copilot-instructions.md that has user content (not a
-	// Gentleman persona) — it must NOT be deleted.
+	// IUGO persona) — it must NOT be deleted.
 	legacyPath := filepath.Join(home, ".github", "copilot-instructions.md")
 	if err := os.MkdirAll(filepath.Dir(legacyPath), 0o755); err != nil {
 		t.Fatalf("MkdirAll error = %v", err)
@@ -1501,7 +1501,7 @@ func TestInjectVSCodePreservesNonPersonaGitHubFile(t *testing.T) {
 		t.Fatalf("NewAdapter(vscode-copilot) error = %v", err)
 	}
 
-	_, injectErr := Inject(home, vscodeAdapter, model.PersonaGentleman)
+	_, injectErr := Inject(home, vscodeAdapter, model.PersonaIUGO)
 	if injectErr != nil {
 		t.Fatalf("Inject(vscode) error = %v", injectErr)
 	}
@@ -1516,9 +1516,9 @@ func TestInjectVSCodePreservesNonPersonaGitHubFile(t *testing.T) {
 	}
 }
 
-func TestNeutralAndGentlemanToneSectionsMatch(t *testing.T) {
+func TestNeutralAndIUGOToneSectionsMatch(t *testing.T) {
 	neutral := assets.MustRead("generic/persona-neutral.md")
-	gentleman := assets.MustRead("generic/persona-gentleman.md")
+	iugo-agent := assets.MustRead("generic/persona-iugo-agent.md")
 
 	extractSection := func(content, section string) string {
 		idx := strings.Index(content, "## "+section)
@@ -1534,10 +1534,10 @@ func TestNeutralAndGentlemanToneSectionsMatch(t *testing.T) {
 	}
 
 	neutralTone := extractSection(neutral, "Tone")
-	gentlemanTone := extractSection(gentleman, "Tone")
+	iugo-agentTone := extractSection(iugo-agent, "Tone")
 
-	if neutralTone != gentlemanTone {
-		t.Fatalf("## Tone sections diverged:\nneutral:\n%s\ngentleman:\n%s", neutralTone, gentlemanTone)
+	if neutralTone != iugo-agentTone {
+		t.Fatalf("## Tone sections diverged:\nneutral:\n%s\niugo-agent:\n%s", neutralTone, iugo-agentTone)
 	}
 }
 
@@ -1559,7 +1559,7 @@ func TestInjectVSCodeIdempotentAfterHeal(t *testing.T) {
 		t.Fatalf("NewAdapter(vscode-copilot) error = %v", err)
 	}
 
-	first, err := Inject(home, vscodeAdapter, model.PersonaGentleman)
+	first, err := Inject(home, vscodeAdapter, model.PersonaIUGO)
 	if err != nil {
 		t.Fatalf("Inject() first error = %v", err)
 	}
@@ -1567,7 +1567,7 @@ func TestInjectVSCodeIdempotentAfterHeal(t *testing.T) {
 		t.Fatal("first inject should have changed")
 	}
 
-	second, err := Inject(home, vscodeAdapter, model.PersonaGentleman)
+	second, err := Inject(home, vscodeAdapter, model.PersonaIUGO)
 	if err != nil {
 		t.Fatalf("Inject() second error = %v", err)
 	}
@@ -1576,31 +1576,31 @@ func TestInjectVSCodeIdempotentAfterHeal(t *testing.T) {
 	}
 }
 
-func TestInjectClaude_SwitchGentlemanToNeutral_CleansOutputStyle(t *testing.T) {
+func TestInjectClaude_SwitchIUGOToNeutral_CleansOutputStyle(t *testing.T) {
 	home := t.TempDir()
 
-	// Step 1: install gentleman — creates output-styles/gentleman.md and sets outputStyle in settings.json.
-	_, err := Inject(home, claudeAdapter(), model.PersonaGentleman)
+	// Step 1: install iugo-agent — creates output-styles/iugo-agent.md and sets outputStyle in settings.json.
+	_, err := Inject(home, claudeAdapter(), model.PersonaIUGO)
 	if err != nil {
-		t.Fatalf("Inject(gentleman) error = %v", err)
+		t.Fatalf("Inject(iugo-agent) error = %v", err)
 	}
 
-	stylePath := filepath.Join(home, ".claude", "output-styles", "gentleman.md")
+	stylePath := filepath.Join(home, ".claude", "output-styles", "iugo-agent.md")
 	if _, statErr := os.Stat(stylePath); os.IsNotExist(statErr) {
-		t.Fatal("precondition: gentleman.md must exist after gentleman install")
+		t.Fatal("precondition: iugo-agent.md must exist after iugo-agent install")
 	}
 
 	settingsPath := filepath.Join(home, ".claude", "settings.json")
 	settingsRaw, err := os.ReadFile(settingsPath)
 	if err != nil {
-		t.Fatalf("precondition: settings.json must exist after gentleman install: %v", err)
+		t.Fatalf("precondition: settings.json must exist after iugo-agent install: %v", err)
 	}
 	var settingsBefore map[string]any
 	if err := json.Unmarshal(settingsRaw, &settingsBefore); err != nil {
 		t.Fatalf("precondition: unmarshal settings.json: %v", err)
 	}
-	if settingsBefore["outputStyle"] != "Gentleman" {
-		t.Fatalf("precondition: outputStyle must be 'Gentleman', got %v", settingsBefore["outputStyle"])
+	if settingsBefore["outputStyle"] != "IUGO" {
+		t.Fatalf("precondition: outputStyle must be 'IUGO', got %v", settingsBefore["outputStyle"])
 	}
 
 	// Step 2: switch to neutral — should clean both residuals.
@@ -1609,12 +1609,12 @@ func TestInjectClaude_SwitchGentlemanToNeutral_CleansOutputStyle(t *testing.T) {
 		t.Fatalf("Inject(neutral) error = %v", err)
 	}
 	if !result.Changed {
-		t.Fatal("Inject(neutral) should report changed when cleaning gentleman residuals")
+		t.Fatal("Inject(neutral) should report changed when cleaning iugo-agent residuals")
 	}
 
-	// output-styles/gentleman.md must be gone.
+	// output-styles/iugo-agent.md must be gone.
 	if _, statErr := os.Stat(stylePath); !os.IsNotExist(statErr) {
-		t.Fatal("gentleman.md must be removed when switching to neutral")
+		t.Fatal("iugo-agent.md must be removed when switching to neutral")
 	}
 
 	// outputStyle must now point at the managed Neutral style.
@@ -1634,7 +1634,7 @@ func TestInjectClaude_SwitchGentlemanToNeutral_CleansOutputStyle(t *testing.T) {
 func TestInjectClaude_NeutralSelectsManagedOutputStyleAndPreservesOtherSettings(t *testing.T) {
 	home := t.TempDir()
 
-	// Pre-create settings.json with a user-defined outputStyle that is NOT "Gentleman".
+	// Pre-create settings.json with a user-defined outputStyle that is NOT "IUGO".
 	settingsDir := filepath.Join(home, ".claude")
 	if err := os.MkdirAll(settingsDir, 0o755); err != nil {
 		t.Fatalf("MkdirAll() error = %v", err)
@@ -1668,13 +1668,13 @@ func TestInjectClaude_NeutralSelectsManagedOutputStyleAndPreservesOtherSettings(
 	}
 }
 
-func TestInjectClaude_SwitchGentlemanToNeutral_IsIdempotent(t *testing.T) {
+func TestInjectClaude_SwitchIUGOToNeutral_IsIdempotent(t *testing.T) {
 	home := t.TempDir()
 
-	// Install gentleman, then switch to neutral twice — second switch must be a no-op.
-	_, err := Inject(home, claudeAdapter(), model.PersonaGentleman)
+	// Install iugo-agent, then switch to neutral twice — second switch must be a no-op.
+	_, err := Inject(home, claudeAdapter(), model.PersonaIUGO)
 	if err != nil {
-		t.Fatalf("Inject(gentleman) error = %v", err)
+		t.Fatalf("Inject(iugo-agent) error = %v", err)
 	}
 
 	first, err := Inject(home, claudeAdapter(), model.PersonaNeutral)
@@ -1682,7 +1682,7 @@ func TestInjectClaude_SwitchGentlemanToNeutral_IsIdempotent(t *testing.T) {
 		t.Fatalf("Inject(neutral) first error = %v", err)
 	}
 	if !first.Changed {
-		t.Fatal("first neutral inject after gentleman should report changed")
+		t.Fatal("first neutral inject after iugo-agent should report changed")
 	}
 
 	second, err := Inject(home, claudeAdapter(), model.PersonaNeutral)
@@ -1694,19 +1694,19 @@ func TestInjectClaude_SwitchGentlemanToNeutral_IsIdempotent(t *testing.T) {
 	}
 }
 
-func TestInjectOpenCode_SwitchGentlemanToNeutral_CleansAgentOverlay(t *testing.T) {
+func TestInjectOpenCode_SwitchIUGOToNeutral_CleansAgentOverlay(t *testing.T) {
 	home := t.TempDir()
 
-	// Step 1: install gentleman — agent.gentleman key must appear in opencode.json.
-	_, err := Inject(home, opencodeAdapter(), model.PersonaGentleman)
+	// Step 1: install iugo-agent — agent.iugo-agent key must appear in opencode.json.
+	_, err := Inject(home, opencodeAdapter(), model.PersonaIUGO)
 	if err != nil {
-		t.Fatalf("Inject(gentleman) error = %v", err)
+		t.Fatalf("Inject(iugo-agent) error = %v", err)
 	}
 
 	settingsPath := filepath.Join(home, ".config", "opencode", "opencode.json")
 	settingsRaw, err := os.ReadFile(settingsPath)
 	if err != nil {
-		t.Fatalf("precondition: opencode.json must exist after gentleman install: %v", err)
+		t.Fatalf("precondition: opencode.json must exist after iugo-agent install: %v", err)
 	}
 	var before map[string]any
 	if err := json.Unmarshal(settingsRaw, &before); err != nil {
@@ -1714,10 +1714,10 @@ func TestInjectOpenCode_SwitchGentlemanToNeutral_CleansAgentOverlay(t *testing.T
 	}
 	agentBefore, ok := before["agent"].(map[string]any)
 	if !ok {
-		t.Fatal("precondition: 'agent' key must be present after gentleman install")
+		t.Fatal("precondition: 'agent' key must be present after iugo-agent install")
 	}
-	if _, ok := agentBefore["gentleman"]; !ok {
-		t.Fatal("precondition: agent.gentleman must be present after gentleman install")
+	if _, ok := agentBefore["iugo-agent"]; !ok {
+		t.Fatal("precondition: agent.iugo-agent must be present after iugo-agent install")
 	}
 
 	// Pre-populate a user-defined agent to verify it survives the cleanup.
@@ -1729,13 +1729,13 @@ func TestInjectOpenCode_SwitchGentlemanToNeutral_CleansAgentOverlay(t *testing.T
 		t.Fatalf("WriteFile() setup error = %v", err)
 	}
 
-	// Step 2: switch to neutral — agent.gentleman must be removed.
+	// Step 2: switch to neutral — agent.iugo-agent must be removed.
 	result, err := Inject(home, opencodeAdapter(), model.PersonaNeutral)
 	if err != nil {
 		t.Fatalf("Inject(neutral) error = %v", err)
 	}
 	if !result.Changed {
-		t.Fatal("Inject(neutral) should report changed when cleaning agent.gentleman residual")
+		t.Fatal("Inject(neutral) should report changed when cleaning agent.iugo-agent residual")
 	}
 
 	settingsRaw, err = os.ReadFile(settingsPath)
@@ -1747,14 +1747,14 @@ func TestInjectOpenCode_SwitchGentlemanToNeutral_CleansAgentOverlay(t *testing.T
 		t.Fatalf("Unmarshal opencode.json after neutral: %v", err)
 	}
 
-	// agent.gentleman must be gone.
+	// agent.iugo-agent must be gone.
 	if agentAfter, ok := after["agent"].(map[string]any); ok {
-		if _, stillPresent := agentAfter["gentleman"]; stillPresent {
-			t.Fatal("agent.gentleman must be removed from opencode.json after switching to neutral")
+		if _, stillPresent := agentAfter["iugo-agent"]; stillPresent {
+			t.Fatal("agent.iugo-agent must be removed from opencode.json after switching to neutral")
 		}
 		// User-defined agent must survive.
 		if _, ok := agentAfter["my-custom-agent"]; !ok {
-			t.Fatal("user-defined agent 'my-custom-agent' was removed — only agent.gentleman should be cleaned")
+			t.Fatal("user-defined agent 'my-custom-agent' was removed — only agent.iugo-agent should be cleaned")
 		}
 	}
 
@@ -1764,18 +1764,18 @@ func TestInjectOpenCode_SwitchGentlemanToNeutral_CleansAgentOverlay(t *testing.T
 	}
 }
 
-func TestInjectKilocode_SwitchGentlemanToNeutral_CleansAgentOverlay(t *testing.T) {
+func TestInjectKilocode_SwitchIUGOToNeutral_CleansAgentOverlay(t *testing.T) {
 	home := t.TempDir()
 
-	_, err := Inject(home, kilocodeAdapter(), model.PersonaGentleman)
+	_, err := Inject(home, kilocodeAdapter(), model.PersonaIUGO)
 	if err != nil {
-		t.Fatalf("Inject(gentleman) error = %v", err)
+		t.Fatalf("Inject(iugo-agent) error = %v", err)
 	}
 
 	settingsPath := filepath.Join(home, ".config", "kilo", "opencode.json")
 	data, _ := os.ReadFile(settingsPath)
-	if !strings.Contains(string(data), `"gentleman"`) {
-		t.Fatal("precondition: kilo/opencode.json should have gentleman agent after Gentleman install")
+	if !strings.Contains(string(data), `"iugo-agent"`) {
+		t.Fatal("precondition: kilo/opencode.json should have iugo-agent agent after IUGO install")
 	}
 
 	result, err := Inject(home, kilocodeAdapter(), model.PersonaNeutral)
@@ -1783,15 +1783,15 @@ func TestInjectKilocode_SwitchGentlemanToNeutral_CleansAgentOverlay(t *testing.T
 		t.Fatalf("Inject(neutral) error = %v", err)
 	}
 	if !result.Changed {
-		t.Fatal("Inject(neutral) should report changed when cleaning up gentleman agent overlay")
+		t.Fatal("Inject(neutral) should report changed when cleaning up iugo-agent agent overlay")
 	}
 
 	data, err = os.ReadFile(settingsPath)
 	if err != nil {
 		t.Fatalf("ReadFile kilo/opencode.json error = %v", err)
 	}
-	if strings.Contains(string(data), `"gentleman"`) {
-		t.Fatal("kilo/opencode.json must not have gentleman agent key after switching to Neutral")
+	if strings.Contains(string(data), `"iugo-agent"`) {
+		t.Fatal("kilo/opencode.json must not have iugo-agent agent key after switching to Neutral")
 	}
 }
 
@@ -1806,18 +1806,18 @@ func TestInjectOpenCode_NeutralFresh_IsNoOp(t *testing.T) {
 	settingsPath := filepath.Join(home, ".config", "opencode", "opencode.json")
 	if _, statErr := os.Stat(settingsPath); !os.IsNotExist(statErr) {
 		data, _ := os.ReadFile(settingsPath)
-		if strings.Contains(string(data), `"gentleman"`) {
-			t.Fatal("Neutral fresh install must not create gentleman agent key")
+		if strings.Contains(string(data), `"iugo-agent"`) {
+			t.Fatal("Neutral fresh install must not create iugo-agent agent key")
 		}
 	}
 }
 
-func TestInjectOpenCode_GentlemanOnly_WritesAgentOverlay(t *testing.T) {
+func TestInjectOpenCode_IUGOOnly_WritesAgentOverlay(t *testing.T) {
 	home := t.TempDir()
 
-	_, err := Inject(home, opencodeAdapter(), model.PersonaGentleman)
+	_, err := Inject(home, opencodeAdapter(), model.PersonaIUGO)
 	if err != nil {
-		t.Fatalf("Inject(gentleman) error = %v", err)
+		t.Fatalf("Inject(iugo-agent) error = %v", err)
 	}
 
 	settingsPath := filepath.Join(home, ".config", "opencode", "opencode.json")
@@ -1825,8 +1825,8 @@ func TestInjectOpenCode_GentlemanOnly_WritesAgentOverlay(t *testing.T) {
 	if err != nil {
 		t.Fatalf("ReadFile(opencode.json) error = %v", err)
 	}
-	if !strings.Contains(string(data), `"gentleman"`) {
-		t.Fatal("Gentleman install must write gentleman agent overlay in opencode.json")
+	if !strings.Contains(string(data), `"iugo-agent"`) {
+		t.Fatal("IUGO install must write iugo-agent agent overlay in opencode.json")
 	}
 }
 
@@ -1837,7 +1837,7 @@ func TestInjectOpenCode_MalformedJSON_DoesNotPanic(t *testing.T) {
 	if err := os.MkdirAll(settingsDir, 0o755); err != nil {
 		t.Fatalf("MkdirAll() error = %v", err)
 	}
-	malformed := `{ "agent": { "gentleman": {invalid json`
+	malformed := `{ "agent": { "iugo-agent": {invalid json`
 	if err := os.WriteFile(filepath.Join(settingsDir, "opencode.json"), []byte(malformed), 0o644); err != nil {
 		t.Fatalf("WriteFile() error = %v", err)
 	}
@@ -1855,7 +1855,7 @@ func TestInjectClaude_MalformedJSON_DoesNotPanic(t *testing.T) {
 	if err := os.MkdirAll(settingsDir, 0o755); err != nil {
 		t.Fatalf("MkdirAll() error = %v", err)
 	}
-	malformed := `{ "outputStyle": "Gentleman", invalid`
+	malformed := `{ "outputStyle": "IUGO", invalid`
 	if err := os.WriteFile(filepath.Join(settingsDir, "settings.json"), []byte(malformed), 0o644); err != nil {
 		t.Fatalf("WriteFile() error = %v", err)
 	}
@@ -1866,11 +1866,11 @@ func TestInjectClaude_MalformedJSON_DoesNotPanic(t *testing.T) {
 	}
 }
 
-func TestInjectKimi_SwitchGentlemanToNeutral_NoResidualPersonaContent(t *testing.T) {
+func TestInjectKimi_SwitchIUGOToNeutral_NoResidualPersonaContent(t *testing.T) {
 	home := t.TempDir()
 
-	if _, err := Inject(home, kimiAdapter(), model.PersonaGentleman); err != nil {
-		t.Fatalf("Inject(gentleman) error = %v", err)
+	if _, err := Inject(home, kimiAdapter(), model.PersonaIUGO); err != nil {
+		t.Fatalf("Inject(iugo-agent) error = %v", err)
 	}
 
 	if _, err := Inject(home, kimiAdapter(), model.PersonaNeutral); err != nil {
@@ -1893,19 +1893,19 @@ func TestInjectKimi_SwitchGentlemanToNeutral_NoResidualPersonaContent(t *testing
 	if strings.Contains(content, "Rioplatense") {
 		t.Error("output-style.md still contains 'Rioplatense' after switching to neutral")
 	}
-	if strings.Contains(content, "Gentleman Output Style") {
-		t.Error("output-style.md still contains 'Gentleman Output Style' after switching to neutral")
+	if strings.Contains(content, "IUGO Output Style") {
+		t.Error("output-style.md still contains 'IUGO Output Style' after switching to neutral")
 	}
 	if strings.Contains(content, "voseo") {
 		t.Error("output-style.md still contains 'voseo' after switching to neutral")
 	}
 }
 
-func TestInjectForSync_OpenCodeNeutral_CleansAgentGentleman(t *testing.T) {
+func TestInjectForSync_OpenCodeNeutral_CleansAgentIUGO(t *testing.T) {
 	home := t.TempDir()
 
-	if _, err := Inject(home, opencodeAdapter(), model.PersonaGentleman); err != nil {
-		t.Fatalf("Inject(gentleman) error = %v", err)
+	if _, err := Inject(home, opencodeAdapter(), model.PersonaIUGO); err != nil {
+		t.Fatalf("Inject(iugo-agent) error = %v", err)
 	}
 
 	settingsPath := filepath.Join(home, ".config", "opencode", "opencode.json")
@@ -1913,8 +1913,8 @@ func TestInjectForSync_OpenCodeNeutral_CleansAgentGentleman(t *testing.T) {
 	if err != nil {
 		t.Fatalf("ReadFile(opencode.json) after install error = %v", err)
 	}
-	if !strings.Contains(string(before), `"gentleman"`) {
-		t.Fatalf("opencode.json missing gentleman agent after install; got:\n%s", string(before))
+	if !strings.Contains(string(before), `"iugo-agent"`) {
+		t.Fatalf("opencode.json missing iugo-agent agent after install; got:\n%s", string(before))
 	}
 
 	if _, err := InjectForSync(home, opencodeAdapter(), model.PersonaNeutral); err != nil {
@@ -1925,21 +1925,21 @@ func TestInjectForSync_OpenCodeNeutral_CleansAgentGentleman(t *testing.T) {
 	if err != nil {
 		t.Fatalf("ReadFile(opencode.json) after sync error = %v", err)
 	}
-	if strings.Contains(string(after), `"gentleman"`) {
-		t.Fatalf("opencode.json still has gentleman agent after InjectForSync(neutral); got:\n%s", string(after))
+	if strings.Contains(string(after), `"iugo-agent"`) {
+		t.Fatalf("opencode.json still has iugo-agent agent after InjectForSync(neutral); got:\n%s", string(after))
 	}
 }
 
-func TestInjectForSync_ClaudeGentlemanToNeutral_CleansOutputStyle(t *testing.T) {
+func TestInjectForSync_ClaudeIUGOToNeutral_CleansOutputStyle(t *testing.T) {
 	home := t.TempDir()
 
-	if _, err := Inject(home, claudeAdapter(), model.PersonaGentleman); err != nil {
-		t.Fatalf("Inject(gentleman) error = %v", err)
+	if _, err := Inject(home, claudeAdapter(), model.PersonaIUGO); err != nil {
+		t.Fatalf("Inject(iugo-agent) error = %v", err)
 	}
 
-	stylePath := filepath.Join(home, ".claude", "output-styles", "gentleman.md")
+	stylePath := filepath.Join(home, ".claude", "output-styles", "iugo-agent.md")
 	if _, err := os.Stat(stylePath); os.IsNotExist(err) {
-		t.Fatal("gentleman.md not written by Inject(gentleman) — precondition failed")
+		t.Fatal("iugo-agent.md not written by Inject(iugo-agent) — precondition failed")
 	}
 
 	settingsPath := filepath.Join(home, ".claude", "settings.json")
@@ -1956,7 +1956,7 @@ func TestInjectForSync_ClaudeGentlemanToNeutral_CleansOutputStyle(t *testing.T) 
 	}
 
 	if _, err := os.Stat(stylePath); !os.IsNotExist(err) {
-		t.Fatal("gentleman.md still present after InjectForSync(neutral) — residue not cleaned")
+		t.Fatal("iugo-agent.md still present after InjectForSync(neutral) — residue not cleaned")
 	}
 
 	afterRaw, err := os.ReadFile(settingsPath)
@@ -1975,36 +1975,36 @@ func TestInjectForSync_ClaudeGentlemanToNeutral_CleansOutputStyle(t *testing.T) 
 // not the Claude-style <available_skills> injection mechanism).
 const availableSkillsIsAuthoritative = "block in your system prompt is authoritative"
 
-// TestPersonaContentHermesGentleman verifies that personaContent returns the
-// Hermes-specific gentleman asset with the skill-loading block rewritten for
+// TestPersonaContentHermesIUGO verifies that personaContent returns the
+// Hermes-specific iugo-agent asset with the skill-loading block rewritten for
 // Hermes's native skill model (no <available_skills> injection mechanism).
-func TestPersonaContentHermesGentleman(t *testing.T) {
+func TestPersonaContentHermesIUGO(t *testing.T) {
 	tests := []struct {
 		name    string
 		persona model.PersonaID
 	}{
-		{"gentleman", model.PersonaGentleman},
-		{"gentleman-neutral-artifacts", model.PersonaGentlemanNeutralArtifacts},
+		{"iugo-agent", model.PersonaIUGO},
+		{"iugo-agent-neutral-artifacts", model.PersonaIUGONeutralArtifacts},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			content := personaContent(model.AgentHermes, tt.persona)
 			if content == "" {
-				t.Fatal("personaContent(hermes, gentleman) returned empty string")
+				t.Fatal("personaContent(hermes, iugo-agent) returned empty string")
 			}
 			// The generic <available_skills> "is authoritative" block must be absent.
 			if strings.Contains(content, availableSkillsIsAuthoritative) {
-				t.Fatal("hermes gentleman persona still has the generic <available_skills> instruction — skill-loading block not rewritten")
+				t.Fatal("hermes iugo-agent persona still has the generic <available_skills> instruction — skill-loading block not rewritten")
 			}
 			// Should reference ~/.hermes/skills/ (Hermes-native skill loading).
 			if !strings.Contains(content, "~/.hermes/skills/") {
-				t.Fatal("hermes gentleman persona missing ~/.hermes/skills/ reference")
+				t.Fatal("hermes iugo-agent persona missing ~/.hermes/skills/ reference")
 			}
 			// Must be distinct from generic asset.
-			generic := assets.MustRead("generic/persona-gentleman.md")
+			generic := assets.MustRead("generic/persona-iugo-agent.md")
 			if content == generic {
-				t.Fatal("hermes gentleman persona is byte-identical to generic — Hermes-specific asset not used")
+				t.Fatal("hermes iugo-agent persona is byte-identical to generic — Hermes-specific asset not used")
 			}
 		})
 	}
@@ -2114,7 +2114,7 @@ func TestMergeJSONFileToleratingMalformed(t *testing.T) {
 
 	t.Run("ignores malformed overlay to avoid data loss", func(t *testing.T) {
 		path := filepath.Join(home, "malformed-overlay.json")
-		original := `{"outputStyle":"Gentleman"}`
+		original := `{"outputStyle":"IUGO"}`
 		if err := os.WriteFile(path, []byte(original), 0o644); err != nil {
 			t.Fatalf("WriteFile(malformed overlay): %v", err)
 		}
@@ -2154,11 +2154,11 @@ func TestRemoveJSONKeyIfValueScenarios(t *testing.T) {
 
 	t.Run("removes matching managed value and preserves siblings", func(t *testing.T) {
 		path := filepath.Join(home, "matching.json")
-		if err := os.WriteFile(path, []byte(`{"outputStyle":"Gentleman","theme":"dark"}`), 0o644); err != nil {
+		if err := os.WriteFile(path, []byte(`{"outputStyle":"IUGO","theme":"dark"}`), 0o644); err != nil {
 			t.Fatalf("WriteFile(matching): %v", err)
 		}
 
-		removed, err := removeJSONKeyIfValue(path, "outputStyle", "Gentleman")
+		removed, err := removeJSONKeyIfValue(path, "outputStyle", "IUGO")
 		if err != nil {
 			t.Fatalf("removeJSONKeyIfValue(matching) error = %v", err)
 		}
@@ -2186,7 +2186,7 @@ func TestRemoveJSONKeyIfValueScenarios(t *testing.T) {
 			t.Fatalf("WriteFile(custom): %v", err)
 		}
 
-		removed, err := removeJSONKeyIfValue(path, "outputStyle", "Gentleman")
+		removed, err := removeJSONKeyIfValue(path, "outputStyle", "IUGO")
 		if err != nil {
 			t.Fatalf("removeJSONKeyIfValue(custom) error = %v", err)
 		}
@@ -2205,12 +2205,12 @@ func TestRemoveJSONKeyIfValueScenarios(t *testing.T) {
 
 	t.Run("ignores malformed json", func(t *testing.T) {
 		path := filepath.Join(home, "malformed-cleanup.json")
-		original := `{"outputStyle":"Gentleman", invalid`
+		original := `{"outputStyle":"IUGO", invalid`
 		if err := os.WriteFile(path, []byte(original), 0o644); err != nil {
 			t.Fatalf("WriteFile(malformed): %v", err)
 		}
 
-		removed, err := removeJSONKeyIfValue(path, "outputStyle", "Gentleman")
+		removed, err := removeJSONKeyIfValue(path, "outputStyle", "IUGO")
 		if err != nil {
 			t.Fatalf("removeJSONKeyIfValue(malformed) error = %v", err)
 		}
@@ -2234,24 +2234,24 @@ func TestRemoveJSONKeyIfValueScenarios(t *testing.T) {
 			return nil, fmt.Errorf("read failed")
 		}
 
-		if _, err := removeJSONKeyIfValue(filepath.Join(home, "denied-cleanup.json"), "outputStyle", "Gentleman"); err == nil {
+		if _, err := removeJSONKeyIfValue(filepath.Join(home, "denied-cleanup.json"), "outputStyle", "IUGO"); err == nil {
 			t.Fatal("removeJSONKeyIfValue(read error) error = nil")
 		}
 	})
 }
 
-// TestInjectHermesGentlemanWritesSOULMD verifies that Inject writes the Hermes
-// gentleman persona into ~/.hermes/SOUL.md with <!-- gentle-ai:persona --> markers.
-func TestInjectHermesGentlemanWritesSOULMD(t *testing.T) {
+// TestInjectHermesIUGOWritesSOULMD verifies that Inject writes the Hermes
+// iugo-agent persona into ~/.hermes/SOUL.md with <!-- iugo-ai:persona --> markers.
+func TestInjectHermesIUGOWritesSOULMD(t *testing.T) {
 	home := t.TempDir()
 	adapter := hermesAdapter()
 
-	result, err := Inject(home, adapter, model.PersonaGentleman)
+	result, err := Inject(home, adapter, model.PersonaIUGO)
 	if err != nil {
-		t.Fatalf("Inject(hermes, gentleman) error = %v", err)
+		t.Fatalf("Inject(hermes, iugo-agent) error = %v", err)
 	}
 	if !result.Changed {
-		t.Fatal("Inject(hermes, gentleman) changed = false")
+		t.Fatal("Inject(hermes, iugo-agent) changed = false")
 	}
 
 	soulPath := filepath.Join(home, ".hermes", "SOUL.md")
@@ -2261,11 +2261,11 @@ func TestInjectHermesGentlemanWritesSOULMD(t *testing.T) {
 	}
 	text := string(content)
 
-	if !strings.Contains(text, "<!-- gentle-ai:persona -->") {
-		t.Fatal("SOUL.md missing <!-- gentle-ai:persona --> open marker")
+	if !strings.Contains(text, "<!-- iugo-ai:persona -->") {
+		t.Fatal("SOUL.md missing <!-- iugo-ai:persona --> open marker")
 	}
-	if !strings.Contains(text, "<!-- /gentle-ai:persona -->") {
-		t.Fatal("SOUL.md missing <!-- /gentle-ai:persona --> close marker")
+	if !strings.Contains(text, "<!-- /iugo-ai:persona -->") {
+		t.Fatal("SOUL.md missing <!-- /iugo-ai:persona --> close marker")
 	}
 	if strings.Contains(text, availableSkillsIsAuthoritative) {
 		t.Fatal("SOUL.md contains the generic <available_skills> instruction — Hermes-specific asset not used")
@@ -2296,8 +2296,8 @@ func TestInjectHermesNeutralWritesSOULMD(t *testing.T) {
 	}
 	text := string(content)
 
-	if !strings.Contains(text, "<!-- gentle-ai:persona -->") {
-		t.Fatal("SOUL.md missing <!-- gentle-ai:persona --> open marker")
+	if !strings.Contains(text, "<!-- iugo-ai:persona -->") {
+		t.Fatal("SOUL.md missing <!-- iugo-ai:persona --> open marker")
 	}
 	if strings.Contains(text, availableSkillsIsAuthoritative) {
 		t.Fatal("SOUL.md contains the generic <available_skills> instruction — generic neutral used instead of Hermes-specific")
@@ -2310,7 +2310,7 @@ func TestInjectHermesNeutralWritesSOULMD(t *testing.T) {
 // generic assistant identity — it answers as Gentle AI running on Hermes Agent.
 func TestHermesPersonaAssetsContainIdentitySection(t *testing.T) {
 	paths := []string{
-		"hermes/persona-gentleman.md",
+		"hermes/persona-iugo-agent.md",
 		"hermes/persona-neutral.md",
 	}
 

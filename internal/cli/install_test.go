@@ -59,8 +59,8 @@ func TestNormalizeInstallFlagsDefaults(t *testing.T) {
 
 	want := model.Selection{
 		Agents:  []model.AgentID{model.AgentClaudeCode, model.AgentOpenCode, model.AgentKilocode, model.AgentGeminiCLI, model.AgentCodex, model.AgentCursor, model.AgentVSCodeCopilot, model.AgentAntigravity, model.AgentWindsurf, model.AgentKimi, model.AgentQwenCode, model.AgentKiroIDE, model.AgentOpenClaw, model.AgentPi, model.AgentTrae, model.AgentHermes},
-		Persona: model.PersonaGentleman,
-		Preset:  model.PresetFullGentleman,
+		Persona: model.PersonaIUGO,
+		Preset:  model.PresetFullIUGO,
 		Components: []model.ComponentID{
 			model.ComponentEngram,
 			model.ComponentSDD,
@@ -79,7 +79,7 @@ func TestNormalizeInstallFlagsDefaults(t *testing.T) {
 	}
 }
 
-func TestNormalizeInstallFlagsCustomAcceptsOptionalGentlemanInstallables(t *testing.T) {
+func TestNormalizeInstallFlagsCustomAcceptsOptionalIUGOInstallables(t *testing.T) {
 	input, err := NormalizeInstallFlags(InstallFlags{
 		Preset:     string(model.PresetCustom),
 		Components: []string{string(model.ComponentClaudeTheme), string(model.ComponentOpenCodeGentleLogo)},
@@ -136,7 +136,7 @@ func TestNormalizeInstallFlagsPiOnlyRespectsExplicitPreset(t *testing.T) {
 		t.Fatalf("NormalizeInstallFlags() error = %v", err)
 	}
 
-	// Pi + explicit minimal preset with default gentleman persona now includes ComponentPersona.
+	// Pi + explicit minimal preset with default iugo-agent persona now includes ComponentPersona.
 	// Persona is persona-screen-driven; preset only controls the ecosystem stack.
 	want := []model.ComponentID{model.ComponentEngram, model.ComponentPersona}
 	if !reflect.DeepEqual(input.Selection.Components, want) {

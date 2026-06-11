@@ -127,7 +127,7 @@ func TestAllEmbeddedAssetsAreReadable(t *testing.T) {
 		// Claude agent files
 		"claude/engram-protocol.md",
 		"claude/output-style-neutral.md",
-		"claude/persona-gentleman.md",
+		"claude/persona-iugo-agent.md",
 		"claude/sdd-orchestrator.md",
 		"claude/commands/sdd-apply.md",
 		"claude/commands/sdd-archive.md",
@@ -143,7 +143,7 @@ func TestAllEmbeddedAssetsAreReadable(t *testing.T) {
 		"claude/agents/sdd-onboard.md",
 
 		// OpenCode agent files
-		"opencode/persona-gentleman.md",
+		"opencode/persona-iugo-agent.md",
 		"opencode/sdd-orchestrator.md",
 		"opencode/sdd-overlay-single.json",
 		"opencode/sdd-overlay-multi.json",
@@ -180,12 +180,12 @@ func TestAllEmbeddedAssetsAreReadable(t *testing.T) {
 		"cursor/agents/sdd-archive.md",
 
 		// Kimi agent files
-		"kimi/persona-gentleman.md",
-		"kimi/output-style-gentleman.md",
+		"kimi/persona-iugo-agent.md",
+		"kimi/output-style-iugo-agent.md",
 		"kimi/output-style-neutral.md",
 		"kimi/sdd-orchestrator.md",
 		"kimi/KIMI.md",
-		"kimi/agents/gentleman.yaml",
+		"kimi/agents/iugo-agent.yaml",
 		"kimi/agents/sdd-init.yaml",
 		"kimi/agents/sdd-explore.yaml",
 		"kimi/agents/sdd-propose.yaml",
@@ -229,7 +229,7 @@ func TestAllEmbeddedAssetsAreReadable(t *testing.T) {
 
 		// Hermes agent files
 		"hermes/sdd-orchestrator.md",
-		"hermes/persona-gentleman.md",
+		"hermes/persona-iugo-agent.md",
 		"hermes/persona-neutral.md",
 
 		// Foundation skills
@@ -270,7 +270,7 @@ func TestOpenCodeEmbeddedAssetLayout(t *testing.T) {
 		seen[entry.Name()] = true
 	}
 
-	for _, name := range []string{"commands", "plugins", "persona-gentleman.md", "sdd-orchestrator.md", "sdd-overlay-single.json", "sdd-overlay-multi.json"} {
+	for _, name := range []string{"commands", "plugins", "persona-iugo-agent.md", "sdd-orchestrator.md", "sdd-overlay-single.json", "sdd-overlay-multi.json"} {
 		if !seen[name] {
 			t.Fatalf("opencode embedded assets missing %q", name)
 		}
@@ -425,7 +425,7 @@ func TestClaudeEmbeddedAssetLayout(t *testing.T) {
 		seen[entry.Name()] = true
 	}
 
-	for _, name := range []string{"agents", "commands", "engram-protocol.md", "persona-gentleman.md", "sdd-orchestrator.md"} {
+	for _, name := range []string{"agents", "commands", "engram-protocol.md", "persona-iugo-agent.md", "sdd-orchestrator.md"} {
 		if !seen[name] {
 			t.Fatalf("claude embedded assets missing %q", name)
 		}
@@ -570,7 +570,7 @@ func TestOpenCodeSDDCommandsAreOrchestratorGuarded(t *testing.T) {
 
 	applyContent := MustRead("opencode/commands/sdd-apply.md")
 	for _, required := range []string{
-		"You are the `gentle-orchestrator`, not an SDD executor",
+		"You are the `iugo-orchestrator`, not an SDD executor",
 		"If spec, design, or tasks are missing, do NOT implement",
 		"do not hardcode Engram",
 	} {
@@ -591,7 +591,7 @@ func TestClaudeSDDOrchestratorChainStrategy(t *testing.T) {
 		"When launching `sdd-apply`, always include the resolved `delivery_strategy`, `chain_strategy`, and any chosen PR boundary/exception in the prompt.",
 		"Claude Code's native Agent/Task mechanism",
 		"results are not persisted by OpenCode's background-agent plugin",
-		"treat `chained-pr` (registry skill `gentle-ai-chained-pr`) as a required skill match",
+		"treat `chained-pr` (registry skill `iugo-ai-chained-pr`) as a required skill match",
 	} {
 		if !strings.Contains(content, required) {
 			t.Fatalf("claude/sdd-orchestrator.md missing required SDD chain/delegation wording %q", required)
@@ -640,7 +640,7 @@ func TestNonClaudeSDDOrchestratorChainStrategyParity(t *testing.T) {
 				"sdd-tasks",
 				"sdd-apply",
 				tc.propagationScope,
-				"treat `chained-pr` (registry skill `gentle-ai-chained-pr`) as a required skill match",
+				"treat `chained-pr` (registry skill `iugo-ai-chained-pr`) as a required skill match",
 			} {
 				if !strings.Contains(content, required) {
 					t.Fatalf("%s missing required chain strategy wording %q", tc.path, required)
@@ -686,13 +686,13 @@ func TestPlatformNativeSDDOrchestratorsAvoidOpenCodePersistenceClaims(t *testing
 	}
 }
 
-func TestGentlemanLanguageInstructionsDoNotBiasEnglishSessions(t *testing.T) {
+func TestIUGOLanguageInstructionsDoNotBiasEnglishSessions(t *testing.T) {
 	personaPaths := []string{
-		"claude/persona-gentleman.md",
-		"generic/persona-gentleman.md",
-		"kiro/persona-gentleman.md",
-		"kimi/persona-gentleman.md",
-		"opencode/persona-gentleman.md",
+		"claude/persona-iugo-agent.md",
+		"generic/persona-iugo-agent.md",
+		"kiro/persona-iugo-agent.md",
+		"kimi/persona-iugo-agent.md",
+		"opencode/persona-iugo-agent.md",
 	}
 
 	for _, path := range personaPaths {
@@ -722,8 +722,8 @@ func TestGentlemanLanguageInstructionsDoNotBiasEnglishSessions(t *testing.T) {
 	}
 
 	for _, path := range []string{
-		"claude/output-style-gentleman.md",
-		"kimi/output-style-gentleman.md",
+		"claude/output-style-iugo-agent.md",
+		"kimi/output-style-iugo-agent.md",
 	} {
 		t.Run(path, func(t *testing.T) {
 			content := MustRead(path)
@@ -789,12 +789,12 @@ func TestPersonasContainContextualSkillLoadingDirective(t *testing.T) {
 		isClaude  bool
 		invokeMsg string // wording specific to the agent family
 	}{
-		{path: "claude/persona-gentleman.md", isClaude: true, invokeMsg: "invoke it via the built-in `Skill` tool"},
-		{path: "opencode/persona-gentleman.md", isClaude: false, invokeMsg: "read the matching SKILL.md"},
-		{path: "generic/persona-gentleman.md", isClaude: false, invokeMsg: "read the matching SKILL.md"},
+		{path: "claude/persona-iugo-agent.md", isClaude: true, invokeMsg: "invoke it via the built-in `Skill` tool"},
+		{path: "opencode/persona-iugo-agent.md", isClaude: false, invokeMsg: "read the matching SKILL.md"},
+		{path: "generic/persona-iugo-agent.md", isClaude: false, invokeMsg: "read the matching SKILL.md"},
 		{path: "generic/persona-neutral.md", isClaude: false, invokeMsg: "read the matching SKILL.md"},
-		{path: "kiro/persona-gentleman.md", isClaude: false, invokeMsg: "read the matching SKILL.md"},
-		{path: "kimi/persona-gentleman.md", isClaude: false, invokeMsg: "read the matching SKILL.md"},
+		{path: "kiro/persona-iugo-agent.md", isClaude: false, invokeMsg: "read the matching SKILL.md"},
+		{path: "kimi/persona-iugo-agent.md", isClaude: false, invokeMsg: "read the matching SKILL.md"},
 	}
 
 	for _, tc := range tests {
@@ -931,7 +931,7 @@ func TestSDDStatusContractMatchesNativeShape(t *testing.T) {
 	content := MustRead("skills/_shared/sdd-status-contract.md")
 
 	for _, want := range []string{
-		"schemaName: gentle-ai.sdd-status",
+		"schemaName: iugo-ai.sdd-status",
 		"schemaVersion: 1",
 		"changeName: <change-name-or-null>",
 		"artifactStore: openspec",
@@ -950,7 +950,7 @@ func TestSDDStatusContractMatchesNativeShape(t *testing.T) {
 		"sameDomainActiveChanges: []",
 		"phaseInstructions:",
 		"blockedReasons: []",
-		"Manual fallback status MUST stay shape-compatible with native `gentle-ai.sdd-status` JSON",
+		"Manual fallback status MUST stay shape-compatible with native `iugo-ai.sdd-status` JSON",
 	} {
 		if !strings.Contains(content, want) {
 			t.Fatalf("sdd-status-contract missing native-shape field %q", want)
@@ -1090,7 +1090,7 @@ func TestSDDOrchestratorAssetsScopedToDedicatedAgent(t *testing.T) {
 			content := MustRead(assetPath)
 			dedicatedAgent := "sdd-orchestrator"
 			if assetPath == "opencode/sdd-orchestrator.md" {
-				dedicatedAgent = "gentle-orchestrator"
+				dedicatedAgent = "iugo-orchestrator"
 			}
 			if assetPath == "claude/sdd-orchestrator.md" {
 				if !strings.Contains(content, "Claude Code orchestrator rule") {

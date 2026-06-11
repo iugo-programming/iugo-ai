@@ -26,19 +26,19 @@ func TestComponentApplyStepOpenClawWorkspaceScopedInjections(t *testing.T) {
 			name:      "engram writes protocol to workspace AGENTS",
 			component: model.ComponentEngram,
 			fileName:  "AGENTS.md",
-			marker:    "<!-- gentle-ai:engram-protocol -->",
+			marker:    "<!-- iugo-ai:engram-protocol -->",
 		},
 		{
 			name:      "persona writes soul to workspace",
 			component: model.ComponentPersona,
 			fileName:  "SOUL.md",
-			marker:    "<!-- gentle-ai:persona -->",
+			marker:    "<!-- iugo-ai:persona -->",
 		},
 		{
 			name:      "sdd writes protocol to workspace AGENTS",
 			component: model.ComponentSDD,
 			fileName:  "AGENTS.md",
-			marker:    "<!-- gentle-ai:sdd-orchestrator -->",
+			marker:    "<!-- iugo-ai:sdd-orchestrator -->",
 		},
 	}
 
@@ -60,7 +60,7 @@ func TestComponentApplyStepOpenClawWorkspaceScopedInjections(t *testing.T) {
 				homeDir:      home,
 				workspaceDir: workspace,
 				agents:       []model.AgentID{model.AgentOpenClaw},
-				selection:    model.Selection{Persona: model.PersonaGentleman},
+				selection:    model.Selection{Persona: model.PersonaIUGO},
 				profile:      system.PlatformProfile{PackageManager: "brew"},
 			}
 
@@ -99,19 +99,19 @@ func TestComponentSyncStepOpenClawWorkspaceScopedInjections(t *testing.T) {
 			name:      "engram sync writes protocol to workspace AGENTS",
 			component: model.ComponentEngram,
 			fileName:  "AGENTS.md",
-			marker:    "<!-- gentle-ai:engram-protocol -->",
+			marker:    "<!-- iugo-ai:engram-protocol -->",
 		},
 		{
 			name:      "persona sync writes soul to workspace",
 			component: model.ComponentPersona,
 			fileName:  "SOUL.md",
-			marker:    "<!-- gentle-ai:persona -->",
+			marker:    "<!-- iugo-ai:persona -->",
 		},
 		{
 			name:      "sdd sync writes protocol to workspace AGENTS",
 			component: model.ComponentSDD,
 			fileName:  "AGENTS.md",
-			marker:    "<!-- gentle-ai:sdd-orchestrator -->",
+			marker:    "<!-- iugo-ai:sdd-orchestrator -->",
 		},
 	}
 
@@ -129,7 +129,7 @@ func TestComponentSyncStepOpenClawWorkspaceScopedInjections(t *testing.T) {
 				homeDir:      home,
 				workspaceDir: workspace,
 				agents:       []model.AgentID{model.AgentOpenClaw},
-				selection:    model.Selection{Persona: model.PersonaGentleman},
+				selection:    model.Selection{Persona: model.PersonaIUGO},
 			}
 
 			if err := step.Run(); err != nil {
@@ -172,7 +172,7 @@ func TestInstallRuntimeOpenClawUsesConfiguredActiveWorkspace(t *testing.T) {
 	selection := model.Selection{
 		Agents:     []model.AgentID{model.AgentOpenClaw},
 		Components: []model.ComponentID{model.ComponentPersona, model.ComponentSDD, model.ComponentEngram},
-		Persona:    model.PersonaGentleman,
+		Persona:    model.PersonaIUGO,
 		StrictTDD:  true,
 	}
 	resolved := planner.ResolvedPlan{
@@ -204,7 +204,7 @@ func TestSyncRuntimeOpenClawUsesConfiguredActiveWorkspace(t *testing.T) {
 	selection := model.Selection{
 		Agents:     []model.AgentID{model.AgentOpenClaw},
 		Components: []model.ComponentID{model.ComponentPersona, model.ComponentSDD, model.ComponentEngram},
-		Persona:    model.PersonaGentleman,
+		Persona:    model.PersonaIUGO,
 		StrictTDD:  true,
 	}
 	rt, err := newSyncRuntime(home, selection)
@@ -240,14 +240,14 @@ func quoteJSON(value string) string {
 func assertOpenClawInstructionsInWorkspace(t *testing.T, workspace string) {
 	t.Helper()
 	agentsText := readOpenClawTestFile(t, filepath.Join(workspace, "AGENTS.md"))
-	for _, want := range []string{"gentle-ai:engram-protocol", "gentle-ai:sdd-orchestrator", "gentle-ai:strict-tdd-mode"} {
+	for _, want := range []string{"iugo-ai:engram-protocol", "iugo-ai:sdd-orchestrator", "iugo-ai:strict-tdd-mode"} {
 		if !strings.Contains(agentsText, want) {
 			t.Fatalf("active workspace AGENTS.md missing %q; got:\n%s", want, agentsText)
 		}
 	}
 
 	soulText := readOpenClawTestFile(t, filepath.Join(workspace, "SOUL.md"))
-	if !strings.Contains(soulText, "gentle-ai:persona") || !strings.Contains(soulText, "Senior Architect") {
+	if !strings.Contains(soulText, "iugo-ai:persona") || !strings.Contains(soulText, "Senior Architect") {
 		t.Fatalf("active workspace SOUL.md missing Gentle AI persona; got:\n%s", soulText)
 	}
 }

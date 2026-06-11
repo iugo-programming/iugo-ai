@@ -192,19 +192,19 @@ func TestCommentWriterLanguageContractSources(t *testing.T) {
 	}
 }
 
-func TestGentlemanPersonaKeepsDirectConversationVoice(t *testing.T) {
+func TestIUGOPersonaKeepsDirectConversationVoice(t *testing.T) {
 	for _, path := range []string{
-		"claude/persona-gentleman.md",
-		"generic/persona-gentleman.md",
-		"kiro/persona-gentleman.md",
-		"kimi/persona-gentleman.md",
-		"opencode/persona-gentleman.md",
+		"claude/persona-iugo-agent.md",
+		"generic/persona-iugo-agent.md",
+		"kiro/persona-iugo-agent.md",
+		"kimi/persona-iugo-agent.md",
+		"opencode/persona-iugo-agent.md",
 	} {
 		t.Run(path, func(t *testing.T) {
 			content := MustRead(path)
 			for _, required := range []string{"Rioplatense", "voseo", "Passionate teacher"} {
 				if !strings.Contains(content, required) {
-					t.Fatalf("%s missing Gentleman direct-conversation voice marker %q", path, required)
+					t.Fatalf("%s missing IUGO direct-conversation voice marker %q", path, required)
 				}
 			}
 		})
@@ -236,7 +236,7 @@ func TestNeutralPersonaAssetsProvideMentorParityWithoutRegionalVoice(t *testing.
 			for _, banned := range []string{
 				"Rioplatense",
 				"voseo",
-				"Gentleman regional voice",
+				"IUGO regional voice",
 				"When replying to the user in Spanish, use warm natural Rioplatense Spanish",
 			} {
 				if strings.Contains(content, banned) {
@@ -270,7 +270,7 @@ func TestNeutralOutputStyleAssetsProvideMeaningfulContract(t *testing.T) {
 					t.Fatalf("%s missing output-style contract %q", path, required)
 				}
 			}
-			for _, banned := range []string{"Rioplatense", "voseo", "Gentleman Output Style"} {
+			for _, banned := range []string{"Rioplatense", "voseo", "IUGO Output Style"} {
 				if strings.Contains(content, banned) {
 					t.Fatalf("%s contains banned neutral output-style wording %q", path, banned)
 				}

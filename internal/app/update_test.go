@@ -114,7 +114,7 @@ func TestRunUpgrade_RestartsAfterGentleAIUpgrade(t *testing.T) {
 
 	updateCheckFiltered = func(context.Context, string, system.PlatformProfile, []string) []update.UpdateResult {
 		return []update.UpdateResult{{
-			Tool:             update.ToolInfo{Name: "gentle-ai", InstallMethod: update.InstallBinary},
+			Tool:             update.ToolInfo{Name: "iugo-ai", InstallMethod: update.InstallBinary},
 			InstalledVersion: "1.36.1",
 			LatestVersion:    "1.36.2",
 			Status:           update.UpdateAvailable,
@@ -122,13 +122,13 @@ func TestRunUpgrade_RestartsAfterGentleAIUpgrade(t *testing.T) {
 	}
 	upgradeExecuteWithOptions = func(context.Context, []update.UpdateResult, system.PlatformProfile, string, bool, upgrade.ExecuteOptions) upgrade.UpgradeReport {
 		return upgrade.UpgradeReport{Results: []upgrade.ToolUpgradeResult{{
-			ToolName:   "gentle-ai",
+			ToolName:   "iugo-ai",
 			OldVersion: "1.36.1",
 			NewVersion: "1.36.2",
 			Status:     upgrade.UpgradeSucceeded,
 		}}}
 	}
-	lookPathFn = func(string) (string, error) { return "/usr/local/bin/gentle-ai", nil }
+	lookPathFn = func(string) (string, error) { return "/usr/local/bin/iugo-ai", nil }
 	goOS = func() string { return "darwin" }
 
 	var reExecCalled int
@@ -149,8 +149,8 @@ func TestRunUpgrade_RestartsAfterGentleAIUpgrade(t *testing.T) {
 	if reExecCalled != 1 {
 		t.Fatalf("reExecCalled = %d, want 1", reExecCalled)
 	}
-	if reExecArgv0 != "/usr/local/bin/gentle-ai" {
-		t.Fatalf("reExec argv0 = %q, want PATH gentle-ai", reExecArgv0)
+	if reExecArgv0 != "/usr/local/bin/iugo-ai" {
+		t.Fatalf("reExec argv0 = %q, want PATH iugo-ai", reExecArgv0)
 	}
 	if !envContains(reExecEnv, envSelfUpdateDone+"=1") {
 		t.Fatalf("reExec env missing %s=1", envSelfUpdateDone)
@@ -210,10 +210,10 @@ func TestRunUpgrade_DryRunDoesNotRestartAfterGentleAIUpgrade(t *testing.T) {
 	})
 
 	updateCheckFiltered = func(context.Context, string, system.PlatformProfile, []string) []update.UpdateResult {
-		return []update.UpdateResult{{Tool: update.ToolInfo{Name: "gentle-ai"}, Status: update.UpdateAvailable}}
+		return []update.UpdateResult{{Tool: update.ToolInfo{Name: "iugo-ai"}, Status: update.UpdateAvailable}}
 	}
 	upgradeExecuteWithOptions = func(context.Context, []update.UpdateResult, system.PlatformProfile, string, bool, upgrade.ExecuteOptions) upgrade.UpgradeReport {
-		return upgrade.UpgradeReport{DryRun: true, Results: []upgrade.ToolUpgradeResult{{ToolName: "gentle-ai", NewVersion: "1.36.2", Status: upgrade.UpgradeSucceeded}}}
+		return upgrade.UpgradeReport{DryRun: true, Results: []upgrade.ToolUpgradeResult{{ToolName: "iugo-ai", NewVersion: "1.36.2", Status: upgrade.UpgradeSucceeded}}}
 	}
 
 	reExec = func(string, []string, []string) error {
@@ -240,7 +240,7 @@ func TestTUIUpgrade_DoesNotRestartBeforeModelCanRenderReport(t *testing.T) {
 	})
 
 	upgradeExecute = func(context.Context, []update.UpdateResult, system.PlatformProfile, string, bool, ...io.Writer) upgrade.UpgradeReport {
-		return upgrade.UpgradeReport{Results: []upgrade.ToolUpgradeResult{{ToolName: "gentle-ai", NewVersion: "1.36.2", Status: upgrade.UpgradeSucceeded}}}
+		return upgrade.UpgradeReport{Results: []upgrade.ToolUpgradeResult{{ToolName: "iugo-ai", NewVersion: "1.36.2", Status: upgrade.UpgradeSucceeded}}}
 	}
 	reExec = func(string, []string, []string) error {
 		t.Fatal("TUI upgrade must not re-exec before rendering the upgrade report")
@@ -248,7 +248,7 @@ func TestTUIUpgrade_DoesNotRestartBeforeModelCanRenderReport(t *testing.T) {
 	}
 
 	report := tuiUpgrade(system.PlatformProfile{OS: "darwin", PackageManager: "brew"}, os.TempDir())(context.Background(), nil)
-	if len(report.Results) != 1 || report.Results[0].ToolName != "gentle-ai" {
+	if len(report.Results) != 1 || report.Results[0].ToolName != "iugo-ai" {
 		t.Fatalf("tuiUpgrade() report = %#v", report)
 	}
 }

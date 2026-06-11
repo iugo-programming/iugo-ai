@@ -28,7 +28,7 @@ func TestOpenClawSelectedAdapterRoutesToExpectedInjectors(t *testing.T) {
 	if _, err := sdd.Inject(workspace, adapter, model.SDDModeSingle, sdd.InjectOptions{StrictTDD: true, WorkspaceDir: workspace}); err != nil {
 		t.Fatalf("sdd.Inject(openclaw) error = %v", err)
 	}
-	if _, err := persona.Inject(workspace, adapter, model.PersonaGentleman); err != nil {
+	if _, err := persona.Inject(workspace, adapter, model.PersonaIUGO); err != nil {
 		t.Fatalf("persona.Inject(openclaw) error = %v", err)
 	}
 
@@ -48,7 +48,7 @@ func TestOpenClawSelectedAdapterRoutesToExpectedInjectors(t *testing.T) {
 	}
 
 	agentsText := readText(t, filepath.Join(workspace, "AGENTS.md"))
-	for _, want := range []string{"gentle-ai:engram-protocol", "gentle-ai:sdd-orchestrator", "gentle-ai:strict-tdd-mode"} {
+	for _, want := range []string{"iugo-ai:engram-protocol", "iugo-ai:sdd-orchestrator", "iugo-ai:strict-tdd-mode"} {
 		if !strings.Contains(agentsText, want) {
 			t.Fatalf("OpenClaw AGENTS.md missing %q; got:\n%s", want, agentsText)
 		}
@@ -58,7 +58,7 @@ func TestOpenClawSelectedAdapterRoutesToExpectedInjectors(t *testing.T) {
 	}
 
 	soulText := readText(t, filepath.Join(workspace, "SOUL.md"))
-	if !strings.Contains(soulText, "gentle-ai:persona") || !strings.Contains(soulText, "Senior Architect") {
+	if !strings.Contains(soulText, "iugo-ai:persona") || !strings.Contains(soulText, "Senior Architect") {
 		t.Fatalf("OpenClaw SOUL.md missing managed persona content; got:\n%s", soulText)
 	}
 	if _, err := os.Stat(filepath.Join(workspace, "TOOLS.md")); !os.IsNotExist(err) {
@@ -106,7 +106,7 @@ func runOpenClawInjectorChain(t *testing.T, home, workspace string, adapter agen
 	if _, err := sdd.Inject(workspace, adapter, model.SDDModeSingle, sdd.InjectOptions{StrictTDD: true, WorkspaceDir: workspace}); err != nil {
 		t.Fatalf("sdd.Inject(openclaw) error = %v", err)
 	}
-	if _, err := persona.Inject(workspace, adapter, model.PersonaGentleman); err != nil {
+	if _, err := persona.Inject(workspace, adapter, model.PersonaIUGO); err != nil {
 		t.Fatalf("persona.Inject(openclaw) error = %v", err)
 	}
 }

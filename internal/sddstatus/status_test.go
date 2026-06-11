@@ -566,7 +566,7 @@ func TestRenderMarkdownIncludesFencedJSON(t *testing.T) {
 		"## SDD Status: add-auth",
 		"next: apply",
 		"```json",
-		`"schemaName": "gentle-ai.sdd-status"`,
+		`"schemaName": "iugo-ai.sdd-status"`,
 		"```",
 	} {
 		if !strings.Contains(markdown, want) {
@@ -592,7 +592,7 @@ func TestRenderDispatcherMarkdownIncludesRoutingContext(t *testing.T) {
 		"### Next Phase Instructions: apply",
 		"Read proposal, specs, design, and tasks before editing.",
 		"```json",
-		`"schemaName": "gentle-ai.sdd-status"`,
+		`"schemaName": "iugo-ai.sdd-status"`,
 		"```",
 	} {
 		if !strings.Contains(markdown, want) {
@@ -641,7 +641,7 @@ func TestRenderNativePhasePromptIncludesAuthorityInstructionsJSONAndBlockedGuida
 		"proposal.md is missing or partial.",
 		"Read proposal, specs, design, and tasks before editing.",
 		"```json",
-		`"schemaName": "gentle-ai.sdd-status"`,
+		`"schemaName": "iugo-ai.sdd-status"`,
 		"```",
 	} {
 		if !strings.Contains(prompt, want) {

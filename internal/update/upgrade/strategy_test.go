@@ -69,7 +69,7 @@ func TestRunStrategy_GoInstallUpgrade(t *testing.T) {
 		Tool: update.ToolInfo{
 			Name:          "engram",
 			InstallMethod: update.InstallGoInstall,
-			GoImportPath:  "github.com/Gentleman-Programming/engram/cmd/engram",
+			GoImportPath:  "github.com/IUGO-Programming/engram/cmd/engram",
 		},
 		LatestVersion: "0.4.0",
 	}
@@ -83,8 +83,8 @@ func TestRunStrategy_GoInstallUpgrade(t *testing.T) {
 	if gotName != "go" {
 		t.Errorf("exec name = %q, want %q", gotName, "go")
 	}
-	// Expected: go install github.com/Gentleman-Programming/engram/cmd/engram@v0.4.0
-	wantArg0, wantArg1 := "install", "github.com/Gentleman-Programming/engram/cmd/engram@v0.4.0"
+	// Expected: go install github.com/IUGO-Programming/engram/cmd/engram@v0.4.0
+	wantArg0, wantArg1 := "install", "github.com/IUGO-Programming/engram/cmd/engram@v0.4.0"
 	if len(gotArgs) < 2 || gotArgs[0] != wantArg0 || gotArgs[1] != wantArg1 {
 		t.Errorf("exec args = %v, want [%s %s]", gotArgs, wantArg0, wantArg1)
 	}
@@ -167,7 +167,7 @@ func TestRunStrategy_GoInstallFailure(t *testing.T) {
 		Tool: update.ToolInfo{
 			Name:          "engram",
 			InstallMethod: update.InstallGoInstall,
-			GoImportPath:  "github.com/Gentleman-Programming/engram/cmd/engram",
+			GoImportPath:  "github.com/IUGO-Programming/engram/cmd/engram",
 		},
 		LatestVersion: "0.4.0",
 	}
@@ -181,7 +181,7 @@ func TestRunStrategy_GoInstallFailure(t *testing.T) {
 
 // --- TestEffectiveMethod_GentleAIOnWindowsUsesInstaller ---
 
-// TestEffectiveMethod_GentleAIOnWindowsUsesInstaller verifies that gentle-ai
+// TestEffectiveMethod_GentleAIOnWindowsUsesInstaller verifies that iugo-ai
 // on Windows uses InstallInstaller (auto-upgrade via PowerShell)
 func TestEffectiveMethod_GentleAIOnWindowsUsesInstaller(t *testing.T) {
 	tests := []struct {
@@ -191,27 +191,27 @@ func TestEffectiveMethod_GentleAIOnWindowsUsesInstaller(t *testing.T) {
 	}{
 		{
 			name: "binary becomes installer",
-			tool: update.ToolInfo{Name: "gentle-ai", InstallMethod: update.InstallBinary},
+			tool: update.ToolInfo{Name: "iugo-ai", InstallMethod: update.InstallBinary},
 			want: update.InstallInstaller,
 		},
 		{
 			name: "script becomes installer",
-			tool: update.ToolInfo{Name: "gentle-ai", InstallMethod: update.InstallScript},
+			tool: update.ToolInfo{Name: "iugo-ai", InstallMethod: update.InstallScript},
 			want: update.InstallInstaller,
 		},
 		{
 			name: "go-install becomes installer",
-			tool: update.ToolInfo{Name: "gentle-ai", InstallMethod: update.InstallGoInstall},
+			tool: update.ToolInfo{Name: "iugo-ai", InstallMethod: update.InstallGoInstall},
 			want: update.InstallInstaller,
 		},
 		{
 			name: "installer stays installer",
-			tool: update.ToolInfo{Name: "gentle-ai", InstallMethod: update.InstallInstaller},
+			tool: update.ToolInfo{Name: "iugo-ai", InstallMethod: update.InstallInstaller},
 			want: update.InstallInstaller,
 		},
 		{
 			name: "go available still uses installer",
-			tool: update.ToolInfo{Name: "gentle-ai", InstallMethod: update.InstallBinary, GoImportPath: "github.com/Gentleman-Programming/gentle-ai/cmd/gentle-ai"},
+			tool: update.ToolInfo{Name: "iugo-ai", InstallMethod: update.InstallBinary, GoImportPath: "github.com/IUGO-Programming/iugo-ai/cmd/iugo-ai"},
 			want: update.InstallInstaller,
 		},
 	}
@@ -230,7 +230,7 @@ func TestEffectiveMethod_GentleAIOnWindowsUsesInstaller(t *testing.T) {
 // --- TestEffectiveMethod_NonGentleAIToolsOnWindowsUseBinary ---
 
 // TestEffectiveMethod_NonGentleAIToolsOnWindowsUseBinary verifies that tools
-// OTHER than gentle-ai on Windows still use their declared install method
+// OTHER than iugo-ai on Windows still use their declared install method
 // (binary, script, etc.) - they don't get InstallInstaller.
 func TestEffectiveMethod_NonGentleAIToolsOnWindowsUseBinary(t *testing.T) {
 	tests := []struct {
@@ -633,10 +633,10 @@ func TestOpenCodePluginUpgradeHelperProcess(t *testing.T) {
 // --- TestManualFallbackHint ---
 //
 // Removed: TestManualFallbackHint previously verified that Windows binary
-// self-replace for gentle-ai returns a manual fallback error. The Windows
-// installer method (PR #257) now routes gentle-ai to installerUpgrade, which
+// self-replace for iugo-ai returns a manual fallback error. The Windows
+// installer method (PR #257) now routes iugo-ai to installerUpgrade, which
 // downloads and launches the PowerShell installer. The manual-fallback path
-// remains exercised by binaryUpgrade for non-gentle-ai tools on Windows
+// remains exercised by binaryUpgrade for non-iugo-ai tools on Windows
 // (see TestRunStrategy_UnsupportedMethodManualFallback and
 // TestRunStrategy_ScriptUpgradeWindowsManualFallback).
 
@@ -669,7 +669,7 @@ func TestBrewUpgrade_RunsUpdateBeforeUpgrade(t *testing.T) {
 		return mockCmd("echo", "ok")
 	}
 
-	err := brewUpgrade(context.Background(), "gentle-ai")
+	err := brewUpgrade(context.Background(), "iugo-ai")
 	if err != nil {
 		t.Fatalf("brewUpgrade: unexpected error: %v", err)
 	}
@@ -707,10 +707,10 @@ func TestBrewUpgrade_UpdateFailureIsNonFatal(t *testing.T) {
 			}
 		}
 		// brew upgrade succeeds.
-		return mockCmd("echo", "Upgraded gentle-ai")
+		return mockCmd("echo", "Upgraded iugo-ai")
 	}
 
-	err := brewUpgrade(context.Background(), "gentle-ai")
+	err := brewUpgrade(context.Background(), "iugo-ai")
 	// brew update failed but brew upgrade succeeded → overall success.
 	if err != nil {
 		t.Errorf("expected success when brew update fails but brew upgrade succeeds, got: %v", err)
@@ -734,7 +734,7 @@ func TestBrewUpgrade_UpdateFailureIsNonFatal(t *testing.T) {
 // --- TestBrewUpgrade_TapsBeforeUpdateAndUpgrade ---
 
 // TestBrewUpgrade_TapsAndTrustsBeforeUpdateAndUpgrade verifies that brewUpgrade calls
-// `brew tap Gentleman-Programming/homebrew-tap` and scoped formula trust BEFORE
+// `brew tap IUGO-Programming/homebrew-tap` and scoped formula trust BEFORE
 // `brew update` and `brew upgrade <toolName>`. This makes the upgrade idempotent
 // when a user has lost the tap and works with Homebrew tap trust enforcement.
 func TestBrewUpgrade_TapsAndTrustsBeforeUpdateAndUpgrade(t *testing.T) {
@@ -764,14 +764,14 @@ func TestBrewUpgrade_TapsAndTrustsBeforeUpdateAndUpgrade(t *testing.T) {
 	if calls[0].subcommand != "tap" {
 		t.Errorf("first brew call subcommand = %q, want %q", calls[0].subcommand, "tap")
 	}
-	if len(calls[0].args) != 1 || calls[0].args[0] != "Gentleman-Programming/homebrew-tap" {
-		t.Errorf("first brew call args = %v, want [Gentleman-Programming/homebrew-tap]", calls[0].args)
+	if len(calls[0].args) != 1 || calls[0].args[0] != "IUGO-Programming/homebrew-tap" {
+		t.Errorf("first brew call args = %v, want [IUGO-Programming/homebrew-tap]", calls[0].args)
 	}
 	if calls[1].subcommand != "trust" {
 		t.Errorf("second brew call = %q, want %q", calls[1].subcommand, "trust")
 	}
-	if len(calls[1].args) != 2 || calls[1].args[0] != "--formula" || calls[1].args[1] != "gentleman-programming/tap/engram" {
-		t.Errorf("second brew call args = %v, want [--formula gentleman-programming/tap/engram]", calls[1].args)
+	if len(calls[1].args) != 2 || calls[1].args[0] != "--formula" || calls[1].args[1] != "iugo-agent-programming/tap/engram" {
+		t.Errorf("second brew call args = %v, want [--formula iugo-agent-programming/tap/engram]", calls[1].args)
 	}
 	if calls[2].subcommand != "update" {
 		t.Errorf("third brew call = %q, want %q", calls[2].subcommand, "update")
@@ -782,12 +782,12 @@ func TestBrewUpgrade_TapsAndTrustsBeforeUpdateAndUpgrade(t *testing.T) {
 }
 
 func TestHomebrewFailureAdviceTapTrust(t *testing.T) {
-	output := `Error: Refusing to load formula gentleman-programming/tap/gentle-ai from untrusted tap.
-Run brew trust --formula gentleman-programming/tap/gentle-ai to trust it.`
-	advice := homebrewFailureAdvice("gentle-ai", output)
+	output := `Error: Refusing to load formula iugo-agent-programming/tap/iugo-ai from untrusted tap.
+Run brew trust --formula iugo-agent-programming/tap/iugo-ai to trust it.`
+	advice := homebrewFailureAdvice("iugo-ai", output)
 	for _, want := range []string{
-		"brew trust --formula gentleman-programming/tap/gentle-ai",
-		"brew upgrade gentle-ai",
+		"brew trust --formula iugo-agent-programming/tap/iugo-ai",
+		"brew upgrade iugo-ai",
 	} {
 		if !strings.Contains(advice, want) {
 			t.Fatalf("tap trust advice missing %q:\n%s", want, advice)
@@ -798,7 +798,7 @@ Run brew trust --formula gentleman-programming/tap/gentle-ai to trust it.`
 func TestHomebrewFailureAdviceBubblewrap(t *testing.T) {
 	output := `Error: Bubblewrap is installed but cannot create a rootless sandbox.
 Homebrew's Linux sandbox requires rootless Bubblewrap and unprivileged user namespaces.`
-	advice := homebrewFailureAdvice("gentle-ai", output)
+	advice := homebrewFailureAdvice("iugo-ai", output)
 	if strings.Contains(strings.ToLower(advice), "preferred fix") {
 		t.Fatalf("bubblewrap advice must not frame host policy changes as preferred defaults:\n%s", advice)
 	}
@@ -807,7 +807,7 @@ Homebrew's Linux sandbox requires rootless Bubblewrap and unprivileged user name
 		"sudo sysctl -w kernel.unprivileged_userns_clone=1",
 		"sudo sysctl -w user.max_user_namespaces=28633",
 		"sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0 || true",
-		"HOMEBREW_NO_SANDBOX_LINUX=1 brew upgrade gentle-ai",
+		"HOMEBREW_NO_SANDBOX_LINUX=1 brew upgrade iugo-ai",
 	} {
 		if !strings.Contains(advice, want) {
 			t.Fatalf("bubblewrap advice missing %q:\n%s", want, advice)
@@ -889,8 +889,8 @@ func TestRunStrategy_ScriptUpgradeSuccess(t *testing.T) {
 	r := update.UpdateResult{
 		Tool: update.ToolInfo{
 			Name:          "gga",
-			Owner:         "Gentleman-Programming",
-			Repo:          "gentleman-guardian-angel",
+			Owner:         "IUGO-Programming",
+			Repo:          "iugo-agent-guardian-angel",
 			InstallMethod: update.InstallScript,
 		},
 		LatestVersion: "2.8.0",
@@ -930,8 +930,8 @@ func TestRunStrategy_ScriptUpgradeDownloadFailure(t *testing.T) {
 	r := update.UpdateResult{
 		Tool: update.ToolInfo{
 			Name:          "gga",
-			Owner:         "Gentleman-Programming",
-			Repo:          "gentleman-guardian-angel",
+			Owner:         "IUGO-Programming",
+			Repo:          "iugo-agent-guardian-angel",
 			InstallMethod: update.InstallScript,
 		},
 		LatestVersion: "2.8.0",
@@ -959,8 +959,8 @@ func TestRunStrategy_ScriptUpgradeWindowsManualFallback(t *testing.T) {
 	r := update.UpdateResult{
 		Tool: update.ToolInfo{
 			Name:          "gga",
-			Owner:         "Gentleman-Programming",
-			Repo:          "gentleman-guardian-angel",
+			Owner:         "IUGO-Programming",
+			Repo:          "iugo-agent-guardian-angel",
 			InstallMethod: update.InstallScript,
 		},
 		LatestVersion: "2.8.0",
@@ -1008,8 +1008,8 @@ func TestGGAScriptUpgradeUsesGitClone(t *testing.T) {
 	r := update.UpdateResult{
 		Tool: update.ToolInfo{
 			Name:          "gga",
-			Owner:         "Gentleman-Programming",
-			Repo:          "gentleman-guardian-angel",
+			Owner:         "IUGO-Programming",
+			Repo:          "iugo-agent-guardian-angel",
 			InstallMethod: update.InstallScript,
 		},
 		LatestVersion: "2.8.0",
@@ -1037,7 +1037,7 @@ func TestGGAScriptUpgradeUsesGitClone(t *testing.T) {
 	foundRepoURL := false
 	foundTag := false
 	for i, a := range cloneArgs {
-		if containsAny(a, "gentleman-guardian-angel") {
+		if containsAny(a, "iugo-agent-guardian-angel") {
 			foundRepoURL = true
 		}
 		if a == "--branch" && i+1 < len(cloneArgs) && cloneArgs[i+1] == "v2.8.0" {
@@ -1045,7 +1045,7 @@ func TestGGAScriptUpgradeUsesGitClone(t *testing.T) {
 		}
 	}
 	if !foundRepoURL {
-		t.Errorf("git clone args %v should include the repo URL (gentleman-guardian-angel)", cloneArgs)
+		t.Errorf("git clone args %v should include the repo URL (iugo-agent-guardian-angel)", cloneArgs)
 	}
 	if !foundTag {
 		t.Errorf("git clone args %v should include --branch v2.8.0 to pin to the release tag", cloneArgs)
@@ -1085,8 +1085,8 @@ func TestGGAScriptUpgradeWindowsManualFallback(t *testing.T) {
 	r := update.UpdateResult{
 		Tool: update.ToolInfo{
 			Name:          "gga",
-			Owner:         "Gentleman-Programming",
-			Repo:          "gentleman-guardian-angel",
+			Owner:         "IUGO-Programming",
+			Repo:          "iugo-agent-guardian-angel",
 			InstallMethod: update.InstallScript,
 		},
 		LatestVersion: "2.8.0",
@@ -1133,8 +1133,8 @@ func TestRunStrategy_GGAUsesGitClone(t *testing.T) {
 	r := update.UpdateResult{
 		Tool: update.ToolInfo{
 			Name:          "gga",
-			Owner:         "Gentleman-Programming",
-			Repo:          "gentleman-guardian-angel",
+			Owner:         "IUGO-Programming",
+			Repo:          "iugo-agent-guardian-angel",
 			InstallMethod: update.InstallScript,
 		},
 		LatestVersion: "2.8.0",
@@ -1169,30 +1169,30 @@ func TestInstallScriptURL(t *testing.T) {
 	}{
 		{
 			name:        "pins to release tag",
-			owner:       "Gentleman-Programming",
-			repo:        "gentleman-guardian-angel",
+			owner:       "IUGO-Programming",
+			repo:        "iugo-agent-guardian-angel",
 			version:     "1.31.0",
-			wantURL:     "https://raw.githubusercontent.com/Gentleman-Programming/gentleman-guardian-angel/v1.31.0/install.sh",
+			wantURL:     "https://raw.githubusercontent.com/IUGO-Programming/iugo-agent-guardian-angel/v1.31.0/install.sh",
 			wantContain: "v1.31.0",
 		},
 		{
 			name:    "empty version returns error",
-			owner:   "Gentleman-Programming",
-			repo:    "gentle-ai",
+			owner:   "IUGO-Programming",
+			repo:    "iugo-ai",
 			version: "",
 			wantErr: true,
 		},
 		{
 			name:    "whitespace-only version returns error",
-			owner:   "Gentleman-Programming",
-			repo:    "gentle-ai",
+			owner:   "IUGO-Programming",
+			repo:    "iugo-ai",
 			version: "   ",
 			wantErr: true,
 		},
 		{
 			name:        "does not reference main",
-			owner:       "Gentleman-Programming",
-			repo:        "gentle-ai",
+			owner:       "IUGO-Programming",
+			repo:        "iugo-ai",
 			version:     "2.0.0",
 			wantContain: "v2.0.0",
 		},
@@ -1250,7 +1250,7 @@ func TestEngramUpgradeUsesDownloadNotGoInstall(t *testing.T) {
 	r := update.UpdateResult{
 		Tool: update.ToolInfo{
 			Name:          "engram",
-			Owner:         "Gentleman-Programming",
+			Owner:         "IUGO-Programming",
 			Repo:          "engram",
 			InstallMethod: update.InstallBinary, // should be InstallBinary after fix
 		},
@@ -1299,7 +1299,7 @@ func TestEngramUpgradeLinuxUsesDownload(t *testing.T) {
 	r := update.UpdateResult{
 		Tool: update.ToolInfo{
 			Name:          "engram",
-			Owner:         "Gentleman-Programming",
+			Owner:         "IUGO-Programming",
 			Repo:          "engram",
 			InstallMethod: update.InstallBinary, // should be InstallBinary after fix
 		},
@@ -1349,8 +1349,8 @@ func TestRunStrategy_ScriptUpgradeExecFailure(t *testing.T) {
 	r := update.UpdateResult{
 		Tool: update.ToolInfo{
 			Name:          "gga",
-			Owner:         "Gentleman-Programming",
-			Repo:          "gentleman-guardian-angel",
+			Owner:         "IUGO-Programming",
+			Repo:          "iugo-agent-guardian-angel",
 			InstallMethod: update.InstallScript,
 		},
 		LatestVersion: "2.8.0",
@@ -1396,9 +1396,9 @@ func TestInstallerUpgrade_Success(t *testing.T) {
 	}
 
 	tool := update.ToolInfo{
-		Name:          "gentle-ai",
-		Owner:         "Gentleman-Programming",
-		Repo:          "gentle-ai",
+		Name:          "iugo-ai",
+		Owner:         "IUGO-Programming",
+		Repo:          "iugo-ai",
 		InstallMethod: update.InstallInstaller,
 	}
 
@@ -1432,7 +1432,7 @@ func TestInstallerUpgrade_Success(t *testing.T) {
 	filePassed := false
 	for i, arg := range gotArgs {
 		if arg == "-File" && i+1 < len(gotArgs) {
-			if strings.Contains(gotArgs[i+1], "gentle-ai-install") {
+			if strings.Contains(gotArgs[i+1], "iugo-ai-install") {
 				filePassed = true
 			}
 		}
@@ -1464,9 +1464,9 @@ func TestInstallerUpgrade_DownloadFailure(t *testing.T) {
 	}
 
 	tool := update.ToolInfo{
-		Name:          "gentle-ai",
-		Owner:         "Gentleman-Programming",
-		Repo:          "gentle-ai",
+		Name:          "iugo-ai",
+		Owner:         "IUGO-Programming",
+		Repo:          "iugo-ai",
 		InstallMethod: update.InstallInstaller,
 	}
 
@@ -1485,7 +1485,7 @@ func TestInstallerUpgrade_NonWindows(t *testing.T) {
 	if runtime.GOOS == "windows" {
 		t.Skip("skipping non-Windows test on Windows platform")
 	}
-	tool := update.ToolInfo{Name: "gentle-ai"}
+	tool := update.ToolInfo{Name: "iugo-ai"}
 	exitReq, err := installerUpgrade(context.Background(), tool, "")
 	if err == nil {
 		t.Errorf("expected error when calling installerUpgrade on non-windows, got nil")

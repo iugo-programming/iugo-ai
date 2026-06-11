@@ -101,7 +101,7 @@ func TestBuildConfig(t *testing.T) {
 	}
 
 	// Verify header comment.
-	if !strings.HasPrefix(config, "# Gentleman Guardian Angel") {
+	if !strings.HasPrefix(config, "# IUGO Guardian Angel") {
 		t.Error("BuildConfig() should start with a header comment")
 	}
 }

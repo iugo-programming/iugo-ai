@@ -13,7 +13,7 @@ import (
 func TestRenderDependencyTreePiOnlyEngramPlanShowsComponentAndPiInstallCopy(t *testing.T) {
 	selection := model.Selection{
 		Agents:     []model.AgentID{model.AgentPi},
-		Preset:     model.PresetFullGentleman,
+		Preset:     model.PresetFullIUGO,
 		Components: []model.ComponentID{model.ComponentEngram},
 	}
 	plan := planner.ResolvedPlan{
@@ -30,10 +30,10 @@ func TestRenderDependencyTreePiOnlyEngramPlanShowsComponentAndPiInstallCopy(t *t
 		"Components to install",
 		"engram",
 		"Pi agent support will be installed.",
-		"pi install npm:gentle-pi",
-		"pi install npm:gentle-engram",
+		"pi install npm:iugo-pi",
+		"pi install npm:iugo-engram",
 		"pi install npm:pi-mcp-adapter",
-		fmt.Sprintf("npm exec --yes --package gentle-engram@%s -- pi-engram init", versions.GentleEngram),
+		fmt.Sprintf("npm exec --yes --package iugo-engram@%s -- pi-engram init", versions.IugoEngram),
 		"pi install npm:pi-subagents",
 		"pi install npm:pi-intercom",
 		"pi install npm:@juicesharp/rpiv-ask-user-question",
@@ -48,7 +48,7 @@ func TestRenderDependencyTreePiOnlyEngramPlanShowsComponentAndPiInstallCopy(t *t
 }
 
 func TestRenderDependencyTreeGenericEmptyPlanKeepsExistingCopy(t *testing.T) {
-	selection := model.Selection{Preset: model.PresetFullGentleman}
+	selection := model.Selection{Preset: model.PresetFullIUGO}
 
 	out := RenderDependencyTree(planner.ResolvedPlan{}, selection, 0)
 
@@ -63,7 +63,7 @@ func TestRenderDependencyTreeGenericEmptyPlanKeepsExistingCopy(t *testing.T) {
 func TestRenderDependencyTreeMixedPiEmptyPlanShowsPiInstallCopy(t *testing.T) {
 	selection := model.Selection{
 		Agents: []model.AgentID{model.AgentPi, model.AgentOpenCode},
-		Preset: model.PresetFullGentleman,
+		Preset: model.PresetFullIUGO,
 	}
 	plan := planner.ResolvedPlan{Agents: selection.Agents}
 
@@ -74,10 +74,10 @@ func TestRenderDependencyTreeMixedPiEmptyPlanShowsPiInstallCopy(t *testing.T) {
 	}
 	for _, want := range []string{
 		"Pi agent support will be installed.",
-		"pi install npm:gentle-pi",
-		"pi install npm:gentle-engram",
+		"pi install npm:iugo-pi",
+		"pi install npm:iugo-engram",
 		"pi install npm:pi-mcp-adapter",
-		fmt.Sprintf("npm exec --yes --package gentle-engram@%s -- pi-engram init", versions.GentleEngram),
+		fmt.Sprintf("npm exec --yes --package iugo-engram@%s -- pi-engram init", versions.IugoEngram),
 		"pi install npm:pi-subagents",
 		"pi install npm:pi-intercom",
 		"pi install npm:@juicesharp/rpiv-ask-user-question",

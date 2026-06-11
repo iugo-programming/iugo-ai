@@ -9,10 +9,10 @@ import (
 	"github.com/iugo-programming/iugo-ai/internal/model"
 )
 
-func TestInjectGentlemanNeutralArtifactsUsesGentlemanConversationWithArtifactBoundary(t *testing.T) {
+func TestInjectIUGONeutralArtifactsUsesIUGOConversationWithArtifactBoundary(t *testing.T) {
 	home := t.TempDir()
 
-	result, err := Inject(home, opencodeAdapter(), model.PersonaGentlemanNeutralArtifacts)
+	result, err := Inject(home, opencodeAdapter(), model.PersonaIUGONeutralArtifacts)
 	if err != nil {
 		t.Fatalf("Inject() error = %v", err)
 	}

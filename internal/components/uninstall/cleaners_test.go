@@ -32,9 +32,9 @@ func TestRemoveMarkdownSections_RemovesOnlyManagedBlock(t *testing.T) {
 		"",
 		"Keep this.",
 		"",
-		"<!-- gentle-ai:engram-protocol -->",
+		"<!-- iugo-ai:engram-protocol -->",
 		"Managed content.",
-		"<!-- /gentle-ai:engram-protocol -->",
+		"<!-- /iugo-ai:engram-protocol -->",
 		"",
 		"# User Footer",
 		"",
@@ -45,7 +45,7 @@ func TestRemoveMarkdownSections_RemovesOnlyManagedBlock(t *testing.T) {
 	if !changed {
 		t.Fatal("removeMarkdownSections() changed = false, want true")
 	}
-	if strings.Contains(updated, "gentle-ai:engram-protocol") {
+	if strings.Contains(updated, "iugo-ai:engram-protocol") {
 		t.Fatalf("managed marker block still present:\n%s", updated)
 	}
 	if !strings.Contains(updated, "# User Intro") || !strings.Contains(updated, "# User Footer") {
@@ -67,9 +67,9 @@ func TestRemoveManagedPersonaPreamble_PreservesManagedSuffix(t *testing.T) {
 		"## Rules",
 		"Be direct.",
 		"",
-		"<!-- gentle-ai:sdd-orchestrator -->",
+		"<!-- iugo-ai:sdd-orchestrator -->",
 		"SDD stays.",
-		"<!-- /gentle-ai:sdd-orchestrator -->",
+		"<!-- /iugo-ai:sdd-orchestrator -->",
 	}, "\n") + "\n"
 
 	updated, changed := removeManagedPersonaPreamble(input)
@@ -79,7 +79,7 @@ func TestRemoveManagedPersonaPreamble_PreservesManagedSuffix(t *testing.T) {
 	if strings.Contains(updated, "name: Gentle AI Persona") || strings.Contains(updated, "## Personality") {
 		t.Fatalf("managed persona preamble still present:\n%s", updated)
 	}
-	if !strings.HasPrefix(updated, "<!-- gentle-ai:sdd-orchestrator -->") {
+	if !strings.HasPrefix(updated, "<!-- iugo-ai:sdd-orchestrator -->") {
 		t.Fatalf("managed suffix was not preserved at file start:\n%s", updated)
 	}
 }
@@ -106,7 +106,7 @@ func TestRemoveManagedPersonaPreamble_WithoutMarkerDoesNotDeleteContent(t *testi
 
 func TestRemoveJSONPaths_RemovesOnlyManagedKeys(t *testing.T) {
 	input := []byte(`{
-  "theme": "gentleman-kanagawa",
+  "theme": "iugo-agent-kanagawa",
   "permission": {
     "bash": {
       "*": "allow"
@@ -221,7 +221,7 @@ func TestUnmarshalJSONObject_RejectsTrailingJSONPayload(t *testing.T) {
 }
 
 func TestRemoveJSONPaths_PreservesCRLF(t *testing.T) {
-	input := []byte("{\r\n  \"outputStyle\": \"Gentleman\",\r\n  \"userSetting\": true\r\n}\r\n")
+	input := []byte("{\r\n  \"outputStyle\": \"IUGO\",\r\n  \"userSetting\": true\r\n}\r\n")
 
 	updated, changed, err := removeJSONPaths(input, jsonPath{"outputStyle"})
 	if err != nil {
@@ -348,9 +348,9 @@ func TestMarkdownCleanup_OnRealFileWithTempDir(t *testing.T) {
 		"",
 		"Hand-written intro.",
 		"",
-		"<!-- gentle-ai:engram-protocol -->",
+		"<!-- iugo-ai:engram-protocol -->",
 		"Managed content.",
-		"<!-- /gentle-ai:engram-protocol -->",
+		"<!-- /iugo-ai:engram-protocol -->",
 		"",
 		"# Footer",
 	}, "\n") + "\n"
@@ -375,7 +375,7 @@ func TestMarkdownCleanup_OnRealFileWithTempDir(t *testing.T) {
 		t.Fatalf("ReadFile(final) error = %v", err)
 	}
 	final := string(finalRaw)
-	if strings.Contains(final, "gentle-ai:engram-protocol") {
+	if strings.Contains(final, "iugo-ai:engram-protocol") {
 		t.Fatalf("managed markdown block still present in file:\n%s", final)
 	}
 	if !strings.Contains(final, "Hand-written intro.") || !strings.Contains(final, "# Footer") {
@@ -387,7 +387,7 @@ func TestJSONCleanup_OnRealFileWithTempDir(t *testing.T) {
 	dir := t.TempDir()
 	path := filepath.Join(dir, "settings.json")
 	input := []byte(`{
-  "outputStyle": "Gentleman",
+  "outputStyle": "IUGO",
   "mcpServers": {
     "engram": {
       "command": "engram"

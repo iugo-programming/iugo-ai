@@ -49,9 +49,9 @@ func stringSliceContains(items []string, want string) bool {
 
 func engramInitCommandForTest() string {
 	if _, err := exec.LookPath("pnpm"); err == nil {
-		return fmt.Sprintf("pnpm dlx gentle-engram@%s pi-engram init", versions.GentleEngram)
+		return fmt.Sprintf("pnpm dlx iugo-engram@%s pi-engram init", versions.IugoEngram)
 	}
-	return fmt.Sprintf("npm exec --yes --package gentle-engram@%s -- pi-engram init", versions.GentleEngram)
+	return fmt.Sprintf("npm exec --yes --package iugo-engram@%s -- pi-engram init", versions.IugoEngram)
 }
 
 func TestRunInstallAppliesFilesystemChanges(t *testing.T) {
@@ -141,8 +141,8 @@ func TestRunInstallEngramForPiAndOpenCodeProvisionsBothMCPTargets(t *testing.T) 
 	if !stringSliceContains(commands, "pi install npm:pi-mcp-adapter") {
 		t.Fatalf("commands missing %q; got %v", "pi install npm:pi-mcp-adapter", commands)
 	}
-	if !stringSliceContains(commands, fmt.Sprintf("npm exec --yes --package gentle-engram@%s -- pi-engram init", versions.GentleEngram)) &&
-		!stringSliceContains(commands, fmt.Sprintf("pnpm dlx gentle-engram@%s pi-engram init", versions.GentleEngram)) {
+	if !stringSliceContains(commands, fmt.Sprintf("npm exec --yes --package iugo-engram@%s -- pi-engram init", versions.IugoEngram)) &&
+		!stringSliceContains(commands, fmt.Sprintf("pnpm dlx iugo-engram@%s pi-engram init", versions.IugoEngram)) {
 		t.Fatalf("commands missing Engram init command; got %v", commands)
 	}
 }
@@ -183,8 +183,8 @@ func TestPiAgentInstallRunsPackageCommandsWhenPiAlreadyInstalled(t *testing.T) {
 	}
 
 	for _, want := range []string{
-		"pi install npm:gentle-pi",
-		"pi install npm:gentle-engram",
+		"pi install npm:iugo-pi",
+		"pi install npm:iugo-engram",
 		"pi install npm:pi-mcp-adapter",
 		engramInitCommandForTest(),
 		"pi install npm:pi-subagents",
@@ -1201,7 +1201,7 @@ func TestRunInstallGGASkipsInstallWhenAlreadyOnPath(t *testing.T) {
 
 	// No brew/git clone commands for GGA should have been recorded.
 	for _, cmd := range recorder.get() {
-		if strings.Contains(cmd, "gga") || strings.Contains(cmd, "gentleman-guardian-angel") {
+		if strings.Contains(cmd, "gga") || strings.Contains(cmd, "iugo-agent-guardian-angel") {
 			t.Fatalf("expected gga install to be skipped, but got command: %s", cmd)
 		}
 	}
@@ -1252,10 +1252,10 @@ func TestRunInstallGGALinuxIncludesTempCleanupBeforeClone(t *testing.T) {
 	cleanupIdx := -1
 	cloneIdx := -1
 	for i, cmd := range commands {
-		if strings.Contains(cmd, "rm -rf /tmp/gentleman-guardian-angel") {
+		if strings.Contains(cmd, "rm -rf /tmp/iugo-agent-guardian-angel") {
 			cleanupIdx = i
 		}
-		if strings.Contains(cmd, "git clone https://github.com/Gentleman-Programming/gentleman-guardian-angel.git /tmp/gentleman-guardian-angel") {
+		if strings.Contains(cmd, "git clone https://github.com/IUGO-Programming/iugo-agent-guardian-angel.git /tmp/iugo-agent-guardian-angel") {
 			cloneIdx = i
 		}
 	}
@@ -1725,10 +1725,10 @@ func TestRunInstallUpgradeIdempotency(t *testing.T) {
 			orchestratorCount, content)
 	}
 
-	// 3. No duplicate gentle-ai marker blocks — each section's open marker
+	// 3. No duplicate iugo-ai marker blocks — each section's open marker
 	// must appear exactly once.
 	for _, sectionID := range []string{"sdd-orchestrator", "engram-protocol"} {
-		openMarker := "<!-- gentle-ai:" + sectionID + " -->"
+		openMarker := "<!-- iugo-ai:" + sectionID + " -->"
 		count := strings.Count(content, openMarker)
 		if count != 1 {
 			t.Errorf("CLAUDE.md contains %d occurrences of marker %q, want exactly 1:\n%s",
@@ -2004,7 +2004,7 @@ func TestOpenCodePersonaBeforeSDDPreservesAllSections(t *testing.T) {
 			"--component", "persona",
 			"--component", "engram",
 			"--component", "sdd",
-			"--persona", "gentleman",
+			"--persona", "iugo-agent",
 		},
 		system.DetectionResult{},
 	)
@@ -2021,7 +2021,7 @@ func TestOpenCodePersonaBeforeSDDPreservesAllSections(t *testing.T) {
 
 	// Persona content must be present
 	if !strings.Contains(text, "Senior Architect") {
-		t.Error("AGENTS.md missing Gentleman persona content (persona not written)")
+		t.Error("AGENTS.md missing IUGO persona content (persona not written)")
 	}
 
 	// For OpenCode, the SDD orchestrator goes into opencode.json (agent overlay),
@@ -2031,26 +2031,26 @@ func TestOpenCodePersonaBeforeSDDPreservesAllSections(t *testing.T) {
 	// the engram section. We verify persona + engram coexist.
 
 	// Engram protocol section must be present
-	if !strings.Contains(text, "<!-- gentle-ai:engram-protocol -->") {
+	if !strings.Contains(text, "<!-- iugo-ai:engram-protocol -->") {
 		t.Error("AGENTS.md missing engram-protocol open marker (issue #121 regression: persona may have overwritten engram section)")
 	}
-	if !strings.Contains(text, "<!-- /gentle-ai:engram-protocol -->") {
+	if !strings.Contains(text, "<!-- /iugo-ai:engram-protocol -->") {
 		t.Error("AGENTS.md missing engram-protocol close marker")
 	}
 
 	// Engram section must not be duplicated
-	marker := "<!-- gentle-ai:engram-protocol -->"
+	marker := "<!-- iugo-ai:engram-protocol -->"
 	if count := strings.Count(text, marker); count != 1 {
 		t.Errorf("AGENTS.md contains %d occurrences of %q, want exactly 1 (no duplicates)", count, marker)
 	}
 
 	// AGENTS.md must NOT have sdd-orchestrator markers — OpenCode uses opencode.json overlay
-	if strings.Contains(text, "<!-- gentle-ai:sdd-orchestrator -->") {
+	if strings.Contains(text, "<!-- iugo-ai:sdd-orchestrator -->") {
 		t.Error("AGENTS.md should NOT have sdd-orchestrator marker — OpenCode uses opencode.json agent overlay")
 	}
 
 	// SDD orchestrator for OpenCode lives in opencode.json agent overlay under
-	// the canonical gentle-orchestrator key. Legacy sdd-orchestrator should be
+	// the canonical iugo-orchestrator key. Legacy sdd-orchestrator should be
 	// migrated away during injection.
 	opencodeJSON := filepath.Join(home, ".config", "opencode", "opencode.json")
 	jsonContent, err := os.ReadFile(opencodeJSON)
@@ -2058,8 +2058,8 @@ func TestOpenCodePersonaBeforeSDDPreservesAllSections(t *testing.T) {
 		t.Fatalf("ReadFile(opencode.json) error = %v", err)
 	}
 	jsonText := string(jsonContent)
-	if !strings.Contains(jsonText, "gentle-orchestrator") {
-		t.Error("opencode.json missing gentle-orchestrator agent entry (SDD not injected)")
+	if !strings.Contains(jsonText, "iugo-orchestrator") {
+		t.Error("opencode.json missing iugo-orchestrator agent entry (SDD not injected)")
 	}
 	if strings.Contains(jsonText, `"sdd-orchestrator"`) {
 		t.Error("opencode.json should not contain legacy sdd-orchestrator agent entry")

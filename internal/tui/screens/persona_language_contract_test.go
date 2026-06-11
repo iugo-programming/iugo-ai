@@ -7,24 +7,24 @@ import (
 	"github.com/iugo-programming/iugo-ai/internal/model"
 )
 
-func TestPersonaOptionsIncludeGentlemanNeutralArtifacts(t *testing.T) {
+func TestPersonaOptionsIncludeIUGONeutralArtifacts(t *testing.T) {
 	options := PersonaOptions()
 	found := false
 	for _, option := range options {
-		if option == model.PersonaGentlemanNeutralArtifacts {
+		if option == model.PersonaIUGONeutralArtifacts {
 			found = true
 		}
 	}
 	if !found {
-		t.Fatalf("PersonaOptions() = %v, missing %q", options, model.PersonaGentlemanNeutralArtifacts)
+		t.Fatalf("PersonaOptions() = %v, missing %q", options, model.PersonaIUGONeutralArtifacts)
 	}
 }
 
-func TestRenderPersonaDescribesGentlemanNeutralArtifacts(t *testing.T) {
-	out := RenderPersona(model.PersonaGentlemanNeutralArtifacts, 2)
+func TestRenderPersonaDescribesIUGONeutralArtifacts(t *testing.T) {
+	out := RenderPersona(model.PersonaIUGONeutralArtifacts, 2)
 	for _, want := range []string{
-		"gentleman-neutral-artifacts",
-		"Gentleman conversation",
+		"iugo-agent-neutral-artifacts",
+		"IUGO conversation",
 		"English technical artifacts",
 		"context language",
 	} {
