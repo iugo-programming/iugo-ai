@@ -63,9 +63,9 @@ var (
 	// Package-level var for testability — tests can replace this to avoid real HTTP calls.
 	engramDownloadFn = engram.DownloadLatestBinary
 
-	// AppVersion is the gentle-ai version that will be written into backup manifests.
+	// AppVersion is the iugo-ai version that will be written into backup manifests.
 	// It is set by app.go before any CLI operation so that every backup created during
-	// an install or sync records which version of gentle-ai made it.
+	// an install or sync records which version of iugo-ai made it.
 	// Default "dev" matches the ldflags default in app.Version.
 	AppVersion = "dev"
 )
@@ -161,7 +161,7 @@ func RunInstall(args []string, detection system.DetectionResult) (InstallResult,
 		agentIDs = append(agentIDs, string(a))
 	}
 
-	// When the user ran `gentle-ai install --agent X` (explicit agent flag),
+	// When the user ran `iugo-ai install --agent X` (explicit agent flag),
 	// merge into the existing state so that previously installed agents and
 	// model assignments are preserved. A full install (no --agent flag) keeps
 	// overwrite semantics so the TUI selection is the source of truth.
@@ -414,7 +414,7 @@ type prepareBackupStep struct {
 	source      backup.BackupSource
 	description string
 
-	// appVersion is the gentle-ai version that created this backup.
+	// appVersion is the iugo-ai version that created this backup.
 	// When set, it is written into the manifest as CreatedByVersion.
 	appVersion string
 }
@@ -987,7 +987,7 @@ func componentPathsWithWorkspaceScoped(homeDir, workspaceDir string, scope Insta
 			case model.StrategyTOMLFile:
 				if p := adapter.MCPConfigPath(targetDir, "engram"); p != "" {
 					paths = append(paths, p)
-					// Track the gentle-ai SDD profile files written alongside
+					// Track the iugo-ai SDD profile files written alongside
 					// the Codex config.toml so they are removed on uninstall.
 					codexHomeDir := filepath.Dir(p)
 					paths = append(paths, codexagent.SddProfilePaths(codexHomeDir)...)
@@ -1343,7 +1343,7 @@ func engramHealthChecks() []verify.Check {
 // when Antigravity and Gemini CLI are selected together. These agents
 // intentionally share ~/.gemini/GEMINI.md because Antigravity uses a
 // Gemini-compatible prompt surface; the last synced SDD orchestrator owns the
-// shared gentle-ai:sdd-orchestrator section.
+// shared iugo-ai:sdd-orchestrator section.
 func antigravityCollisionCheck(agents []model.AgentID) []verify.Check {
 	hasAntigravitySurface := false
 	hasGemini := false
@@ -1366,7 +1366,7 @@ func antigravityCollisionCheck(agents []model.AgentID) []verify.Check {
 			Run: func(context.Context) error {
 				return fmt.Errorf(
 					"Antigravity and Gemini CLI write rules to ~/.gemini/GEMINI.md\n" +
-						"Antigravity intentionally uses the Gemini-compatible global prompt surface; the last synced SDD orchestrator owns the shared gentle-ai:sdd-orchestrator section.\n" +
+						"Antigravity intentionally uses the Gemini-compatible global prompt surface; the last synced SDD orchestrator owns the shared iugo-ai:sdd-orchestrator section.\n" +
 						"Prefer Antigravity for new installs; keep Gemini CLI selected only when you intentionally want that legacy prompt to be the active one.",
 				)
 			},

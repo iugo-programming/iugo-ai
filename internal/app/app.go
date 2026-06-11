@@ -48,7 +48,7 @@ func Run() error {
 
 func RunArgs(args []string, stdout io.Writer) error {
 	// Propagate the build-time version to the CLI and upgrade layers so backup
-	// manifests record which version of gentle-ai created them.
+	// manifests record which version of iugo-ai created them.
 	cli.AppVersion = Version
 	upgrade.AppVersion = Version
 
@@ -56,7 +56,7 @@ func RunArgs(args []string, stdout io.Writer) error {
 	if len(args) > 0 {
 		switch args[0] {
 		case "version", "--version", "-v":
-			_, _ = fmt.Fprintf(stdout, "gentle-ai %s\n", Version)
+			_, _ = fmt.Fprintf(stdout, "iugo-ai %s\n", Version)
 			return nil
 		case "help", "--help", "-h":
 			printHelp(stdout, Version)
@@ -98,7 +98,7 @@ func RunArgs(args []string, stdout io.Writer) error {
 		return profile
 	}
 
-	// Self-update: check for a newer gentle-ai release and apply it before
+	// Self-update: check for a newer iugo-ai release and apply it before
 	// CLI/TUI dispatch. Errors are non-fatal — logged and swallowed.
 	// Skip auto-upgrade on TUI entry (len(args) == 0) to avoid silently
 	// replacing the binary while the user expects a clean TUI launch (#696).
@@ -193,7 +193,7 @@ func RunArgs(args []string, stdout io.Writer) error {
 	case "doctor":
 		return cli.RunDoctor(context.Background(), stdout)
 	default:
-		return fmt.Errorf("unknown command %q — run 'gentle-ai help' for available commands", args[0])
+		return fmt.Errorf("unknown command %q — run 'iugo-ai help' for available commands", args[0])
 	}
 }
 
@@ -213,7 +213,7 @@ func gentleAIUpgradeVersionFromTUI(finalModel tea.Model) (string, bool) {
 
 func runSkillRegistry(args []string, stdout io.Writer) error {
 	if len(args) == 0 || args[0] != "refresh" {
-		return fmt.Errorf("usage: gentle-ai skill-registry refresh [--cwd <dir>] [--force] [--quiet] [--no-gitignore]")
+		return fmt.Errorf("usage: iugo-ai skill-registry refresh [--cwd <dir>] [--force] [--quiet] [--no-gitignore]")
 	}
 
 	cwd := ""
@@ -274,13 +274,13 @@ func runUpdate(ctx context.Context, currentVersion string, profile system.Platfo
 	return updateCheckError(results)
 }
 
-// runUpgrade handles the `gentle-ai upgrade [--dry-run] [tool...]` command.
+// runUpgrade handles the `iugo-ai upgrade [--dry-run] [tool...]` command.
 //
 // This command:
-//   - Checks for available updates for managed tools (gentle-ai, engram, gga)
+//   - Checks for available updates for managed tools (iugo-ai, engram, gga)
 //   - Snapshots agent config paths before execution (config preservation by design)
 //   - Executes binary-only upgrades; does NOT invoke install or sync pipelines
-//   - Skips gentle-ai itself when running as a dev build (version="dev")
+//   - Skips iugo-ai itself when running as a dev build (version="dev")
 //   - Falls back to manual guidance for unsafe platforms (Windows binary self-replace)
 func runUpgrade(ctx context.Context, args []string, detection system.DetectionResult, stdout io.Writer) error {
 	dryRun := false

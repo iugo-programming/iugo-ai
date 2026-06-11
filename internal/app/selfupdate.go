@@ -62,7 +62,7 @@ var reExec = func(argv0 string, argv []string, envv []string) error {
 // goOS returns the current operating system name. Package-level var for testing.
 var goOS = func() string { return runtime.GOOS }
 
-// selfUpdate checks for and applies a gentle-ai update before normal dispatch.
+// selfUpdate checks for and applies a iugo-ai update before normal dispatch.
 // Returns nil on success or skip; errors are non-fatal (caller logs and continues).
 //
 // Guard evaluation order (per spec):
@@ -91,12 +91,12 @@ func selfUpdate(ctx context.Context, version string, profile system.PlatformProf
 	defer cancel()
 
 	// Check for updates (only gentle-ai).
-	results := updateCheckFiltered(ctx, version, profile, []string{"gentle-ai"})
+	results := updateCheckFiltered(ctx, version, profile, []string{"iugo-ai"})
 
 	// Find the gentle-ai result.
 	var target *update.UpdateResult
 	for i := range results {
-		if results[i].Tool.Name == "gentle-ai" {
+		if results[i].Tool.Name == "iugo-ai" {
 			target = &results[i]
 			break
 		}
@@ -127,7 +127,7 @@ func selfUpdate(ctx context.Context, version string, profile system.PlatformProf
 	// Check if upgrade succeeded.
 	var succeeded bool
 	for _, r := range report.Results {
-		if r.ToolName == "gentle-ai" && r.Status == upgrade.UpgradeSucceeded {
+		if r.ToolName == "iugo-ai" && r.Status == upgrade.UpgradeSucceeded {
 			succeeded = true
 			break
 		}
@@ -143,7 +143,7 @@ func selfUpdate(ctx context.Context, version string, profile system.PlatformProf
 
 func gentleAIUpgradeSucceeded(report upgrade.UpgradeReport) (string, bool) {
 	for _, r := range report.Results {
-		if r.ToolName == "gentle-ai" && r.Status == upgrade.UpgradeSucceeded {
+		if r.ToolName == "iugo-ai" && r.Status == upgrade.UpgradeSucceeded {
 			return strings.TrimPrefix(r.NewVersion, "v"), true
 		}
 	}
@@ -160,13 +160,13 @@ func restartAfterGentleAIUpgrade(latestVersion string, stdout io.Writer) error {
 
 	// Unix: re-exec with the updated binary.
 	//
-	// Use exec.LookPath("gentle-ai") rather than os.Executable() because
+	// Use exec.LookPath("iugo-ai") rather than os.Executable() because
 	// on Homebrew, os.Executable() resolves to the versioned Cellar path
 	// (e.g. /opt/homebrew/Cellar/gentle-ai/1.8.5/bin/gentle-ai) which
 	// still points to the OLD binary after upgrade. The PATH symlink
 	// (/opt/homebrew/bin/gentle-ai) is updated by Homebrew to the new
 	// version, so LookPath gives us the correct binary.
-	executable, err := lookPathFn("gentle-ai")
+	executable, err := lookPathFn("iugo-ai")
 	if err != nil {
 		// Fallback to os.Executable() if LookPath fails.
 		executable, err = os.Executable()

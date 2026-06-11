@@ -276,7 +276,7 @@ func parseModelSpec(spec string) (model.ModelAssignment, error) {
 // Permissions and Theme can be opted-in via flags.
 //
 // Persona is included because its content lives between
-// <!-- gentle-ai:persona --> markers — that block is harness-managed and
+// <!-- iugo-ai:persona --> markers — that block is harness-managed and
 // must propagate embedded-asset changes across versions. Content outside
 // the markers (user-authored sections) is preserved by InjectMarkdownSection.
 //
@@ -709,7 +709,7 @@ func (s componentSyncStep) Run() error {
 
 	case model.ComponentPersona:
 		// Sync regenerates the persona block between
-		// <!-- gentle-ai:persona --> markers and (when supported) refreshes
+		// <!-- iugo-ai:persona --> markers and (when supported) refreshes
 		// the Gentleman output-style overlay. We deliberately skip the
 		// OpenCode/Kilocode agent definition in opencode.json — that JSON
 		// merge conflicts with SDD's writes to the same settings file and
@@ -945,7 +945,7 @@ func RunSync(args []string) (SyncResult, error) {
 		selection.ModelAssignments = m
 	}
 	// Restore Codex effort and carril model assignments from state so that
-	// `gentle-ai sync` preserves the user's per-phase effort and per-carril
+	// `iugo-ai sync` preserves the user's per-phase effort and per-carril
 	// model choices instead of falling back to canonical defaults every time.
 	// This mirrors the TUI path (loadPersistedAssignments in app.go).
 	if len(selection.CodexModelAssignments) == 0 && len(persistedState.CodexModelAssignments) > 0 {
@@ -1016,7 +1016,7 @@ func RenderSyncReport(result SyncResult) string {
 	var b strings.Builder
 
 	if result.NoOp {
-		fmt.Fprintln(&b, "gentle-ai sync — no managed sync actions needed")
+		fmt.Fprintln(&b, "iugo-ai sync — no managed sync actions needed")
 		if len(result.Agents) == 0 {
 			fmt.Fprintln(&b, "No agents were discovered or specified. Nothing to sync.")
 		} else {
@@ -1027,7 +1027,7 @@ func RenderSyncReport(result SyncResult) string {
 	}
 
 	if result.DryRun {
-		fmt.Fprintln(&b, "gentle-ai sync — dry-run")
+		fmt.Fprintln(&b, "iugo-ai sync — dry-run")
 		fmt.Fprintf(&b, "Agents: %s\n", joinAgentIDs(result.Agents))
 
 		compParts := make([]string, 0, len(result.Selection.Components))
@@ -1042,7 +1042,7 @@ func RenderSyncReport(result SyncResult) string {
 		return strings.TrimRight(b.String(), "\n")
 	}
 
-	fmt.Fprintln(&b, "gentle-ai sync — managed sync executed")
+	fmt.Fprintln(&b, "iugo-ai sync — managed sync executed")
 	fmt.Fprintf(&b, "Agents synced: %s\n", joinAgentIDs(result.Agents))
 
 	compParts := make([]string, 0, len(result.Selection.Components))

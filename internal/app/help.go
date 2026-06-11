@@ -6,11 +6,11 @@ import (
 )
 
 func printHelp(w io.Writer, version string) {
-	fmt.Fprintf(w, `gentle-ai — Gentle-AI: Ecosystem, Frameworks, Workflows (%s)
+	fmt.Fprintf(w, `iugo-ai — IUGO-AI: Ecosystem, Frameworks, Workflows (%s)
 
 USAGE
-  gentle-ai                     Launch interactive TUI
-  gentle-ai <command> [flags]
+  iugo-ai                     Launch interactive TUI
+  iugo-ai <command> [flags]
 
 COMMANDS
   install      Configure AI coding agents on this machine
@@ -31,7 +31,7 @@ COMMANDS
 FLAGS
   --help, -h    Show this help
 
-Run 'gentle-ai help' for this message.
-Documentation: https://github.com/Gentleman-Programming/gentle-ai
+Run 'iugo-ai help' for this message.
+Documentation: https://github.com/iugo-programming/iugo-ai
 `, version)
 }
