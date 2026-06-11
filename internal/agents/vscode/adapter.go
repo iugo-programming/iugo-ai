@@ -7,8 +7,8 @@ import (
 	"path/filepath"
 	"runtime"
 
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/system"
+	"github.com/iugo-programming/iugo-ai/internal/model"
+	"github.com/iugo-programming/iugo-ai/internal/system"
 )
 
 type Adapter struct {

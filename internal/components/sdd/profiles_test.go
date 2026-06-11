@@ -8,9 +8,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/assets"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/opencode"
+	"github.com/iugo-programming/iugo-ai/internal/assets"
+	"github.com/iugo-programming/iugo-ai/internal/model"
+	"github.com/iugo-programming/iugo-ai/internal/opencode"
 )
 
 func TestResolveProfileStrategy_ExplicitWins(t *testing.T) {

@@ -4,8 +4,8 @@ import (
 	"strings"
 	"testing"
 
-	componentuninstall "github.com/gentleman-programming/gentle-ai/internal/components/uninstall"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
+	componentuninstall "github.com/iugo-programming/iugo-ai/internal/components/uninstall"
+	"github.com/iugo-programming/iugo-ai/internal/model"
 )
 
 func TestRenderUninstallResultIncludesManualCleanup(t *testing.T) {

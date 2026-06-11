@@ -5,8 +5,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/update"
-	"github.com/gentleman-programming/gentle-ai/internal/update/upgrade"
+	"github.com/iugo-programming/iugo-ai/internal/update"
+	"github.com/iugo-programming/iugo-ai/internal/update/upgrade"
 )
 
 // ─── RenderUpgrade states ──────────────────────────────────────────────────

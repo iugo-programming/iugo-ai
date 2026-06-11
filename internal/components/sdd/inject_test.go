@@ -11,16 +11,16 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gentleman-programming/gentle-ai/internal/agents"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/claude"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/hermes"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/kilocode"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/kimi"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/openclaw"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/opencode"
-	windsurfagent "github.com/gentleman-programming/gentle-ai/internal/agents/windsurf"
-	"github.com/gentleman-programming/gentle-ai/internal/assets"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
+	"github.com/iugo-programming/iugo-ai/internal/agents"
+	"github.com/iugo-programming/iugo-ai/internal/agents/claude"
+	"github.com/iugo-programming/iugo-ai/internal/agents/hermes"
+	"github.com/iugo-programming/iugo-ai/internal/agents/kilocode"
+	"github.com/iugo-programming/iugo-ai/internal/agents/kimi"
+	"github.com/iugo-programming/iugo-ai/internal/agents/openclaw"
+	"github.com/iugo-programming/iugo-ai/internal/agents/opencode"
+	windsurfagent "github.com/iugo-programming/iugo-ai/internal/agents/windsurf"
+	"github.com/iugo-programming/iugo-ai/internal/assets"
+	"github.com/iugo-programming/iugo-ai/internal/model"
 	// agents/cursor, agents/gemini, agents/vscode used via agents.NewAdapter()
 )
 

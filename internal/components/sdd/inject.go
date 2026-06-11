@@ -8,12 +8,12 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/gentleman-programming/gentle-ai/internal/agents"
-	"github.com/gentleman-programming/gentle-ai/internal/assets"
-	"github.com/gentleman-programming/gentle-ai/internal/components/filemerge"
-	"github.com/gentleman-programming/gentle-ai/internal/components/skills"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/opencode"
+	"github.com/iugo-programming/iugo-ai/internal/agents"
+	"github.com/iugo-programming/iugo-ai/internal/assets"
+	"github.com/iugo-programming/iugo-ai/internal/components/filemerge"
+	"github.com/iugo-programming/iugo-ai/internal/components/skills"
+	"github.com/iugo-programming/iugo-ai/internal/model"
+	"github.com/iugo-programming/iugo-ai/internal/opencode"
 )
 
 type InjectionResult struct {

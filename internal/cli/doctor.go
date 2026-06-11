@@ -11,8 +11,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gentleman-programming/gentle-ai/internal/state"
-	"github.com/gentleman-programming/gentle-ai/internal/storage"
+	"github.com/iugo-programming/iugo-ai/internal/state"
+	"github.com/iugo-programming/iugo-ai/internal/storage"
 )
 
 // CheckStatus is the outcome of a doctor check: pass, warn, or fail.

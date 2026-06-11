@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/model"
+	"github.com/iugo-programming/iugo-ai/internal/model"
 )
 
 func TestReadCurrentModelAssignments(t *testing.T) {

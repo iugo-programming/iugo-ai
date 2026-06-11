@@ -12,7 +12,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gentleman-programming/gentle-ai/internal/components/filemerge"
+	"github.com/iugo-programming/iugo-ai/internal/components/filemerge"
 )
 
 const (

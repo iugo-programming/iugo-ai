@@ -3,9 +3,9 @@
 // isolated from install, pipeline, planner, and config-sync code paths.
 //
 // Import boundary: this package MUST NOT import:
-//   - github.com/gentleman-programming/gentle-ai/internal/pipeline
-//   - github.com/gentleman-programming/gentle-ai/internal/planner
-//   - github.com/gentleman-programming/gentle-ai/internal/cli
+//   - github.com/iugo-programming/iugo-ai/internal/pipeline
+//   - github.com/iugo-programming/iugo-ai/internal/planner
+//   - github.com/iugo-programming/iugo-ai/internal/cli
 package upgrade
 
 import (
@@ -20,16 +20,16 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gentleman-programming/gentle-ai/internal/agents"
-	"github.com/gentleman-programming/gentle-ai/internal/assets"
-	"github.com/gentleman-programming/gentle-ai/internal/backup"
-	"github.com/gentleman-programming/gentle-ai/internal/components/gga"
-	"github.com/gentleman-programming/gentle-ai/internal/components/sdd"
-	"github.com/gentleman-programming/gentle-ai/internal/components/skills"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/state"
-	"github.com/gentleman-programming/gentle-ai/internal/system"
-	"github.com/gentleman-programming/gentle-ai/internal/update"
+	"github.com/iugo-programming/iugo-ai/internal/agents"
+	"github.com/iugo-programming/iugo-ai/internal/assets"
+	"github.com/iugo-programming/iugo-ai/internal/backup"
+	"github.com/iugo-programming/iugo-ai/internal/components/gga"
+	"github.com/iugo-programming/iugo-ai/internal/components/sdd"
+	"github.com/iugo-programming/iugo-ai/internal/components/skills"
+	"github.com/iugo-programming/iugo-ai/internal/model"
+	"github.com/iugo-programming/iugo-ai/internal/state"
+	"github.com/iugo-programming/iugo-ai/internal/system"
+	"github.com/iugo-programming/iugo-ai/internal/update"
 )
 
 // Package-level vars for testability — same pattern as internal/update/detect.go.

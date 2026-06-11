@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/gentleman-programming/gentle-ai/internal/agents"
-	"github.com/gentleman-programming/gentle-ai/internal/components/filemerge"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/versions"
+	"github.com/iugo-programming/iugo-ai/internal/agents"
+	"github.com/iugo-programming/iugo-ai/internal/components/filemerge"
+	"github.com/iugo-programming/iugo-ai/internal/model"
+	"github.com/iugo-programming/iugo-ai/internal/versions"
 )
 
 type InjectionResult struct {

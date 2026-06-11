@@ -14,7 +14,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gentleman-programming/gentle-ai/internal/backup"
+	"github.com/iugo-programming/iugo-ai/internal/backup"
 )
 
 // TestPrepareBackupStep_InstallWritesMetadataToManifest verifies that when

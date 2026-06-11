@@ -9,10 +9,10 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/gentleman-programming/gentle-ai/internal/assets"
-	"github.com/gentleman-programming/gentle-ai/internal/components/filemerge"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/opencode"
+	"github.com/iugo-programming/iugo-ai/internal/assets"
+	"github.com/iugo-programming/iugo-ai/internal/components/filemerge"
+	"github.com/iugo-programming/iugo-ai/internal/model"
+	"github.com/iugo-programming/iugo-ai/internal/opencode"
 )
 
 // profileNameRegex matches valid profile name slugs: lowercase alphanumeric + hyphens,

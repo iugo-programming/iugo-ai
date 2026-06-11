@@ -5,8 +5,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/opencode"
+	"github.com/iugo-programming/iugo-ai/internal/model"
+	"github.com/iugo-programming/iugo-ai/internal/opencode"
 )
 
 // configurableAgentSet is the set of valid agent names that may appear in

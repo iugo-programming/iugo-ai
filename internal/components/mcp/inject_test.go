@@ -7,16 +7,16 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/agents"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/antigravity"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/claude"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/codex"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/hermes"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/kilocode"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/kimi"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/openclaw"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/opencode"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/vscode"
+	"github.com/iugo-programming/iugo-ai/internal/agents"
+	"github.com/iugo-programming/iugo-ai/internal/agents/antigravity"
+	"github.com/iugo-programming/iugo-ai/internal/agents/claude"
+	"github.com/iugo-programming/iugo-ai/internal/agents/codex"
+	"github.com/iugo-programming/iugo-ai/internal/agents/hermes"
+	"github.com/iugo-programming/iugo-ai/internal/agents/kilocode"
+	"github.com/iugo-programming/iugo-ai/internal/agents/kimi"
+	"github.com/iugo-programming/iugo-ai/internal/agents/openclaw"
+	"github.com/iugo-programming/iugo-ai/internal/agents/opencode"
+	"github.com/iugo-programming/iugo-ai/internal/agents/vscode"
 )
 
 func cursorAdapter(t *testing.T) agents.Adapter {

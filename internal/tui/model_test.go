@@ -9,17 +9,17 @@ import (
 	"testing"
 
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/gentleman-programming/gentle-ai/internal/backup"
-	componentuninstall "github.com/gentleman-programming/gentle-ai/internal/components/uninstall"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/opencode"
-	"github.com/gentleman-programming/gentle-ai/internal/pipeline"
-	"github.com/gentleman-programming/gentle-ai/internal/planner"
-	"github.com/gentleman-programming/gentle-ai/internal/state"
-	"github.com/gentleman-programming/gentle-ai/internal/system"
-	"github.com/gentleman-programming/gentle-ai/internal/tui/screens"
-	"github.com/gentleman-programming/gentle-ai/internal/update"
-	"github.com/gentleman-programming/gentle-ai/internal/update/upgrade"
+	"github.com/iugo-programming/iugo-ai/internal/backup"
+	componentuninstall "github.com/iugo-programming/iugo-ai/internal/components/uninstall"
+	"github.com/iugo-programming/iugo-ai/internal/model"
+	"github.com/iugo-programming/iugo-ai/internal/opencode"
+	"github.com/iugo-programming/iugo-ai/internal/pipeline"
+	"github.com/iugo-programming/iugo-ai/internal/planner"
+	"github.com/iugo-programming/iugo-ai/internal/state"
+	"github.com/iugo-programming/iugo-ai/internal/system"
+	"github.com/iugo-programming/iugo-ai/internal/tui/screens"
+	"github.com/iugo-programming/iugo-ai/internal/update"
+	"github.com/iugo-programming/iugo-ai/internal/update/upgrade"
 )
 
 func TestNavigationWelcomeToDetection(t *testing.T) {

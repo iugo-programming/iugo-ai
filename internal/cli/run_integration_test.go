@@ -11,13 +11,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gentleman-programming/gentle-ai/internal/agents/kimi"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/opencode"
-	"github.com/gentleman-programming/gentle-ai/internal/backup"
-	"github.com/gentleman-programming/gentle-ai/internal/installcmd"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/system"
-	"github.com/gentleman-programming/gentle-ai/internal/versions"
+	"github.com/iugo-programming/iugo-ai/internal/agents/kimi"
+	"github.com/iugo-programming/iugo-ai/internal/agents/opencode"
+	"github.com/iugo-programming/iugo-ai/internal/backup"
+	"github.com/iugo-programming/iugo-ai/internal/installcmd"
+	"github.com/iugo-programming/iugo-ai/internal/model"
+	"github.com/iugo-programming/iugo-ai/internal/system"
+	"github.com/iugo-programming/iugo-ai/internal/versions"
 )
 
 // missingBinaryLookPath simulates all installable binaries (engram, gga) as

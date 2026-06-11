@@ -6,9 +6,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/planner"
-	"github.com/gentleman-programming/gentle-ai/internal/verify"
+	"github.com/iugo-programming/iugo-ai/internal/model"
+	"github.com/iugo-programming/iugo-ai/internal/planner"
+	"github.com/iugo-programming/iugo-ai/internal/verify"
 )
 
 func TestEngramPathGuidanceFish(t *testing.T) {

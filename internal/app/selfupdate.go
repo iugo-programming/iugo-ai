@@ -14,9 +14,9 @@ import (
 
 	"github.com/mattn/go-isatty"
 
-	"github.com/gentleman-programming/gentle-ai/internal/system"
-	"github.com/gentleman-programming/gentle-ai/internal/update"
-	"github.com/gentleman-programming/gentle-ai/internal/update/upgrade"
+	"github.com/iugo-programming/iugo-ai/internal/system"
+	"github.com/iugo-programming/iugo-ai/internal/update"
+	"github.com/iugo-programming/iugo-ai/internal/update/upgrade"
 )
 
 // lookPathFn is a package-level var for testability.

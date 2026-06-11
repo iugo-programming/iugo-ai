@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/tui/screens"
+	"github.com/iugo-programming/iugo-ai/internal/tui/screens"
 )
 
 // ─── RenderProfileDelete ──────────────────────────────────────────────────────

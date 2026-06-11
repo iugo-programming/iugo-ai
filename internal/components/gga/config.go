@@ -7,9 +7,9 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/gentleman-programming/gentle-ai/internal/assets"
-	"github.com/gentleman-programming/gentle-ai/internal/components/filemerge"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
+	"github.com/iugo-programming/iugo-ai/internal/assets"
+	"github.com/iugo-programming/iugo-ai/internal/components/filemerge"
+	"github.com/iugo-programming/iugo-ai/internal/model"
 )
 
 // ggaConfigDir returns the platform-appropriate directory that GGA reads its

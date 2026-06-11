@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gentleman-programming/gentle-ai/internal/backup"
+	"github.com/iugo-programming/iugo-ai/internal/backup"
 )
 
 // setupRestoreHome creates a temporary home dir with N backup manifests.

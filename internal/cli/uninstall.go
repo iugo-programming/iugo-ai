@@ -10,9 +10,9 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/gentleman-programming/gentle-ai/internal/catalog"
-	componentuninstall "github.com/gentleman-programming/gentle-ai/internal/components/uninstall"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
+	"github.com/iugo-programming/iugo-ai/internal/catalog"
+	componentuninstall "github.com/iugo-programming/iugo-ai/internal/components/uninstall"
+	"github.com/iugo-programming/iugo-ai/internal/model"
 )
 
 type UninstallFlags struct {

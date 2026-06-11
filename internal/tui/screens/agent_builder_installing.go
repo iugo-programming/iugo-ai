@@ -3,7 +3,7 @@ package screens
 import (
 	"strings"
 
-	"github.com/gentleman-programming/gentle-ai/internal/tui/styles"
+	"github.com/iugo-programming/iugo-ai/internal/tui/styles"
 )
 
 // RenderABInstalling renders the installation-in-progress (or error) screen.

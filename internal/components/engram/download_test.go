@@ -17,7 +17,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/system"
+	"github.com/iugo-programming/iugo-ai/internal/system"
 )
 
 // --- test helpers ---

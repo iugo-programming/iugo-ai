@@ -10,14 +10,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gentleman-programming/gentle-ai/internal/agents"
-	"github.com/gentleman-programming/gentle-ai/internal/assets"
-	"github.com/gentleman-programming/gentle-ai/internal/backup"
-	"github.com/gentleman-programming/gentle-ai/internal/components/filemerge"
-	"github.com/gentleman-programming/gentle-ai/internal/components/gga"
-	"github.com/gentleman-programming/gentle-ai/internal/components/sdd"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/state"
+	"github.com/iugo-programming/iugo-ai/internal/agents"
+	"github.com/iugo-programming/iugo-ai/internal/assets"
+	"github.com/iugo-programming/iugo-ai/internal/backup"
+	"github.com/iugo-programming/iugo-ai/internal/components/filemerge"
+	"github.com/iugo-programming/iugo-ai/internal/components/gga"
+	"github.com/iugo-programming/iugo-ai/internal/components/sdd"
+	"github.com/iugo-programming/iugo-ai/internal/model"
+	"github.com/iugo-programming/iugo-ai/internal/state"
 )
 
 type Manager interface {

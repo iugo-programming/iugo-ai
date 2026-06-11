@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/system"
+	"github.com/iugo-programming/iugo-ai/internal/system"
 )
 
 func TestInstallCommandByProfile(t *testing.T) {

@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/assets"
+	"github.com/iugo-programming/iugo-ai/internal/assets"
 )
 
 func TestEnsureRuntimeAssetsCreatesPRModeWhenMissing(t *testing.T) {

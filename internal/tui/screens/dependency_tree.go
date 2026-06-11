@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/gentleman-programming/gentle-ai/internal/catalog"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/planner"
-	"github.com/gentleman-programming/gentle-ai/internal/tui/styles"
-	"github.com/gentleman-programming/gentle-ai/internal/versions"
+	"github.com/iugo-programming/iugo-ai/internal/catalog"
+	"github.com/iugo-programming/iugo-ai/internal/model"
+	"github.com/iugo-programming/iugo-ai/internal/planner"
+	"github.com/iugo-programming/iugo-ai/internal/tui/styles"
+	"github.com/iugo-programming/iugo-ai/internal/versions"
 )
 
 func DependencyTreeOptions() []string {
