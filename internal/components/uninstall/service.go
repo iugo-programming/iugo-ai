@@ -283,7 +283,7 @@ func (s *Service) CompleteUninstall() (Result, error) {
 		return result, err
 	}
 
-	result.ManualActions = append(result.ManualActions, "To completely remove gentle-ai from your system, delete the executable (e.g., rm -f $(which gentle-ai))")
+	result.ManualActions = append(result.ManualActions, "To completely remove iugo-ai from your system, delete the executable (e.g., rm -f $(which iugo-ai))")
 	return result, nil
 }
 
@@ -451,7 +451,7 @@ func (s *Service) componentOperations(adapter agents.Adapter, componentID model.
 			}))
 		}
 		if adapter.SupportsOutputStyles() {
-			path := filepath.Join(adapter.OutputStyleDir(homeDir), "gentleman.md")
+			path := filepath.Join(adapter.OutputStyleDir(homeDir), "iugo-agent.md")
 			targets = append(targets, path)
 			ops = append(ops, removeFile(path))
 			ops = append(ops, removeDirIfEmpty(adapter.OutputStyleDir(homeDir)))
@@ -460,7 +460,7 @@ func (s *Service) componentOperations(adapter agents.Adapter, componentID model.
 			targets = append(targets, path)
 			jsonPaths := []jsonPath{{"outputStyle"}}
 			if adapter.Agent() == model.AgentOpenCode {
-				jsonPaths = append(jsonPaths, jsonPath{"agent", "gentleman"})
+				jsonPaths = append(jsonPaths, jsonPath{"agent", "iugo-agent"})
 			}
 			ops = append(ops, rewriteJSONFile(path, jsonPaths...))
 		}
@@ -507,7 +507,7 @@ func (s *Service) componentOperations(adapter agents.Adapter, componentID model.
 		}
 	case model.ComponentClaudeTheme:
 		if adapter.Agent() == model.AgentClaudeCode {
-			path := filepath.Join(homeDir, ".claude", "themes", "gentleman.json")
+			path := filepath.Join(homeDir, ".claude", "themes", "iugo.json")
 			targets = append(targets, path)
 			ops = append(ops, removeFile(path), removeDirIfEmpty(filepath.Dir(path)))
 		}
@@ -890,7 +890,7 @@ func removeSkillRegistryHook(raw []byte) ([]byte, bool, error) {
 			for _, hook := range hooks {
 				hookMap, ok := hook.(map[string]any)
 				cmd, _ := hookMap["command"].(string)
-				if ok && strings.Contains(cmd, "gentle-ai skill-registry refresh") {
+				if ok && strings.Contains(cmd, "iugo-ai skill-registry refresh") {
 					changed = true
 					continue
 				}

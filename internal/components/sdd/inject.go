@@ -38,7 +38,7 @@ type InjectOptions struct {
 	WorkspaceDir string
 
 	// StrictTDD enables Strict TDD mode. When true, a
-	// <!-- gentle-ai:strict-tdd-mode --> marker section is injected into
+	// <!-- iugo-ai:strict-tdd-mode --> marker section is injected into
 	// the agent's system prompt so agents know Strict TDD is active.
 	StrictTDD bool
 
@@ -151,7 +151,7 @@ type bootstrapper interface {
 //  3. Weak marker (package.json only) — record as candidate but keep walking
 //     upward, since a monorepo marker may exist higher up.
 //
-// Walking upward means users can run gentle-ai from any subdirectory of their
+// Walking upward means users can run iugo-ai from any subdirectory of their
 // project (e.g. repo/packages/app) and still detect the correct workspace root.
 // In a JS/TS monorepo, every package has package.json, so we must not stop at
 // the first one — we keep walking to find the highest ancestor with package.json
@@ -520,7 +520,7 @@ func Inject(homeDir string, adapter agents.Adapter, sddMode model.SDDModeID, opt
 
 	// 3b. Write native workflow files (Windsurf Hybrid-First, and any future
 	// agent that implements the workflowInjector optional interface).
-	// findProjectRoot walks upward from WorkspaceDir so gentle-ai can be
+	// findProjectRoot walks upward from WorkspaceDir so iugo-ai can be
 	// invoked from any subdirectory (e.g. repo/internal/foo) and still inject
 	// workflows at the real project root. Skips silently if no root is found
 	// (e.g. running from home dir without a project).
@@ -771,7 +771,7 @@ func inlineOpenCodeSDDPrompts(overlayBytes []byte, homeDir, settingsPath string,
 			}
 		}
 		if existingPrompt == "" {
-			existingPrompt, err = readMisnamedOpenCodeGentlemanSDDPrompt(settingsPath)
+			existingPrompt, err = readMisnamedOpenCodeIugoSDDPrompt(settingsPath)
 			if err != nil {
 				return nil, err
 			}
@@ -830,7 +830,7 @@ func migratePreservedOpenCodeOrchestratorPrompt(prompt string) string {
 func ensurePreservedOpenCodeDelegationHardGates(prompt string) string {
 	delegation := `
 
-<!-- gentle-ai:delegation-hard-gates-migration -->
+<!-- iugo-ai:delegation-hard-gates-migration -->
 ### Mandatory Delegation Triggers (Non-Skippable)
 
 These gates are non-skippable hard gates, not recommendations. They are TOTALMENTE obligatorio: do not skip them, do not weaken them, and do not replace delegation-required gates with inline execution. Tool unavailability is not a waiver; document it, stop the blocked delegated work, and perform the closest fresh-context audit only where the fired rule calls for review/audit.
@@ -845,7 +845,7 @@ Do not pass these rules to child agents as permission to spawn more agents; chil
 4. **Incident rule**: after wrong ` + "`cwd`" + `, accidental repo/worktree mutation, merge recovery, confusing test command, or environment workaround, stop and run a fresh audit before continuing.
 5. **Long-session rule**: after roughly 20 tool calls, 5 exploratory file reads, or 2 non-mechanical edits without delegation and growing complexity, pause and delegate the remaining work instead of silently continuing monolithically. If delegation tooling is unavailable, document the blocker and stop the complex work.
 6. **Fresh review rule**: use fresh context for adversarial review of diffs, conflicts, PR readiness, and incidents; use continuity/forked context only for implementation work that needs inherited state.
-<!-- /gentle-ai:delegation-hard-gates-migration -->
+<!-- /iugo-ai:delegation-hard-gates-migration -->
 `
 
 	if strings.Contains(prompt, "Mandatory Delegation Triggers") &&
@@ -863,8 +863,8 @@ Do not pass these rules to child agents as permission to spawn more agents; chil
 		return prompt
 	}
 
-	start := "<!-- gentle-ai:delegation-hard-gates-migration -->"
-	end := "<!-- /gentle-ai:delegation-hard-gates-migration -->"
+	start := "<!-- iugo-ai:delegation-hard-gates-migration -->"
+	end := "<!-- /iugo-ai:delegation-hard-gates-migration -->"
 	if startIdx := strings.Index(prompt, start); startIdx >= 0 {
 		if relEndIdx := strings.Index(prompt[startIdx:], end); relEndIdx >= 0 {
 			endIdx := startIdx + relEndIdx + len(end)
@@ -878,7 +878,7 @@ Do not pass these rules to child agents as permission to spawn more agents; chil
 func ensurePreservedOpenCodeOrchestratorPreflight(prompt string) string {
 	preflight := `
 
-<!-- gentle-ai:sdd-session-preflight-migration -->
+<!-- iugo-ai:sdd-session-preflight-migration -->
 ### SDD Session Preflight (HARD GATE)
 
 Before executing ANY SDD command or natural-language SDD request, ensure this session has an explicit ` + "`SDD Session Preflight`" + ` decision block.
@@ -955,7 +955,7 @@ Hard gate rules:
 - In ` + "`interactive`" + ` mode, pause after each delegated phase returns, summarize the phase, ask before launching the next phase, and STOP. Match the user's language and active persona for direct conversation only; for Spanish neutral fallback ask: "¿Quiere ajustar algo o continuamos?". Do not run /sdd-ff phases back-to-back unless execution mode is ` + "`auto`" + `.
 - Interactive approval is phase-scoped. Words like "continue", "dale", or "go on" approve only the immediate next phase, not the rest of the SDD pipeline. Do not treat a generated artifact as approved until the user has had a chance to review or explicitly delegate that review.
 - Before the ` + "`sdd-propose`" + ` phase in interactive mode, offer the user a proposal question round instead of silently deciding whether the proposal is clear enough. Ask 3–5 concrete product questions to improve the PRD/proposal by uncovering business rules, implications, impact, edge cases, product tradeoffs, and decision gaps; then summarize assumptions and ask whether the user wants corrections or a second question round. Do not ask about test commands, PR shape, changed-line budget, or other harness mechanics at proposal time unless the user explicitly asks to discuss delivery.
-<!-- /gentle-ai:sdd-session-preflight-migration -->
+<!-- /iugo-ai:sdd-session-preflight-migration -->
 `
 
 	if strings.Contains(prompt, "### SDD Session Preflight (HARD GATE)") &&
@@ -974,8 +974,8 @@ Hard gate rules:
 		return prompt
 	}
 
-	start := "<!-- gentle-ai:sdd-session-preflight-migration -->"
-	end := "<!-- /gentle-ai:sdd-session-preflight-migration -->"
+	start := "<!-- iugo-ai:sdd-session-preflight-migration -->"
+	end := "<!-- /iugo-ai:sdd-session-preflight-migration -->"
 	if startIdx := strings.Index(prompt, start); startIdx >= 0 {
 		if relEndIdx := strings.Index(prompt[startIdx:], end); relEndIdx >= 0 {
 			endIdx := startIdx + relEndIdx + len(end)
@@ -1038,7 +1038,7 @@ func readOpenCodeAgentPrompt(settingsPath, agentKey string) (string, error) {
 	return prompt, nil
 }
 
-func readMisnamedOpenCodeGentlemanSDDPrompt(settingsPath string) (string, error) {
+func readMisnamedOpenCodeIugoSDDPrompt(settingsPath string) (string, error) {
 	if strings.TrimSpace(settingsPath) == "" {
 		return "", nil
 	}
@@ -1063,7 +1063,7 @@ func readMisnamedOpenCodeGentlemanSDDPrompt(settingsPath string) (string, error)
 	if !ok {
 		return "", nil
 	}
-	agentRaw, ok := agentsMap["gentleman"]
+	agentRaw, ok := agentsMap["iugo-agent"]
 	if !ok || !looksLikeOpenCodeSDDConductor(agentRaw) {
 		return "", nil
 	}
@@ -1108,7 +1108,7 @@ func ensureCodexSkillRegistryHook(hooksPath string) (bool, error) {
 		return false, err
 	}
 
-	const command = `gentle-ai skill-registry refresh --quiet --no-gitignore --cwd "$PWD" || true`
+	const command = `iugo-ai skill-registry refresh --quiet --no-gitignore --cwd "$PWD" || true`
 	if claudeHookExists(root, command) {
 		return false, nil
 	}
@@ -1166,7 +1166,7 @@ func ensureClaudeSkillRegistryHook(settingsPath string) (bool, error) {
 		return false, err
 	}
 
-	const command = `gentle-ai skill-registry refresh --quiet --no-gitignore --cwd "${CLAUDE_PROJECT_DIR:-$PWD}" || true`
+	const command = `iugo-ai skill-registry refresh --quiet --no-gitignore --cwd "${CLAUDE_PROJECT_DIR:-$PWD}" || true`
 	if claudeHookExists(root, command) {
 		return false, nil
 	}
@@ -1245,7 +1245,7 @@ func claudeHookListContains(hookEntries []any, command string) bool {
 	return false
 }
 
-// installOpenCodePlugins copies the OpenCode-compatible plugins that gentle-ai
+// installOpenCodePlugins copies the OpenCode-compatible plugins that iugo-ai
 // still manages by default. Native OpenCode subagents replace the legacy
 // background-agents plugin, so that legacy cleanup is scoped to OpenCode only.
 func installOpenCodePlugins(homeDir string, adapter agents.Adapter) (InjectionResult, error) {
@@ -1377,7 +1377,7 @@ func openCodeSettingsHasShare(settingsPath string) bool {
 // base OpenCode SDD conductor agents. The base SDD coordinator is now the
 // gentle-orchestrator primary agent; named profile agents such as
 // sdd-orchestrator-cheap intentionally remain untouched because they are
-// generated profile-specific coordinators. The old OpenCode "gentleman" agent
+// generated profile-specific coordinators. The old OpenCode "iugo-agent" agent
 // key is revoked and is removed during sync; if it clearly contains the old SDD
 // conductor prompt and no gentle-orchestrator exists yet, its prompt is migrated
 // before the revoked key is deleted.
@@ -1401,13 +1401,13 @@ func migrateLegacyOpenCodeSDDOrchestrator(baseJSON []byte) ([]byte, error) {
 	}
 
 	legacy, hasLegacy := agentsMap["sdd-orchestrator"]
-	revokedGentleman, hasRevokedGentleman := agentsMap["gentleman"]
-	gentlemanLooksLikeConductor := hasRevokedGentleman && looksLikeOpenCodeSDDConductor(revokedGentleman)
-	if !hasLegacy && !hasRevokedGentleman {
+	revokedIugo, hasRevokedIugo := agentsMap["iugo-agent"]
+	iugoLooksLikeConductor := hasRevokedIugo && looksLikeOpenCodeSDDConductor(revokedIugo)
+	if !hasLegacy && !hasRevokedIugo {
 		return baseJSON, nil
 	}
-	if !hasLegacy && gentlemanLooksLikeConductor {
-		legacy = revokedGentleman
+	if !hasLegacy && iugoLooksLikeConductor {
+		legacy = revokedIugo
 		hasLegacy = true
 	}
 
@@ -1415,8 +1415,8 @@ func migrateLegacyOpenCodeSDDOrchestrator(baseJSON []byte) ([]byte, error) {
 		agentsMap["gentle-orchestrator"] = legacy
 	}
 	delete(agentsMap, "sdd-orchestrator")
-	if hasRevokedGentleman {
-		delete(agentsMap, "gentleman")
+	if hasRevokedIugo {
+		delete(agentsMap, "iugo-agent")
 	}
 
 	encoded, err := json.MarshalIndent(root, "", "  ")
@@ -1629,7 +1629,7 @@ func injectFileAppend(homeDir string, adapter agents.Adapter, opts InjectOptions
 }
 
 func hasLegacyBareOrchestrator(content string) bool {
-	markedIdx := strings.Index(content, "<!-- gentle-ai:sdd-orchestrator -->")
+	markedIdx := strings.Index(content, "<!-- iugo-ai:sdd-orchestrator -->")
 	if markedIdx >= 0 {
 		prefix := content[:markedIdx]
 		if strings.Contains(prefix, "# Agent Teams Lite — Orchestrator Instructions") {
@@ -1667,10 +1667,10 @@ func hasLegacyBareOrchestrator(content string) bool {
 //
 // Strategy:
 //   - start at the first known orchestrator heading
-//   - end at the next managed marker ("<!-- gentle-ai:") if present, else EOF
+//   - end at the next managed marker ("<!-- iugo-ai:") if present, else EOF
 //   - preserve content before/after and normalize surrounding blank lines
 func stripBareOrchestratorForFilePrompt(content string) string {
-	if markedIdx := strings.Index(content, "<!-- gentle-ai:sdd-orchestrator -->"); markedIdx >= 0 {
+	if markedIdx := strings.Index(content, "<!-- iugo-ai:sdd-orchestrator -->"); markedIdx >= 0 {
 		prefix := content[:markedIdx]
 		if start := strings.Index(prefix, "# Agent Teams Lite — Orchestrator Instructions"); start >= 0 {
 			before := strings.TrimRight(content[:start], "\n")
@@ -1701,7 +1701,7 @@ func stripBareOrchestratorForFilePrompt(content string) string {
 	}
 
 	end := len(content)
-	if rel := strings.Index(content[start:], "<!-- gentle-ai:"); rel >= 0 {
+	if rel := strings.Index(content[start:], "<!-- iugo-ai:"); rel >= 0 {
 		end = start + rel
 	}
 
@@ -1730,7 +1730,7 @@ func stripBareOrchestratorForFilePrompt(content string) string {
 
 const instructionsFrontmatter = "---\n" +
 	"name: Gentle AI Persona\n" +
-	"description: Gentleman persona with SDD orchestration and Engram protocol\n" +
+	"description: IUGO persona with SDD orchestration and Engram protocol\n" +
 	"applyTo: \"**\"\n" +
 	"---\n"
 
@@ -1825,7 +1825,7 @@ func injectMarkdownSections(homeDir string, adapter agents.Adapter, legacyAssign
 	// If bare (un-marked) orchestrator content exists but the HTML markers are
 	// not present, strip the bare block first. This migrates legacy files to the
 	// canonical marker-based state without duplicating the section.
-	if hasSDDOrchestrator(existing) && !strings.Contains(existing, "<!-- gentle-ai:sdd-orchestrator -->") {
+	if hasSDDOrchestrator(existing) && !strings.Contains(existing, "<!-- iugo-ai:sdd-orchestrator -->") {
 		existing = stripBareOrchestratorSection(existing)
 	}
 
@@ -1877,8 +1877,8 @@ func injectClaudeModelAssignments(content string, assignments map[string]model.C
 }
 
 func injectClaudePhaseAssignments(content string, legacyAssignments map[string]model.ClaudeModelAlias, phaseAssignments map[string]model.ClaudePhaseAssignment) (string, error) {
-	const openMarker = "<!-- gentle-ai:sdd-model-assignments -->"
-	const closeMarker = "<!-- /gentle-ai:sdd-model-assignments -->"
+	const openMarker = "<!-- iugo-ai:sdd-model-assignments -->"
+	const closeMarker = "<!-- /iugo-ai:sdd-model-assignments -->"
 
 	start := strings.Index(content, openMarker)
 	end := strings.Index(content, closeMarker)

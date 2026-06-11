@@ -22,7 +22,7 @@ import (
 )
 
 const (
-	engramOwner = "Gentleman-Programming"
+	engramOwner = "iugo-programming"
 	engramRepo  = "engram"
 	engramName  = "engram"
 )
@@ -74,7 +74,7 @@ func DownloadLatestBinary(profile system.PlatformProfile) (string, error) {
 	}
 	outPath := filepath.Join(installDir, binaryName)
 
-	tmpDir, err := os.MkdirTemp("", "gentle-ai-engram-*")
+	tmpDir, err := os.MkdirTemp("", "iugo-ai-engram-*")
 	if err != nil {
 		return "", fmt.Errorf("create temp dir: %w", err)
 	}

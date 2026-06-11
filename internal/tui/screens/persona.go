@@ -8,12 +8,12 @@ import (
 )
 
 func PersonaOptions() []model.PersonaID {
-	return []model.PersonaID{model.PersonaGentleman, model.PersonaGentlemanNeutralArtifacts, model.PersonaNeutral, model.PersonaCustom}
+	return []model.PersonaID{model.PersonaIugo, model.PersonaIugoNeutralArtifacts, model.PersonaNeutral, model.PersonaCustom}
 }
 
 var personaDescriptions = map[model.PersonaID]string{
-	model.PersonaGentleman:                 "Managed IUGO persona with teaching-first guidance",
-	model.PersonaGentlemanNeutralArtifacts: "IUGO conversation with English technical artifacts and comments in context language",
+	model.PersonaIugo:                 "Managed IUGO persona with teaching-first guidance",
+	model.PersonaIugoNeutralArtifacts: "IUGO conversation with English technical artifacts and comments in context language",
 	model.PersonaNeutral:                   "Managed neutral persona with the same guidance and less regional tone",
 	model.PersonaCustom:                    "Keep your existing persona unmanaged; iugo-ai does not inject a persona",
 }

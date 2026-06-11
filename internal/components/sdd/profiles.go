@@ -373,8 +373,8 @@ func buildProfileOrchestratorPrompt(profile model.Profile) (string, error) {
 	base = extractModelSection(base, capability)
 
 	// Inject model assignments table.
-	const openMarker = "<!-- gentle-ai:sdd-model-assignments -->"
-	const closeMarker = "<!-- /gentle-ai:sdd-model-assignments -->"
+	const openMarker = "<!-- iugo-ai:sdd-model-assignments -->"
+	const closeMarker = "<!-- /iugo-ai:sdd-model-assignments -->"
 
 	start := strings.Index(base, openMarker)
 	end := strings.Index(base, closeMarker)

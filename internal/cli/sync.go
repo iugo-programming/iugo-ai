@@ -321,7 +321,7 @@ func BuildSyncSelection(flags SyncFlags, agentIDs []model.AgentID) model.Selecti
 		Profiles:           flags.Profiles,
 		// Preset is set to full-gentleman so selectedSkillIDs() returns the
 		// correct default skill set when no explicit skills are provided.
-		Preset: model.PresetFullGentleman,
+		Preset: model.PresetFullIugo,
 		// Persona is left as zero-value here. RunSync resolves it from state.json
 		// when present. Missing or invalid persisted persona resolves to neutral
 		// so sync does not silently reactivate regional persona behavior.

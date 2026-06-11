@@ -89,7 +89,7 @@ func reviewPersonaLabel(persona model.PersonaID) string {
 	switch persona {
 	case model.PersonaCustom:
 		return "keep existing persona unmanaged"
-	case model.PersonaGentlemanNeutralArtifacts:
+	case model.PersonaIugoNeutralArtifacts:
 		return "IUGO conversation, neutral artifacts"
 	default:
 		return string(persona)

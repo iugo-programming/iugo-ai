@@ -21,7 +21,7 @@ const (
 	AgentHermes        AgentID = "hermes"
 )
 
-// SupportTier indicates how fully an agent supports the Gentleman AI ecosystem.
+// SupportTier indicates how fully an agent supports the IUGO-AI ecosystem.
 // All current agents receive the full SDD orchestrator, skill files, MCP config,
 // and system prompt injection. The tier is kept as metadata for display purposes.
 type SupportTier string
@@ -92,8 +92,8 @@ const (
 type PersonaID string
 
 const (
-	PersonaGentleman                 PersonaID = "gentleman"
-	PersonaGentlemanNeutralArtifacts PersonaID = "gentleman-neutral-artifacts"
+	PersonaIugo                 PersonaID = "iugo-agent"
+	PersonaIugoNeutralArtifacts PersonaID = "iugo-neutral-artifacts"
 	PersonaNeutral                   PersonaID = "neutral"
 	PersonaCustom                    PersonaID = "custom"
 )
@@ -102,7 +102,7 @@ const (
 type SystemPromptStrategy int
 
 const (
-	// StrategyMarkdownSections uses <!-- gentle-ai:ID --> markers to inject sections
+	// StrategyMarkdownSections uses <!-- iugo-ai:ID --> markers to inject sections
 	// into an existing file without clobbering user content (Claude Code CLAUDE.md).
 	StrategyMarkdownSections SystemPromptStrategy = iota
 	// StrategyFileReplace replaces the entire system prompt file (OpenCode AGENTS.md).
@@ -140,7 +140,7 @@ const (
 type PresetID string
 
 const (
-	PresetFullGentleman PresetID = "full-gentleman"
+	PresetFullIugo PresetID = "full-iugo-agent"
 	PresetEcosystemOnly PresetID = "ecosystem-only"
 	PresetMinimal       PresetID = "minimal"
 	PresetCustom        PresetID = "custom"
