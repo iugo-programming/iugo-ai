@@ -48,7 +48,7 @@ type cacheFile struct {
 	Fingerprint string `json:"fingerprint"`
 }
 
-// Keep these source roots in sync with the gentle-pi skill-registry extension.
+// Keep these source roots in sync with the iugo-pi skill-registry extension.
 func UserSkillDirs(home string) []string {
 	return []string{
 		// Gentle AI/Pi and generic Agent Skills locations.

@@ -96,10 +96,10 @@ func hasPiAgentInInstallPlan(plan planner.ResolvedPlan, selection model.Selectio
 
 func piInstallCommands() []string {
 	return []string{
-		"pi install npm:gentle-pi",
-		"pi install npm:gentle-engram",
+		"pi install npm:iugo-pi",
+		"pi install npm:iugo-engram",
 		"pi install npm:pi-mcp-adapter",
-		fmt.Sprintf("npm exec --yes --package gentle-engram@%s -- pi-engram init", versions.GentleEngram),
+		fmt.Sprintf("npm exec --yes --package iugo-engram@%s -- pi-engram init", versions.IugoEngram),
 		"pi install npm:pi-subagents",
 		"pi install npm:pi-intercom",
 		"pi install npm:@juicesharp/rpiv-ask-user-question",
