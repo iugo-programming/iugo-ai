@@ -1,0 +1,33 @@
+{
+    "version": "1.39.4",
+    "description": "IUGO-AI — Ecosystem, Frameworks, Workflows for AI coding agents",
+    "homepage": "https://github.com/iugo-programming/iugo-ai",
+    "license": "MIT",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/iugo-programming/iugo-ai/releases/download/v1.39.4/iugo-ai_1.39.4_windows_amd64.zip",
+            "hash": ""
+        },
+        "arm64": {
+            "url": "https://github.com/iugo-programming/iugo-ai/releases/download/v1.39.4/iugo-ai_1.39.4_windows_arm64.zip",
+            "hash": ""
+        }
+    },
+    "bin": "iugo-ai.exe",
+    "checkver": {
+        "github": "https://github.com/iugo-programming/iugo-ai"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/iugo-programming/iugo-ai/releases/download/v$version/iugo-ai_$version_windows_amd64.zip"
+            },
+            "arm64": {
+                "url": "https://github.com/iugo-programming/iugo-ai/releases/download/v$version/iugo-ai_$version_windows_arm64.zip"
+            }
+        },
+        "hash": {
+            "url": "$baseurl/checksums.txt"
+        }
+    }
+}
