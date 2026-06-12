@@ -24,6 +24,36 @@ main        → synced with upstream Gentleman-Programming/gentle-ai
 customized  → IUGO-AI branded fork (our working branch)
 ```
 
+## Sync Flow (Visual)
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  Gentleman-Programming/gentle-ai (upstream)                 │
+│  ─────────────────────────────────────────────              │
+│  Original repo, new features, bug fixes                     │
+└──────────────────────────┬──────────────────────────────────┘
+                           │
+                           │ git fetch upstream
+                           │ git merge upstream/main
+                           ▼
+┌─────────────────────────────────────────────────────────────┐
+│  main (your fork)                                           │
+│  ────────────────────                                        │
+│  Mirror of upstream, no branding changes                    │
+└──────────────────────────┬──────────────────────────────────┘
+                           │
+                           │ git rebase main
+                           │ (resolve conflicts, rebrand)
+                           ▼
+┌─────────────────────────────────────────────────────────────┐
+│  customized (working branch)                                │
+│  ─────────────────────────                                  │
+│  IUGO-AI branded fork with all customizations               │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**Key rule**: main is ALWAYS a clean mirror of upstream. All branding lives in customized.
+
 ## Critical Files — Branding Hotspots
 
 These files are the **highest risk** during upstream sync. If upstream modifies them, branding may break.
