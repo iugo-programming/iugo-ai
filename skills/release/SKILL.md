@@ -20,38 +20,50 @@ Load this skill whenever you need to:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│  1. Determine upstream version                              │
-│     git log --oneline upstream/main | head -1               │
+│  1. Merge customized into prod                              │
+│     git checkout prod && git merge customized               │
 └──────────────────────────┬──────────────────────────────────┘
                            │
                            ▼
 ┌─────────────────────────────────────────────────────────────┐
-│  2. Create annotated tag with upstream reference            │
+│  2. Determine upstream version                              │
+│     git describe --tags --abbrev=0 upstream/main            │
+└──────────────────────────┬──────────────────────────────────┘
+                           │
+                           ▼
+┌─────────────────────────────────────────────────────────────┐
+│  3. Create annotated tag on prod with upstream reference    │
 │     git tag -a v1.0.0 -m "Based on upstream v1.39.4"       │
 └──────────────────────────┬──────────────────────────────────┘
                            │
                            ▼
 ┌─────────────────────────────────────────────────────────────┐
-│  3. Push tag (triggers GitHub Actions)                      │
+│  4. Push tag (triggers GitHub Actions)                      │
 │     git push origin v1.0.0                                  │
 └──────────────────────────┬──────────────────────────────────┘
                            │
                            ▼
 ┌─────────────────────────────────────────────────────────────┐
-│  4. GoReleaser builds binaries + updates brew/scoop         │
+│  5. GoReleaser builds binaries + updates brew/scoop         │
 └─────────────────────────────────────────────────────────────┘
 ```
+
+**Key rule**: Releases are ALWAYS tagged from the `prod` branch.
 
 ## Step 1: Check Current State
 
 Before creating a tag, verify:
 
 ```bash
-# Check you're on customized branch
+# Check you're on prod branch
 git branch --show-current
 
 # Check working tree is clean
 git status
+
+# Ensure prod is up to date with customized
+git checkout prod
+git merge customized
 
 # Check latest upstream version
 git fetch upstream
@@ -134,8 +146,22 @@ gh run list --limit 1
 # Check release was created
 gh release view vX.Y.Z
 
-# Test install script
-curl -fsSL https://raw.githubusercontent.com/iugo-programming/iugo-ai/main/scripts/install.sh | bash
+# Test install script (should point to prod branch)
+curl -fsSL https://raw.githubusercontent.com/iugo-programming/iugo-ai/prod/scripts/install.sh | bash
+```
+
+### Pre-release Checklist
+
+Before pushing the tag, verify:
+
+```bash
+# README.md install commands point to prod (not main)
+grep -n "/main" README.md
+# Should return no matches — all URLs should use /prod/
+
+# Build and tests pass
+go build ./cmd/iugo-ai/
+go test ./... 2>&1 | grep -E "^(ok|FAIL)"
 ```
 
 ## Quick Reference

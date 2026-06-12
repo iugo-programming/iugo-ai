@@ -21,7 +21,8 @@ Load this skill whenever you need to:
 
 ```
 main        → synced with upstream Gentleman-Programming/gentle-ai
-customized  → IUGO-AI branded fork (our working branch)
+customized  → IUGO-AI branded working branch (all modifications happen here)
+prod        → release branch (releases are tagged from here)
 ```
 
 ## Sync Flow (Visual)
@@ -49,10 +50,22 @@ customized  → IUGO-AI branded fork (our working branch)
 │  customized (working branch)                                │
 │  ─────────────────────────                                  │
 │  IUGO-AI branded fork with all customizations               │
+└──────────────────────────┬──────────────────────────────────┘
+                           │
+                           │ git merge customized
+                           ▼
+┌─────────────────────────────────────────────────────────────┐
+│  prod (release branch)                                      │
+│  ─────────────────────                                      │
+│  Stable branch for releases — tags are created here         │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**Key rule**: main is ALWAYS a clean mirror of upstream. All branding lives in customized.
+**Key rules**:
+- main is ALWAYS a clean mirror of upstream.
+- All branding and customization lives in customized.
+- Releases are ALWAYS tagged from prod.
+- prod receives merges from customized before release.
 
 ## Critical Files — Branding Hotspots
 
@@ -210,6 +223,22 @@ Expected values:
 | `roseArt` | IUGO-AI ASCII art | Rose braille art or Gentle-AI |
 | `compactArt` | `"✦ IUGO-AI ✦"` | `"✦ Gentle AI ✦"` |
 
+### README.md Branch Reference Check
+
+Verify that all commands and URLs in README.md point to the `prod` branch (not `main`):
+
+```bash
+# Check for main branch references in README
+grep -n "/main" README.md
+```
+
+Any install/download URLs should use `prod`:
+| Pattern | Replace with |
+|---------|--------------|
+| `/main/scripts/install.sh` | `/prod/scripts/install.sh` |
+| `/main/` in any GitHub URL | `/prod/` |
+| `branch: main` in badges | `branch: prod` |
+
 ### Step 6: Verify Build and Tests
 
 ```bash
@@ -224,15 +253,22 @@ go test ./... 2>&1 | grep -E "^(ok|FAIL)"
 ./bin/iugo-ai.exe help
 ```
 
-### Step 7: Commit and Push (REQUIRED — do not skip)
+### Step 7: Merge to prod and Push (REQUIRED — do not skip)
 
-After rebase, the branch will show as diverged from remote. This is expected.
-The force push syncs the rebased commits to the remote.
+After rebase and branding verification, merge customized into prod for release.
 
 ```bash
+# Commit any remaining changes on customized
 git add -A
 git commit -m "sync: rebase onto upstream/main and rebrand new changes"
+
+# Push customized (force-with-lease needed after rebase)
 git push origin customized --force-with-lease
+
+# Merge to prod
+ git checkout prod
+git merge customized
+git push origin prod
 ```
 
 **Why force-with-lease**: Rebase rewrites commit hashes, so local and remote
