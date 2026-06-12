@@ -70,7 +70,7 @@ The goal is not ceremony. The goal is to avoid accidental chaos while preserving
 ### macOS / Linux
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/IUGO-Programming/iugo-ai/main/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/IUGO-Programming/iugo-ai/prod/scripts/install.sh | bash
 ```
 
 ### Windows
