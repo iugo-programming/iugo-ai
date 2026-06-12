@@ -223,13 +223,13 @@ Expected values:
 | `roseArt` | IUGO-AI ASCII art | Rose braille art or Gentle-AI |
 | `compactArt` | `"✦ IUGO-AI ✦"` | `"✦ Gentle AI ✦"` |
 
-### README.md Branch Reference Check
+### README.md and Scripts Branch Reference Check
 
-Verify that all commands and URLs in README.md point to the `prod` branch (not `main`):
+Verify that all commands and URLs in README.md and scripts point to the `prod` branch (not `main`):
 
 ```bash
-# Check for main branch references in README
-grep -n "/main" README.md
+# Check for main branch references in README and scripts
+grep -n "/main" README.md scripts/install.sh
 ```
 
 Any install/download URLs should use `prod`:
