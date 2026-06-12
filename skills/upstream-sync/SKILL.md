@@ -201,7 +201,10 @@ go test ./... 2>&1 | grep -E "^(ok|FAIL)"
 ./bin/iugo-ai.exe help
 ```
 
-### Step 7: Commit and Push
+### Step 7: Commit and Push (REQUIRED — do not skip)
+
+After rebase, the branch will show as diverged from remote. This is expected.
+The force push syncs the rebased commits to the remote.
 
 ```bash
 git add -A
@@ -209,18 +212,17 @@ git commit -m "sync: rebase onto upstream/main and rebrand new changes"
 git push origin customized --force-with-lease
 ```
 
-**IMPORTANT**: After a rebase, the local and remote branches diverge because
-rebase rewrites commit hashes. You MUST use `--force-with-lease` to push.
+**Why force-with-lease**: Rebase rewrites commit hashes, so local and remote
+diverge. `--force-with-lease` is safer than `--force` — it fails if someone
+else pushed while you were rebasing.
 
-Example state after rebase:
+**Expected output after rebase (before push)**:
 ```
 Your branch and 'origin/customized' have diverged,
-and have 31 and 20 different commits each, respectively.
+and have X and Y different commits each, respectively.
 ```
 
-This is normal. The force push replaces the old commits on remote with the
-rebased ones. `--force-with-lease` is safer than `--force` because it fails
-if someone else pushed while you were rebasing.
+This is normal. The force push resolves it.
 
 ## Quick Rebrand Commands
 
