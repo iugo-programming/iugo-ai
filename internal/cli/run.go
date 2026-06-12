@@ -1106,7 +1106,7 @@ func componentPathsWithWorkspaceScoped(homeDir, workspaceDir string, scope Insta
 			}
 		case model.ComponentClaudeTheme:
 			if adapter.Agent() == model.AgentClaudeCode {
-				paths = append(paths, filepath.Join(homeDir, ".claude", "themes", "gentleman.json"))
+				paths = append(paths, filepath.Join(homeDir, ".claude", "themes", "iugo.json"))
 			}
 		case model.ComponentOpenCodeIugoLogo:
 			paths = append(paths,
