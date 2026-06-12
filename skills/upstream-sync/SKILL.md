@@ -209,6 +209,19 @@ git commit -m "sync: rebase onto upstream/main and rebrand new changes"
 git push origin customized --force-with-lease
 ```
 
+**IMPORTANT**: After a rebase, the local and remote branches diverge because
+rebase rewrites commit hashes. You MUST use `--force-with-lease` to push.
+
+Example state after rebase:
+```
+Your branch and 'origin/customized' have diverged,
+and have 31 and 20 different commits each, respectively.
+```
+
+This is normal. The force push replaces the old commits on remote with the
+rebased ones. `--force-with-lease` is safer than `--force` because it fails
+if someone else pushed while you were rebasing.
+
 ## Quick Rebrand Commands
 
 If upstream added new files that need rebranding:
