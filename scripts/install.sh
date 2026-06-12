@@ -2,23 +2,23 @@
 set -euo pipefail
 
 # ============================================================================
-# Gentle-AI — Install Script
+# IUGO-AI — Install Script
 # Ecosystem, Frameworks, Workflows for AI coding agents.
 #
 # Usage:
-#   curl -sL https://raw.githubusercontent.com/Gentleman-Programming/gentle-ai/main/scripts/install.sh | bash
+#   curl -sL https://raw.githubusercontent.com/iugo-programming/iugo-ai/main/scripts/install.sh | bash
 #
 # Or download and run:
-#   curl -sLO https://raw.githubusercontent.com/Gentleman-Programming/gentle-ai/main/scripts/install.sh
+#   curl -sLO https://raw.githubusercontent.com/iugo-programming/iugo-ai/main/scripts/install.sh
 #   chmod +x install.sh
 #   ./install.sh
 # ============================================================================
 
-GITHUB_OWNER="Gentleman-Programming"
-GITHUB_REPO="gentle-ai"
-BINARY_NAME="gentle-ai"
-BREW_TAP="Gentleman-Programming/homebrew-tap"
-BREW_FORMULA_REF="gentleman-programming/tap/${BINARY_NAME}"
+GITHUB_OWNER="iugo-programming"
+GITHUB_REPO="iugo-ai"
+BINARY_NAME="iugo-ai"
+BREW_TAP="iugo-programming/homebrew-tap"
+BREW_FORMULA_REF="iugo-programming/tap/${BINARY_NAME}"
 
 # ============================================================================
 # Color support
@@ -50,7 +50,7 @@ error()   { echo -e "${RED}[error]${NC}   $*" >&2; }
 fatal()   { error "$@"; exit 1; }
 step()    { echo -e "\n${CYAN}${BOLD}==>${NC} ${BOLD}$*${NC}"; }
 
-homebrew_trust_gentle_ai_formula() {
+homebrew_trust_iugo_ai_formula() {
     if brew help trust &>/dev/null; then
         info "Trusting ${BREW_FORMULA_REF} for Homebrew tap-trust enforcement"
         brew trust --formula "$BREW_FORMULA_REF" &>/dev/null || true
@@ -64,7 +64,7 @@ print_homebrew_failure_help() {
 
     if [[ "$lower" == *"untrusted tap"* || "$lower" == *"tap trust is required"* || "$lower" == *"homebrew_require_tap_trust"* ]]; then
         warn "Homebrew requires explicit trust for external taps."
-        echo "Trust only the Gentle AI formula, then retry:" >&2
+        echo "Trust only the IUGO-AI formula, then retry:" >&2
         echo "  brew trust --formula ${BREW_FORMULA_REF}" >&2
         echo "  brew upgrade ${BINARY_NAME}" >&2
     fi
@@ -88,7 +88,7 @@ print_homebrew_failure_help() {
 
 show_help() {
     cat <<EOF
-${BOLD}Gentle-AI installer${NC}
+${BOLD}IUGO-AI installer${NC}
 
 Usage: install.sh [OPTIONS]
 
@@ -146,8 +146,8 @@ detect_platform() {
 # GoReleaser v2 {{ .Os }} produces GOOS values (lowercase: darwin, linux)
 # GoReleaser {{ .Arch }} produces GOARCH values (amd64, arm64)
 # Examples:
-#   gentle-ai_1.0.0_darwin_arm64.tar.gz
-#   gentle-ai_1.0.0_linux_amd64.tar.gz
+#   iugo-ai_1.0.0_darwin_arm64.tar.gz
+#   iugo-ai_1.0.0_linux_amd64.tar.gz
 # ============================================================================
 
 get_archive_name() {
@@ -224,7 +224,7 @@ install_brew() {
         fatal "Failed to tap $BREW_TAP"
     fi
 
-    homebrew_trust_gentle_ai_formula
+    homebrew_trust_iugo_ai_formula
 
     if brew list "$BINARY_NAME" &>/dev/null; then
         info "Already installed, upgrading ${BINARY_NAME}..."
@@ -478,13 +478,14 @@ verify_installation() {
 print_banner() {
     echo ""
     echo -e "${CYAN}${BOLD}"
-    echo "   ____            _   _              _    ___ "
-    echo "  / ___| ___ _ __ | |_| | ___        / \  |_ _|"
-    echo " | |  _ / _ \ '_ \| __| |/ _ \_____ / _ \  | | "
-    echo " | |_| |  __/ | | | |_| |  __/_____/ ___ \ | | "
-    echo "  \____|\___|_| |_|\__|_|\___|    /_/   \_\___|"
+    echo " ██╗██╗   ██╗ ██████╗  ██████╗ "
+    echo " ██║██║   ██║██╔════╝ ██╔═══██╗"
+    echo " ██║██║   ██║██║  ███╗██║   ██║"
+    echo " ██║██║   ██║██║   ██║██║   ██║"
+    echo " ██║╚██████╔╝╚██████╔╝╚██████╔╝"
+    echo " ╚═╝ ╚═════╝  ╚═════╝  ╚═════╝ "
     echo -e "${NC}"
-    echo -e "  ${DIM}Gentle-AI — Ecosystem, Frameworks, Workflows${NC}"
+    echo -e "  ${DIM}IUGO-AI — Ecosystem, Frameworks, Workflows${NC}"
     echo ""
 }
 
