@@ -49,9 +49,9 @@ func stringSliceContains(items []string, want string) bool {
 
 func engramInitCommandForTest() string {
 	if _, err := exec.LookPath("pnpm"); err == nil {
-		return fmt.Sprintf("pnpm dlx iugo-engram@%s pi-engram init", versions.IugoEngram)
+		return fmt.Sprintf("pnpm dlx gentle-engram@%s pi-engram init", versions.GentleEngram)
 	}
-	return fmt.Sprintf("npm exec --yes --package iugo-engram@%s -- pi-engram init", versions.IugoEngram)
+	return fmt.Sprintf("npm exec --yes --package gentle-engram@%s -- pi-engram init", versions.GentleEngram)
 }
 
 func TestRunInstallAppliesFilesystemChanges(t *testing.T) {
@@ -141,8 +141,8 @@ func TestRunInstallEngramForPiAndOpenCodeProvisionsBothMCPTargets(t *testing.T) 
 	if !stringSliceContains(commands, "pi install npm:pi-mcp-adapter") {
 		t.Fatalf("commands missing %q; got %v", "pi install npm:pi-mcp-adapter", commands)
 	}
-	if !stringSliceContains(commands, fmt.Sprintf("npm exec --yes --package iugo-engram@%s -- pi-engram init", versions.IugoEngram)) &&
-		!stringSliceContains(commands, fmt.Sprintf("pnpm dlx iugo-engram@%s pi-engram init", versions.IugoEngram)) {
+	if !stringSliceContains(commands, fmt.Sprintf("npm exec --yes --package gentle-engram@%s -- pi-engram init", versions.GentleEngram)) &&
+		!stringSliceContains(commands, fmt.Sprintf("pnpm dlx gentle-engram@%s pi-engram init", versions.GentleEngram)) {
 		t.Fatalf("commands missing Engram init command; got %v", commands)
 	}
 }
@@ -184,7 +184,7 @@ func TestPiAgentInstallRunsPackageCommandsWhenPiAlreadyInstalled(t *testing.T) {
 
 	for _, want := range []string{
 		"pi install npm:iugo-pi",
-		"pi install npm:iugo-engram",
+		"pi install npm:gentle-engram",
 		"pi install npm:pi-mcp-adapter",
 		engramInitCommandForTest(),
 		"pi install npm:pi-subagents",

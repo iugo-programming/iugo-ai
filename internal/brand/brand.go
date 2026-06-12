@@ -60,7 +60,7 @@ const (
 	NpmPiPackage = "iugo-pi"
 
 	// NpmEngramPackage is the npm package name for the Engram integration.
-	NpmEngramPackage = "iugo-engram"
+	NpmEngramPackage = "gentle-engram"
 
 	// PersonaDescription is the agent persona description shown in TUI.
 	PersonaDescription = "Senior Architect mentor - helpful first, challenging when it matters"

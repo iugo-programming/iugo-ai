@@ -69,7 +69,7 @@ func TestRunStrategy_GoInstallUpgrade(t *testing.T) {
 		Tool: update.ToolInfo{
 			Name:          "engram",
 			InstallMethod: update.InstallGoInstall,
-			GoImportPath:  "github.com/iugo-programming/engram/cmd/engram",
+			GoImportPath:  "github.com/Gentleman-Programming/engram/cmd/engram",
 		},
 		LatestVersion: "0.4.0",
 	}
@@ -83,8 +83,8 @@ func TestRunStrategy_GoInstallUpgrade(t *testing.T) {
 	if gotName != "go" {
 		t.Errorf("exec name = %q, want %q", gotName, "go")
 	}
-	// Expected: go install github.com/iugo-programming/engram/cmd/engram@v0.4.0
-	wantArg0, wantArg1 := "install", "github.com/iugo-programming/engram/cmd/engram@v0.4.0"
+	// Expected: go install github.com/Gentleman-Programming/engram/cmd/engram@v0.4.0
+	wantArg0, wantArg1 := "install", "github.com/Gentleman-Programming/engram/cmd/engram@v0.4.0"
 	if len(gotArgs) < 2 || gotArgs[0] != wantArg0 || gotArgs[1] != wantArg1 {
 		t.Errorf("exec args = %v, want [%s %s]", gotArgs, wantArg0, wantArg1)
 	}
@@ -167,7 +167,7 @@ func TestRunStrategy_GoInstallFailure(t *testing.T) {
 		Tool: update.ToolInfo{
 			Name:          "engram",
 			InstallMethod: update.InstallGoInstall,
-			GoImportPath:  "github.com/iugo-programming/engram/cmd/engram",
+			GoImportPath:  "github.com/Gentleman-Programming/engram/cmd/engram",
 		},
 		LatestVersion: "0.4.0",
 	}

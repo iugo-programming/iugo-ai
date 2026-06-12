@@ -72,7 +72,7 @@ func (a *Adapter) SupportsAutoInstall() bool { return true }
 func (a *Adapter) InstallCommand(system.PlatformProfile) ([][]string, error) {
 	return [][]string{
 		{"pi", "install", "npm:iugo-pi"},
-		{"pi", "install", "npm:iugo-engram"},
+		{"pi", "install", "npm:gentle-engram"},
 		{"pi", "install", "npm:pi-mcp-adapter"},
 		a.engramInitCommand(),
 		{"pi", "install", "npm:pi-subagents"},
@@ -86,9 +86,9 @@ func (a *Adapter) InstallCommand(system.PlatformProfile) ([][]string, error) {
 
 func (a *Adapter) engramInitCommand() []string {
 	if _, err := a.lookPath("pnpm"); err == nil {
-		return []string{"pnpm", "dlx", "iugo-engram@" + versions.IugoEngram, "pi-engram", "init"}
+		return []string{"pnpm", "dlx", "gentle-engram@" + versions.GentleEngram, "pi-engram", "init"}
 	}
-	return []string{"npm", "exec", "--yes", "--package", "iugo-engram@" + versions.IugoEngram, "--", "pi-engram", "init"}
+	return []string{"npm", "exec", "--yes", "--package", "gentle-engram@" + versions.GentleEngram, "--", "pi-engram", "init"}
 }
 
 func (a *Adapter) GlobalConfigDir(homeDir string) string { return ConfigPath(homeDir) }

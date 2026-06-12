@@ -26,7 +26,7 @@ var Tools = []ToolInfo{
 	},
 	{
 		Name:              "engram",
-		Owner:             "iugo-programming",
+		Owner:             "Gentleman-Programming",
 		Repo:              "engram",
 		DetectCmd:         []string{"engram", "version"},
 		VersionPrefix:     "v",

@@ -407,7 +407,7 @@ func TestFetchLatestRelease(t *testing.T) {
 func TestFetchLatestReleaseMatchingPatternSkipsPiChannel(t *testing.T) {
 	var serverURL string
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path != "/repos/iugo-programming/engram/releases" {
+		if r.URL.Path != "/repos/Gentleman-Programming/engram/releases" {
 			t.Fatalf("unexpected path: %s", r.URL.String())
 		}
 		if r.URL.Query().Get("per_page") != "100" {
@@ -416,13 +416,13 @@ func TestFetchLatestReleaseMatchingPatternSkipsPiChannel(t *testing.T) {
 		w.Header().Set("Content-Type", "application/json")
 		switch r.URL.Query().Get("page") {
 		case "":
-			w.Header().Set("Link", fmt.Sprintf(`<%s/repos/iugo-programming/engram/releases?per_page=100&page=2>; rel="next"`, serverURL))
+			w.Header().Set("Link", fmt.Sprintf(`<%s/repos/Gentleman-Programming/engram/releases?per_page=100&page=2>; rel="next"`, serverURL))
 			json.NewEncoder(w).Encode([]githubRelease{
-				{TagName: "pi-v0.1.7", HTMLURL: "https://github.com/iugo-programming/engram/releases/tag/pi-v0.1.7"},
+				{TagName: "pi-v0.1.7", HTMLURL: "https://github.com/Gentleman-Programming/engram/releases/tag/pi-v0.1.7"},
 			})
 		case "2":
 			json.NewEncoder(w).Encode([]githubRelease{
-				{TagName: "v1.15.13", HTMLURL: "https://github.com/iugo-programming/engram/releases/tag/v1.15.13"},
+				{TagName: "v1.15.13", HTMLURL: "https://github.com/Gentleman-Programming/engram/releases/tag/v1.15.13"},
 			})
 		default:
 			t.Fatalf("unexpected page: %s", r.URL.Query().Get("page"))
@@ -436,7 +436,7 @@ func TestFetchLatestReleaseMatchingPatternSkipsPiChannel(t *testing.T) {
 	httpClient = server.Client()
 	httpClient.Transport = &testTransport{server: server}
 
-	release, err := fetchLatestReleaseMatchingPattern(context.Background(), "iugo-programming", "engram", `^v[0-9]+\.[0-9]+\.[0-9]+$`)
+	release, err := fetchLatestReleaseMatchingPattern(context.Background(), "Gentleman-Programming", "engram", `^v[0-9]+\.[0-9]+\.[0-9]+$`)
 	if err != nil {
 		t.Fatalf("fetchLatestReleaseMatchingPattern() error = %v", err)
 	}
@@ -449,7 +449,7 @@ func TestFetchLatestReleaseMatchingPatternRejectsPaginationLoop(t *testing.T) {
 	var serverURL string
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
-		w.Header().Set("Link", fmt.Sprintf(`<%s/repos/iugo-programming/engram/releases?per_page=100>; rel="next"`, serverURL))
+		w.Header().Set("Link", fmt.Sprintf(`<%s/repos/Gentleman-Programming/engram/releases?per_page=100>; rel="next"`, serverURL))
 		json.NewEncoder(w).Encode([]githubRelease{{TagName: "pi-v0.1.7"}})
 	}))
 	serverURL = server.URL
@@ -460,7 +460,7 @@ func TestFetchLatestReleaseMatchingPatternRejectsPaginationLoop(t *testing.T) {
 	httpClient = server.Client()
 	httpClient.Transport = &testTransport{server: server}
 
-	_, err := fetchLatestReleaseMatchingPattern(context.Background(), "iugo-programming", "engram", `^v[0-9]+\.[0-9]+\.[0-9]+$`)
+	_, err := fetchLatestReleaseMatchingPattern(context.Background(), "Gentleman-Programming", "engram", `^v[0-9]+\.[0-9]+\.[0-9]+$`)
 	if err == nil || !strings.Contains(err.Error(), "pagination loop detected") {
 		t.Fatalf("expected pagination loop error, got %v", err)
 	}
@@ -585,7 +585,7 @@ func TestCheckAll(t *testing.T) {
 		case contains(path, "sdd-engram-plugin"):
 			release = githubRelease{TagName: "v1.1.7", HTMLURL: "https://github.com/j0k3r-dev-rgl/sdd-engram-plugin/releases/tag/v1.1.7"}
 		case contains(path, "engram"):
-			release = githubRelease{TagName: "v0.4.0", HTMLURL: "https://github.com/iugo-programming/engram/releases/tag/v0.4.0"}
+			release = githubRelease{TagName: "v0.4.0", HTMLURL: "https://github.com/Gentleman-Programming/engram/releases/tag/v0.4.0"}
 		}
 		json.NewEncoder(w).Encode(release)
 	}))
@@ -648,10 +648,10 @@ func TestCheckSingleTool_EngramUsesBinaryReleaseChannel(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		switch r.URL.Path {
-		case "/repos/iugo-programming/engram/releases":
+		case "/repos/Gentleman-Programming/engram/releases":
 			json.NewEncoder(w).Encode([]githubRelease{
-				{TagName: "pi-v0.1.7", HTMLURL: "https://github.com/iugo-programming/engram/releases/tag/pi-v0.1.7"},
-				{TagName: "v1.15.13", HTMLURL: "https://github.com/iugo-programming/engram/releases/tag/v1.15.13"},
+				{TagName: "pi-v0.1.7", HTMLURL: "https://github.com/Gentleman-Programming/engram/releases/tag/pi-v0.1.7"},
+				{TagName: "v1.15.13", HTMLURL: "https://github.com/Gentleman-Programming/engram/releases/tag/v1.15.13"},
 			})
 		default:
 			t.Fatalf("unexpected path: %s", r.URL.String())
@@ -685,7 +685,7 @@ func TestCheckSingleTool_EngramUsesBinaryReleaseChannel(t *testing.T) {
 
 	result := checkSingleTool(context.Background(), Tools[1], "dev", system.PlatformProfile{OS: "darwin", PackageManager: "brew", Supported: true})
 	assertResult(t, result, "engram", UpToDate, "1.15.13", "1.15.13")
-	if result.ReleaseURL != "https://github.com/iugo-programming/engram/releases/tag/v1.15.13" {
+	if result.ReleaseURL != "https://github.com/Gentleman-Programming/engram/releases/tag/v1.15.13" {
 		t.Fatalf("ReleaseURL = %q, want binary channel release", result.ReleaseURL)
 	}
 }
@@ -989,7 +989,7 @@ func TestRegistryContents(t *testing.T) {
 		repo  string
 	}{
 		"iugo-ai":                    {owner: "iugo-programming", repo: "iugo-ai"},
-		"engram":                       {owner: "iugo-programming", repo: "engram"},
+		"engram":                       {owner: "Gentleman-Programming", repo: "engram"},
 		"gga":                          {owner: "iugo-programming", repo: "iugo-guardian-angel"},
 		"opencode-subagent-statusline": {owner: "Joaquinvesapa", repo: "sub-agent-statusline"},
 		"opencode-sdd-engram-manage":   {owner: "j0k3r-dev-rgl", repo: "sdd-engram-plugin"},
