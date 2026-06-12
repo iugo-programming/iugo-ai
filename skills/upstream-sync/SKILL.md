@@ -80,6 +80,7 @@ These files are the **highest risk** during upstream sync. If upstream modifies 
 | `internal/components/theme/inject.go` | Theme name and Claude theme | Upstream may change theme format |
 | `internal/components/engram/download.go` | engramOwner constant | **Must stay "Gentleman-Programming"** |
 | `internal/versions/versions.go` | Package version constants | Upstream may bump versions |
+| `internal/components/opencodeplugin/plugin.go` | roseArt/compactArt ASCII logo, plugin id | Upstream may change logo art |
 
 ### Tier 3: Medium-Risk Files (check if upstream adds features)
 
@@ -186,6 +187,28 @@ If any matches appear, determine if they need rebranding:
 | `Gentleman-Programming` in URL | Replace with `iugo-programming` **EXCEPT for engram** |
 | `gentle-ai` in comment (not user-visible) | Leave as-is or update for clarity |
 | `gentleman` in Go variable name | Rename to `iugo`-prefixed (careful with syntax) |
+
+### ASCII Art Verification
+
+Check that the OpenCode plugin logo is branded correctly:
+
+```bash
+# Verify roseArt shows IUGO-AI (not rose or Gentle-AI)
+grep -A5 "const roseArt" internal/components/opencodeplugin/plugin.go
+
+# Verify compactArt shows IUGO-AI
+grep "compactArt" internal/components/opencodeplugin/plugin.go
+
+# Verify plugin id is iugo-logo
+grep 'const id = ' internal/components/opencodeplugin/plugin.go
+```
+
+Expected values:
+| Field | Expected | Wrong value |
+|-------|----------|-------------|
+| `id` | `"iugo-logo"` | `"gentle-logo"` |
+| `roseArt` | IUGO-AI ASCII art | Rose braille art or Gentle-AI |
+| `compactArt` | `"✦ IUGO-AI ✦"` | `"✦ Gentle AI ✦"` |
 
 ### Step 6: Verify Build and Tests
 
